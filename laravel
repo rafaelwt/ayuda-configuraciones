@@ -1,0 +1,9 @@
+--para publicar y no funciona
+php artisan clear-compiled 
+composer dump-autoload
+php artisan optimize
+
+--limpiear cache
+php artisan config:clear
+--generar llave
+php artisan key:generate
