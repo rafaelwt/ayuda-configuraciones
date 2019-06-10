@@ -7,3 +7,10 @@ php artisan optimize
 php artisan config:clear
 --generar llave
 php artisan key:generate
+
+
+
+--solucion al error  Laravel 5 with Xdebug always throws "The payload is invalid."
+php artisan optimize 
+php artisan cache:clear 
+composer dump-autoload
