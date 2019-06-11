@@ -1,0 +1,8 @@
+ Pasos para publicar una aplicacion ASP.NET Core
+ 
+ 1. Instalar  el Runtime
+	https://dotnet.microsoft.com/download/dotnet-core/2.2
+ 2. Despues de instalar el runtime ejecutar los siguientes comandos:
+	2.1.- net stop was /y
+	2.2.- net start w3svc
+	
