@@ -2,6 +2,10 @@
 php artisan clear-compiled 
 composer dump-autoload
 php artisan optimize
+--  si los comandos de arriba no funcionan renombrar el archivo config.php
+
+config.php project/bootstrap/cache/config.php -> cambiar nombre ejemplo: config.php.old  laravel 5.3 , 5.4
+
 
 --limpiear cache
 php artisan config:clear
