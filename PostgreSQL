@@ -1,0 +1,13 @@
+------------------------- cerrar todas las conexiones ------------------
+SELECT 
+    pg_terminate_backend(pid) 
+FROM 
+    pg_stat_activity 
+WHERE 
+    -- don't kill my own connection!
+    pid <> pg_backend_pid()
+    -- don't kill the connections to other databases
+    AND datname = 'your_database';
+-----------------------bloquear todas las conexiones a una base de datos ---------
+
+UPDATE pg_database SET datallowconn = 'false' WHERE datname = 'your_database';
