@@ -6,3 +6,8 @@
 	2.1.- net stop was /y
 	2.2.- net start w3svc
 	
+
+
+ayuda con iformfile
+https://github.com/aspnet/AspNetCore/issues/4802
+https://stackoverflow.com/questions/55942249/send-javascript-object-with-data-and-file-to-asp-net-core
