@@ -1,0 +1,3 @@
+https://www.campusmvp.es/recursos/post/como-configurar-asp-net-core-2-1-en-linux-en-menos-de-10-minutos.aspx
+
+https://medium.com/@setu677/how-to-host-asp-net-core-on-linux-using-nginx-85339560e929
