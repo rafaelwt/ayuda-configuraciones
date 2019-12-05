@@ -1,3 +1,7 @@
+-- eliminiar todas las tablas y funciones ----------------------------
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public; 
+
 ------------------------- cerrar todas las conexiones ------------------
 SELECT 
     pg_terminate_backend(pid) 
