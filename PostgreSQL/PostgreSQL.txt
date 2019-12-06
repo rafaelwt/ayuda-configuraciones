@@ -2,6 +2,13 @@
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public; 
 
+-- Version Database
+select  version();
+-- Extension disponibles
+select * from pg_available_extensions order by name
+-- Activar encriypt
+create extension pgcrypto
+
 ------------------------- cerrar todas las conexiones ------------------
 SELECT 
     pg_terminate_backend(pid) 
