@@ -1,0 +1,3 @@
+Ejemplo de url para la validacion de un correo y usuario
+
+https://account.mapbox.com/auth/signin/?route-to=%22https://account.mapbox.com/confirm-email/?account=rafaelwt&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InJhZmFlbC53dEBnbWFpbC5jb20iLCJleHAiOjE1ODUyNTU1NDV9.TCs8ymmgmWwkBSzxWNQfmp00h-n8C9n1lNKPGR8iOoM%22
