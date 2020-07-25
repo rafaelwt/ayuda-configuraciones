@@ -6,3 +6,9 @@ https://blog.ng-classroom.com/blog/angular/Angular-Buenas-Practicas/
 error al ejecutar comandos angular  windows 10 
 ejecutar el siguiente comando en powershell
 > Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+
+
+si al crear un nuevo proyecto no fucionar el auto import instalar la siguiente extension 
+y si  revisar el tsconfig.json
+https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-next
