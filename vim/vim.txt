@@ -1,0 +1,28 @@
+Moverte en el texto
+Para moverte a la derecha izquierda arriba y abajo  (l  h  k j)
+para moverte palabra por palabra (w)
+para moverte atras de una palabra (b)
+para ir al fina de una palabra (e)
+
+Insertar texto
+presiona (i) para insertar texto y esc dos veces para salir del modo insert
+presiona (a) para insertar texto al final del cursor
+presiona (A) para insertar texto al final de la linea
+
+Eliminar texto 
+presionar (x)  elimina el texto
+
+Guardar Cambios
+presiona (w) para guardar cambios
+presiona (wq) para guardar y salir
+
+Moverse entre archivos
+ir a la definicion de una funcion   presiona (gd)
+ir a la definicion en el archivo presion (gf)
+mover entrea archivo (control + o) regresar (control + i )
+
+Comandos para eliminar undo y redo
+presion (dw) para eliminar palabras
+para deshacer los cambios presiona (u) undo
+para hacer rehacer  presion (control + r) redo 
+para eliminar el todo el texto de una linea  (d + $) pero no elimina la linea
