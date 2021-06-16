@@ -1,0 +1,32 @@
+sudo yum update
+
+sudo yum install vsftpd
+
+sudo systemctl start vsftpd
+
+sudo systemctl enable vsftpd
+
+sudo firewall-cmd --zone=public --permanent --add-port=21/tcp
+
+sudo firewall-cmd --zone=public --permanent --add-service=ftp
+
+sudo firewall-cmd –-reload
+
+1. Before starting, create a copy of the default configuration file:
+
+sudo cp /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.default
+This ensures that you have a way to return to the default configuration, in case you change a setting that may cause issues.
+
+2. Next, edit the configuration file with the following command:
+
+sudo nano /etc/vsftpd/vsftpd.conf
+3. Set your FTP server to disable anonymous users and allow local users.
+
+Find the following entries in the configuration file, and edit them to match the following:
+
+anonymous_enable=NO
+local_enable=YES
+
+
+
+write_enable=YES
