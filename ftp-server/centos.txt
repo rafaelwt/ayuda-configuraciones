@@ -30,3 +30,19 @@ local_enable=YES
 
 
 write_enable=YES
+
+## cambio de nombre
+
+CentOS/RHEL/Fedora
+/etc/httpd/conf/httpd.conf
+To change the document root for your Apache web server simply open the corresponding file with your favourite text editor and search for DocumentRoot.
+
+#
+# DocumentRoot: The directory out of which you will serve your
+# documents. By default, all requests are taken from this directory, but
+# symbolic links and aliases may be used to point to other locations.
+#
+DocumentRoot "/var/www/html"
+
+# systemctl restart apache     [For SystemD]
+# service httpd restart        [For SysVinit]    
