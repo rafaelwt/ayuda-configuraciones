@@ -1,0 +1,16 @@
+version: '3'
+services:
+    web: 
+        container_name: nginx
+        mem_limit: 20mb
+        cpuset: "0"
+        ports: 
+            - "8080:80"
+        image: nginx
+        volumes:
+            - "//f/Cursos/Docker/docker-compose/nginx/html:/usr/share/nginx/html"
+        networks: 
+            - net-test
+        restart: always
+networks: 
+    net-test:

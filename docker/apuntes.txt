@@ -1,0 +1,176 @@
+Apuntes Docker 
+
+# Crear una imagen a partir de un Dockerfile
+docker build --tag [nombreImagen]:[tagName] .
+
+# Buscar imagenes 
+docker images | grep [NombreImagen]
+# Correr una imagenes
+docker run -d  --name [aliasName] [NombreImagen]      # -d para correr en background
+
+# Ver historia de la imagenes
+docker history -H  [NombreImagen] 
+
+# Eliminar una imagen docker
+docker rm -fv [NombreImagen]
+
+
+#### Dockerfile
+
+# COPY  Y  ADD   add agrega una url y descarga los datos
+
+# ENV  /  WORKDIR / EXPOSE
+
+ENV contenido prueba
+RUN echo "$contenido" > /var/www/html/prueba.html
+
+WORKDIR /var/www/html
+
+COPY folder .
+
+EXPOSE 8080      # PARA EXPONER UN PUERTO
+
+# LABEL / USER / VOLUME
+LABEL version =1.0  # meta data de la imagen
+
+# CREAR UNA IMAGEN A PARTIR DE UN ARCHIVO CON OTRO NOMBRE 
+docker build -t [NombreImagen] -f [nombreArchivo] .
+
+
+# COMO ACCEDER A LA TERMINAL DEL CONTENEDOR
+docker exec -ti [NombreContenedor] bash
+docker exec -u root -ti [NombreContenedor] bash   // ingresar como usuario root
+
+# ELIMINAR TODOS LOS CONTENEDORES
+docker ps -q | xargs  docker rm -f
+
+# VARIABLE DE ENTORNO  DESDE EL CONTENEDOR
+docker run -dti -e "prueba=123" --name [NombreContenedor] [NombreImagen]     # -dti si es un sistema operativo  si no usar -d
+
+# VER EL LOG DEL CONTENEDOR 
+docker logs -f [NombreContenedor]
+
+# VER INFO E IP DEL CONTENEDOR 
+docker inspect [NombreContenedor]
+
+# VER CANTIDAD DE RECURSOS QUE ESTA USANDO UN CONTENEDOR MEMORIA Y CPU
+docker stats [NombreContenedor]
+
+# LIMITAR LA MEMORIA DE UN CONTENEDOR
+docker run -d -m "500mb" --name [nombreContenedor] [NombreImagen]
+# LIMITAR EL CPU
+docker run -d -m "1gb" --cpuset-cpus 0-1 --name [nombreContenedor] [NombreImagen]
+
+
+####################### COPIAR ARCHIVOS ###########################
+.  => path actual
+
+# DE LA MAQUINA HOST AL CONTENEDOR
+docker cp [rutaArchivoHost] [nombreContenedor]:/tmp         # /tmp -> rutaContainer
+# DEL CONTENEDOR A LA MAQUINA HOST
+docker cp [nombreContenedor]:/tmp [rutaHost]          # /tmp -> rutaArchivo
+####################### FIN COPIAR ARCHIVOS ###########################
+
+# CONVERTIR UN CONTAINER EN UNA IMAGEN
+docker commit [nombreContenedor] [nombreDeLaImagenResultante]
+
+# SOBREESCRIBIR EL CMD AL CORRER EL LA IMAGEN SIN Dockerfile
+docker run -d  --name [aliasName] [NombreImagen] [ComandoCmd]   # ejm : python script.py
+
+# DESTRUIR CONTENEDORES AUTOMATICAMENTE  --rm
+docker run --rm -ti  --name [aliasName] [NombreImagen]
+
+
+################################## VOLUMENES ###################################
+# VER RUTA DE DOCKER INFO  CARPETA ROOT
+docker info | grep -i root
+
+tres tipos
+ - host
+ - anonymus
+ - named volumes
+# HOST  GUARDAR DATOS DE BASE DE DATOS MYSQL   /opt/mysql en el host
+docker run -d --name db p 3306:3306 -e "MYSQL_ROOT=123" -v /opt/mysql:/var/lib/mysql
+
+# ANONYMUS 
+docker run -d --name db p 3306:3306 -e "MYSQL_ROOT=123" -v /var/lib/mysql   # crea un folde anonimo no recomendable
+
+# VOLUMEN EN Dockerfile
+# ELIMINAR VOLUMENES 
+docker rm  -fv [nombreContenedor]
+# VER VOLUMENES
+docker volume ls
+# ELIMINAR VOLUMEN
+docker rm [nombreVolumen]
+# CREAR VOLUMEN
+docker volume create [nombreVolumen]
+
+# ASIGNAR VOLUMEN A UN CONTENEDOR
+docker run -d --name db p 3306:3306 -e "MYSQL_ROOT=123" -v [nombreVolumen]:/var/lib/mysql
+# ELIMINAR LOS VOLUMENS QUE NO SE ESTE USANDO  O SON dangling
+docker volume ls -f dangling=true | xargs docker volume rm
+
+################################## REDES ###################################
+
+TIPOS 
+ - bridge
+ - host
+ - none
+ - overlay
+
+# VER REDES EN DOCKER 
+docker network ls
+# VER INFO E INPECCIONAR DE LA RED DOCKER
+docker network inspect bridge
+
+# CREAR UNA RED EN DOCKER  NOMBRE DE RED EJEMPLO = test-network
+docker network create test-network
+docker network create -d bridge --subnet 172.124.10.0/24 --gateway 172.124.10.1 test-network
+
+# CREAR CONTENEDOR EN UNA RED DISTINTA
+docker run --network test-network
+
+# PING A OTRO CONTENEDOR DE LA MISMA RED 
+docker exec [nombreContenedor] bash -c "ping 192.168.1.3"
+# PING POR NOMBRE EN UNA RED PERSONALIZADA
+docker exec [nombreContenedor] bash -c "ping nombreContenedorDestino"
+
+# CONECTAR CONTENEDORES EN DIFERENTES REDES 
+docker network connect [nombreRed] [nombreContenedor]
+
+# DESCONECTAR UN CONTENEDOR DE UNA RED 
+docker network disconnect [nombreRed] [nombreContenedor]
+
+# ELIMINAR UNA RED (NO DEBE TENER CONTENEDORES CONECTADOS A LA RED)
+docker network rm [nombreRed]
+
+# ASIGNAR IP A UN CONTENEDOR
+docker run --network [nombreRed] --ip 192.168.1.2 -d --name [nombreContenedor] -ti centos   # centos = nombre de la imagen
+
+############### RED HOST ###################
+# LA RED HOST YA ESTA CREADA EN DOCKER SE LE ASIGNA LA MISMA RED QUE LA MAQUINA AL CONTENEDOR
+docker run --network host -d --name test1 -ti centos
+
+############### RED NONE ###################
+# PARA CREAR UN CONTENEDOR SIN RED
+docker run --network none --name hola -ti centos
+
+
+############### DOKCER COMPOSE ###################
+# PERMITE CREAR APLICACIONES MULTICONTENEDORES 
+# INICIAR COMPOSE
+docker-compose up -d
+# ELIMINAR EL CONTAINER CREADO CON DOCKER COMPOSE
+docker-compose down
+# CREAR DOCKER-COMPOSE CON OTRO NOMBRE
+docker-compose -p [nombreProyecto] -f docker-compose.yml up -d
+
+# USAR NOMBRE DISTINCO EN DOCKER-COMPOSE -f
+docker-compose -f [nombreDocker-compose].yml up -d
+
+# VER OPCIONES DOCKER-COMPOSE
+docker-compose
+
+# VER LOG DE DOCKER-COMPOSE
+docker-compose logs -f
+
