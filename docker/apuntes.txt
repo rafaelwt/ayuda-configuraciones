@@ -12,6 +12,9 @@ docker run -d  --name [aliasName] [NombreImagen]      # -d para correr en backgr
 docker history -H  [NombreImagen] 
 
 # Eliminar una imagen docker
+docker rmi  [NombreImagen]
+docker images -q | xargs  docker rmi
+
 docker rm -fv [NombreImagen]
 
 
@@ -43,6 +46,7 @@ docker exec -u root -ti [NombreContenedor] bash   // ingresar como usuario root
 
 # ELIMINAR TODOS LOS CONTENEDORES
 docker ps -q | xargs  docker rm -f
+docker ps -a -q | xargs  docker rm -f
 
 # VARIABLE DE ENTORNO  DESDE EL CONTENEDOR
 docker run -dti -e "prueba=123" --name [NombreContenedor] [NombreImagen]     # -dti si es un sistema operativo  si no usar -d
