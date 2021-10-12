@@ -1,0 +1,109 @@
+version: '3'
+services:
+    dbmysql:
+        mem_limit: 256m
+        image: mysql:5.6.51
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        networks: 
+            - net-docker
+        volumes: 
+            - "./mysql/data:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: 123456Zxcv  
+        ports:
+            - "3360:3306"          
+    web: 
+        container_name: nginx
+        mem_limit: 256m
+        depends_on: 
+            - nodejs
+        ports: 
+            - "8025:80"
+            - "8026:8080"
+        image: nginx
+        volumes:
+            - ./html/compras-menores:/usr/share/nginx/html/compras-menores
+            - ./html/portal-ciudadano:/usr/share/nginx/html/portal-ciudadano
+            - ./nginx.conf:/etc/nginx/nginx.conf
+        networks: 
+            - net-docker
+        restart: always    
+    nodejs:
+        mem_limit: 256m
+        depends_on: 
+            - db
+        build:
+            context: ./rest-api/node_postgres
+            dockerfile: Dockerfile
+        container_name: nodejs
+        # volumes: 
+        #     - "//c/Docker/compras-menores/node_postgres:/app"
+        ports:
+            - "3002:3002"
+        networks: 
+            - net-docker
+    coreproject:
+        mem_limit: 256m
+        depends_on: 
+            - db
+        build:
+            context: ./html/coreproject
+            dockerfile: Dockerfile
+        container_name: coreproject
+        volumes: 
+            - "./html/coreproject/core:/app"
+        ports:
+            - "5022:5000"
+        networks: 
+            - net-docker
+    db:
+        container_name: postgres
+        image: postgres
+        restart: always
+        volumes:
+            - "./db_postgres:/var/lib/postgresql/data"
+        environment:
+            POSTGRES_PASSWORD: 12345678
+        ports:
+            - "5434:5432"
+        networks: 
+            - net-docker
+    mariadb:
+        mem_limit: 256m
+        image: docker.io/bitnami/mariadb
+        environment:
+            - MARIADB_USER=bn_jasperreports
+            - MARIADB_DATABASE=bitnami_jasperreports
+            - ALLOW_EMPTY_PASSWORD=yes
+        volumes:
+            - './mariadb_report:/bitnami'
+        networks: 
+            - net-docker
+    jasperreports:
+        mem_limit: 512m
+        image: docker.io/bitnami/jasperreports
+        environment:
+            - MARIADB_HOST=mariadb
+            - MARIADB_PORT_NUMBER=3306
+            - JASPERREPORTS_DATABASE_USER=bn_jasperreports
+            - JASPERREPORTS_DATABASE_NAME=bitnami_jasperreports
+            - ALLOW_EMPTY_PASSWORD=yes
+        ports:
+            - '8029:8080'
+        networks: 
+            - net-docker
+        volumes:
+            - './jasperreports:/bitnami'
+        depends_on:
+            - mariadb
+    adminer:
+        mem_limit: 256m
+        image: adminer
+        restart: always
+        ports:
+            - 8034:8080
+        networks: 
+            - net-docker
+networks: 
+    net-docker:
