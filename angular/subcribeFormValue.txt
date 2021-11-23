@@ -1,0 +1,22 @@
+    this.forma.get('num_sec_ao').valueChanges
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        tap((() => {
+          this.arrayUO = [];
+          this.forma.get('num_sec').setValue(null);
+        })),
+        filter(value => value !== null),
+        map(value => {
+          const num_sec_ao = value.toString().trim().split('|');
+          const nsec_poa = num_sec_ao[0].trim();
+          const nsec_tipo_organigrama = num_sec_ao[1].trim();
+          const nro_ao = num_sec_ao[2].trim();
+          return { nsec_usuario: 0, nsec_poa, nsec_tipo_organigrama, nro_ao }
+        }),
+        switchMap((value: any) => this.organigramaService.traerListaUnidadOrganizacional(value)
+        ))
+      .subscribe((valor) => {
+        console.log('valueChanges num_sec_ao = ', valor);
+        this.traerListaUnidadOrganizacional(valor);
+
+      });
