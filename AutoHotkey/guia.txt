@@ -1,0 +1,3 @@
+#Inicio con windows
+Pegar el acceso directo en la siguiente carpeta
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup
