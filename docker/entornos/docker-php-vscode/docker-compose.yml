@@ -21,6 +21,11 @@ services:
       - ./src:/var/www/html
       - ./xdebug:/var/logs/xdebug
     working_dir: /var/www/html
+  # composer:
+  #   image: composer:2.2.9
+  #   command: ["composer", "install"]
+  #   volumes:
+  #     - ./src:/app
   mysql:
     image: mysql:8.0.27
     container_name: mysql

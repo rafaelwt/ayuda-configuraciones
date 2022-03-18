@@ -268,3 +268,1309 @@
 
 [8] Log closed at 2022-03-17 14:48:00.654372
 
+[7] Log opened at 2022-03-17 15:05:47.948957
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-17 15:05:48.156034
+
+[8] Log opened at 2022-03-17 15:05:59.346543
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] INFO: Connected to debugging client: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port). :-)
+[8] [Step Debug] -> <init xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" fileuri="file:///var/www/html/index.php" language="PHP" xdebug:language_version="8.1.3" protocol_version="1.0" appid="8"><engine version="3.1.2"><![CDATA[Xdebug]]></engine><author><![CDATA[Derick Rethans]]></author><url><![CDATA[https://xdebug.org]]></url><copyright><![CDATA[Copyright (c) 2002-2021 by Derick Rethans]]></copyright></init>
+
+[8] [Step Debug] <- feature_set -i 1 -n resolved_breakpoints -v 1
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="feature_set" transaction_id="1" feature="resolved_breakpoints" success="1"></response>
+
+[8] [Step Debug] <- feature_set -i 2 -n notify_ok -v 1
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="feature_set" transaction_id="2" feature="notify_ok" success="1"></response>
+
+[8] [Step Debug] <- feature_set -i 3 -n extended_properties -v 1
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="feature_set" transaction_id="3" feature="extended_properties" success="1"></response>
+
+[8] [Step Debug] <- breakpoint_set -i 4 -t line -f file:///var/www/html/index.php -n 2
+[8] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="2" state="enabled" hit_count="0" hit_value="0" id="80013"></breakpoint></notify>
+
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="4" id="80013" resolved="resolved"></response>
+
+[8] [Step Debug] <- breakpoint_get -i 5 -d 80013
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="5"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="2" state="enabled" hit_count="0" hit_value="0" id="80013"></breakpoint></response>
+
+[8] [Step Debug] <- breakpoint_set -i 6 -t line -f file:///var/www/html/index.php -n 3
+[8] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="4" state="enabled" hit_count="0" hit_value="0" id="80014"></breakpoint></notify>
+
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="6" id="80014" resolved="resolved"></response>
+
+[8] [Step Debug] <- breakpoint_get -i 7 -d 80014
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="7"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="4" state="enabled" hit_count="0" hit_value="0" id="80014"></breakpoint></response>
+
+[8] [Step Debug] <- breakpoint_set -i 8 -t line -f file:///var/www/html/index.php -n 4
+[8] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="4" state="enabled" hit_count="0" hit_value="0" id="80015"></breakpoint></notify>
+
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="8" id="80015" resolved="resolved"></response>
+
+[8] [Step Debug] <- breakpoint_get -i 9 -d 80015
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="9"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="4" state="enabled" hit_count="0" hit_value="0" id="80015"></breakpoint></response>
+
+[8] [Step Debug] <- breakpoint_set -i 10 -t line -f file:///var/www/html/mysql.php -n 10
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="10" id="80016" resolved="unresolved"></response>
+
+[8] [Step Debug] <- breakpoint_set -i 11 -t line -f file:///var/www/html/mysql.php -n 13
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="11" id="80017" resolved="unresolved"></response>
+
+[8] [Step Debug] <- breakpoint_set -i 12 -t line -f file:///var/www/html/mysql.php -n 15
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="12" id="80018" resolved="unresolved"></response>
+
+[8] [Step Debug] <- breakpoint_set -i 13 -t line -f file:///var/www/html/persona.php -n 6
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="13" id="80019" resolved="unresolved"></response>
+
+[8] [Step Debug] <- breakpoint_set -i 14 -t line -f file:///var/www/html/persona.php -n 9
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="14" id="80020" resolved="unresolved"></response>
+
+[8] [Step Debug] <- run -i 15
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="run" transaction_id="15" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="2"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 16
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="16"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="2"></stack></response>
+
+[8] [Step Debug] <- context_names -i 17 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="17"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 18 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="18" context="0"><property name="$persona" fullname="$persona" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[8] [Step Debug] <- step_over -i 19
+[8] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/persona.php" lineno="10" state="enabled" hit_count="0" hit_value="0" id="80020"></breakpoint></notify>
+
+[8] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/persona.php" lineno="6" state="enabled" hit_count="0" hit_value="0" id="80019"></breakpoint></notify>
+
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="19" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="4"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 20
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="20"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="4"></stack></response>
+
+[8] [Step Debug] <- context_names -i 21 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="21"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 22 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="22" context="0"><property name="$persona" fullname="$persona" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[8] [Step Debug] <- step_over -i 23
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="23" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="5"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 24
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="24"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="5"></stack></response>
+
+[8] [Step Debug] <- context_names -i 25 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="25"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 26 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="26" context="0"><property name="$persona" fullname="$persona" type="uninitialized"></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[8] [Step Debug] <- step_over -i 27
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="27" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="7"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 28
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="28"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="7"></stack></response>
+
+[8] [Step Debug] <- context_names -i 29 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="29"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 30 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="30" context="0"><property name="$persona" fullname="$persona" type="uninitialized"></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[8] [Step Debug] <- step_over -i 31
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="31" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/persona.php" lineno="6"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 32
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="32"><stack where="Persona-&gt;__construct" level="0" type="file" filename="file:///var/www/html/persona.php" lineno="6"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="7"></stack></response>
+
+[8] [Step Debug] <- context_names -i 33 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="33"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 34 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="34" context="0"><property name="$nombre" fullname="$nombre" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property><property name="$this" fullname="$this" type="object" classname="Persona" children="1" numchildren="1" page="0" pagesize="32"><property name="nombre" fullname="$this-&gt;nombre" facet="public" type="null"></property></property></response>
+
+[8] [Step Debug] <- context_names -i 35 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="35"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 36 -d 0 -c 0 -n "$nombre"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="36"><property name="$nombre" fullname="$nombre" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property></response>
+
+[8] [Step Debug] <- context_names -i 37 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="37"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 38 -d 0 -c 0 -n "$nombre"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="38"><property name="$nombre" fullname="$nombre" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property></response>
+
+[8] [Step Debug] <- step_over -i 39
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="39" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/persona.php" lineno="7"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 40
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="40"><stack where="Persona-&gt;__construct" level="0" type="file" filename="file:///var/www/html/persona.php" lineno="7"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="7"></stack></response>
+
+[8] [Step Debug] <- context_names -i 41 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="41"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 42 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="42" context="0"><property name="$nombre" fullname="$nombre" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property><property name="$this" fullname="$this" type="object" classname="Persona" children="1" numchildren="1" page="0" pagesize="32"><property name="nombre" fullname="$this-&gt;nombre" facet="public" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property></property></response>
+
+[8] [Step Debug] <- step_over -i 43
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="43" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="9"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 44
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="44"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="9"></stack></response>
+
+[8] [Step Debug] <- context_names -i 45 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="45"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 46 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="46" context="0"><property name="$persona" fullname="$persona" type="object" classname="Persona" children="1" numchildren="1" page="0" pagesize="32"><property name="nombre" fullname="$persona-&gt;nombre" facet="public" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[8] [Step Debug] <- step_into -i 47
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="47" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/persona.php" lineno="10"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 48
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="48"><stack where="Persona-&gt;saludar" level="0" type="file" filename="file:///var/www/html/persona.php" lineno="10"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="9"></stack></response>
+
+[8] [Step Debug] <- context_names -i 49 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="49"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 50 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="50" context="0"><property name="$this" fullname="$this" type="object" classname="Persona" children="1" numchildren="1" page="0" pagesize="32"><property name="nombre" fullname="$this-&gt;nombre" facet="public" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property></property></response>
+
+[8] [Step Debug] <- context_names -i 51 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="51"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 52 -d 0 -c 0 -n "$this->nombre"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="52"><property name="$this-&gt;nombre" fullname="$this-&gt;nombre" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property></response>
+
+[8] [Step Debug] <- step_into -i 53
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="53" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/persona.php" lineno="11"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 54
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="54"><stack where="Persona-&gt;saludar" level="0" type="file" filename="file:///var/www/html/persona.php" lineno="11"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="9"></stack></response>
+
+[8] [Step Debug] <- context_names -i 55 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="55"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 56 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="56" context="0"><property name="$this" fullname="$this" type="object" classname="Persona" children="1" numchildren="1" page="0" pagesize="32"><property name="nombre" fullname="$this-&gt;nombre" facet="public" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property></property></response>
+
+[8] [Step Debug] <- step_into -i 57
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="57" status="stopping" reason="ok"></response>
+
+[8] [Step Debug] <- stop -i 58
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stop" transaction_id="58" status="stopped" reason="ok"></response>
+
+[8] Log closed at 2022-03-17 15:06:33.382503
+
+[7] Log opened at 2022-03-17 15:09:27.579483
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] INFO: Connected to debugging client: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port). :-)
+[7] [Step Debug] -> <init xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" fileuri="file:///var/www/html/index.php" language="PHP" xdebug:language_version="8.1.3" protocol_version="1.0" appid="7"><engine version="3.1.2"><![CDATA[Xdebug]]></engine><author><![CDATA[Derick Rethans]]></author><url><![CDATA[https://xdebug.org]]></url><copyright><![CDATA[Copyright (c) 2002-2021 by Derick Rethans]]></copyright></init>
+
+[7] [Step Debug] <- feature_set -i 1 -n resolved_breakpoints -v 1
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="feature_set" transaction_id="1" feature="resolved_breakpoints" success="1"></response>
+
+[7] [Step Debug] <- feature_set -i 2 -n notify_ok -v 1
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="feature_set" transaction_id="2" feature="notify_ok" success="1"></response>
+
+[7] [Step Debug] <- feature_set -i 3 -n extended_properties -v 1
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="feature_set" transaction_id="3" feature="extended_properties" success="1"></response>
+
+[7] [Step Debug] <- breakpoint_set -i 4 -t line -f file:///var/www/html/index.php -n 2
+[7] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="2" state="enabled" hit_count="0" hit_value="0" id="70007"></breakpoint></notify>
+
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="4" id="70007" resolved="resolved"></response>
+
+[7] [Step Debug] <- breakpoint_get -i 5 -d 70007
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="5"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="2" state="enabled" hit_count="0" hit_value="0" id="70007"></breakpoint></response>
+
+[7] [Step Debug] <- breakpoint_set -i 6 -t line -f file:///var/www/html/index.php -n 3
+[7] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="4" state="enabled" hit_count="0" hit_value="0" id="70008"></breakpoint></notify>
+
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="6" id="70008" resolved="resolved"></response>
+
+[7] [Step Debug] <- breakpoint_get -i 7 -d 70008
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="7"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="4" state="enabled" hit_count="0" hit_value="0" id="70008"></breakpoint></response>
+
+[7] [Step Debug] <- breakpoint_set -i 8 -t line -f file:///var/www/html/index.php -n 4
+[7] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="4" state="enabled" hit_count="0" hit_value="0" id="70009"></breakpoint></notify>
+
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="8" id="70009" resolved="resolved"></response>
+
+[7] [Step Debug] <- breakpoint_get -i 9 -d 70009
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="9"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="4" state="enabled" hit_count="0" hit_value="0" id="70009"></breakpoint></response>
+
+[7] [Step Debug] <- breakpoint_set -i 10 -t line -f file:///var/www/html/mysql.php -n 10
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="10" id="70010" resolved="unresolved"></response>
+
+[7] [Step Debug] <- breakpoint_set -i 11 -t line -f file:///var/www/html/mysql.php -n 13
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="11" id="70011" resolved="unresolved"></response>
+
+[7] [Step Debug] <- breakpoint_set -i 12 -t line -f file:///var/www/html/mysql.php -n 15
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="12" id="70012" resolved="unresolved"></response>
+
+[7] [Step Debug] <- breakpoint_set -i 13 -t line -f file:///var/www/html/persona.php -n 6
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="13" id="70013" resolved="unresolved"></response>
+
+[7] [Step Debug] <- breakpoint_set -i 14 -t line -f file:///var/www/html/persona.php -n 9
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="14" id="70014" resolved="unresolved"></response>
+
+[7] [Step Debug] <- run -i 15
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="run" transaction_id="15" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="2"></xdebug:message></response>
+
+[7] [Step Debug] <- stack_get -i 16
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="16"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="2"></stack></response>
+
+[7] [Step Debug] <- context_names -i 17 -d 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="17"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[7] [Step Debug] <- context_get -i 18 -d 0 -c 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="18" context="0"><property name="$persona" fullname="$persona" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[7] [Step Debug] <- step_into -i 19
+[7] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/persona.php" lineno="6" state="enabled" hit_count="0" hit_value="0" id="70013"></breakpoint></notify>
+
+[7] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/persona.php" lineno="10" state="enabled" hit_count="0" hit_value="0" id="70014"></breakpoint></notify>
+
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="19" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/persona.php" lineno="12"></xdebug:message></response>
+
+[7] [Step Debug] <- stack_get -i 20
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="20"><stack where="require_once" level="0" type="file" filename="file:///var/www/html/persona.php" lineno="12"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="2"></stack></response>
+
+[7] [Step Debug] <- stack_get -i 21
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="21"><stack where="require_once" level="0" type="file" filename="file:///var/www/html/persona.php" lineno="12"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="2"></stack></response>
+
+[7] [Step Debug] <- context_names -i 22 -d 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="22"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[7] [Step Debug] <- context_get -i 23 -d 0 -c 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="23" context="0"><property name="$persona" fullname="$persona" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[7] [Step Debug] <- step_into -i 24
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="24" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="4"></xdebug:message></response>
+
+[7] [Step Debug] <- stack_get -i 25
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="25"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="4"></stack></response>
+
+[7] [Step Debug] <- context_names -i 26 -d 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="26"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[7] [Step Debug] <- context_get -i 27 -d 0 -c 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="27" context="0"><property name="$persona" fullname="$persona" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[7] [Step Debug] <- step_into -i 28
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="28" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="5"></xdebug:message></response>
+
+[7] [Step Debug] <- stack_get -i 29
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="29"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="5"></stack></response>
+
+[7] [Step Debug] <- context_names -i 30 -d 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="30"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[7] [Step Debug] <- context_get -i 31 -d 0 -c 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="31" context="0"><property name="$persona" fullname="$persona" type="uninitialized"></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[7] [Step Debug] <- step_into -i 32
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="32" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="6"></xdebug:message></response>
+
+[7] [Step Debug] <- stack_get -i 33
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="33"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="6"></stack></response>
+
+[7] [Step Debug] <- context_names -i 34 -d 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="34"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[7] [Step Debug] <- context_get -i 35 -d 0 -c 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="35" context="0"><property name="$persona" fullname="$persona" type="uninitialized"></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[7] [Step Debug] <- step_into -i 36
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="36" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="8"></xdebug:message></response>
+
+[7] [Step Debug] <- stack_get -i 37
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="37"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="8"></stack></response>
+
+[7] [Step Debug] <- context_names -i 38 -d 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="38"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[7] [Step Debug] <- context_get -i 39 -d 0 -c 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="39" context="0"><property name="$persona" fullname="$persona" type="uninitialized"></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[7] [Step Debug] <- step_into -i 40
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="40" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/persona.php" lineno="6"></xdebug:message></response>
+
+[7] [Step Debug] <- stack_get -i 41
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="41"><stack where="Persona-&gt;__construct" level="0" type="file" filename="file:///var/www/html/persona.php" lineno="6"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="8"></stack></response>
+
+[7] [Step Debug] <- context_names -i 42 -d 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="42"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[7] [Step Debug] <- context_get -i 43 -d 0 -c 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="43" context="0"><property name="$nombre" fullname="$nombre" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property><property name="$this" fullname="$this" type="object" classname="Persona" children="1" numchildren="1" page="0" pagesize="32"><property name="nombre" fullname="$this-&gt;nombre" facet="public" type="null"></property></property></response>
+
+[7] [Step Debug] <- step_into -i 44
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="44" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/persona.php" lineno="7"></xdebug:message></response>
+
+[7] [Step Debug] <- stack_get -i 45
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="45"><stack where="Persona-&gt;__construct" level="0" type="file" filename="file:///var/www/html/persona.php" lineno="7"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="8"></stack></response>
+
+[7] [Step Debug] <- context_names -i 46 -d 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="46"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[7] [Step Debug] <- context_get -i 47 -d 0 -c 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="47" context="0"><property name="$nombre" fullname="$nombre" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property><property name="$this" fullname="$this" type="object" classname="Persona" children="1" numchildren="1" page="0" pagesize="32"><property name="nombre" fullname="$this-&gt;nombre" facet="public" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property></property></response>
+
+[7] [Step Debug] <- step_into -i 48
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="48" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="10"></xdebug:message></response>
+
+[7] [Step Debug] <- stack_get -i 49
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="49"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="10"></stack></response>
+
+[7] [Step Debug] <- context_names -i 50 -d 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="50"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[7] [Step Debug] <- context_get -i 51 -d 0 -c 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="51" context="0"><property name="$persona" fullname="$persona" type="object" classname="Persona" children="1" numchildren="1" page="0" pagesize="32"><property name="nombre" fullname="$persona-&gt;nombre" facet="public" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[7] [Step Debug] <- run -i 52
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="run" transaction_id="52" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/persona.php" lineno="10"></xdebug:message></response>
+
+[7] [Step Debug] <- stack_get -i 53
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="53"><stack where="Persona-&gt;saludar" level="0" type="file" filename="file:///var/www/html/persona.php" lineno="10"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="10"></stack></response>
+
+[7] [Step Debug] <- context_names -i 54 -d 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="54"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[7] [Step Debug] <- context_get -i 55 -d 0 -c 0
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="55" context="0"><property name="$this" fullname="$this" type="object" classname="Persona" children="1" numchildren="1" page="0" pagesize="32"><property name="nombre" fullname="$this-&gt;nombre" facet="public" type="string" size="4" encoding="base64"><![CDATA[SnVhbg==]]></property></property></response>
+
+[7] [Step Debug] <- run -i 56
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="run" transaction_id="56" status="stopping" reason="ok"></response>
+
+[7] [Step Debug] <- stop -i 57
+[7] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stop" transaction_id="57" status="stopped" reason="ok"></response>
+
+[7] Log closed at 2022-03-17 15:09:43.886832
+
+[8] Log opened at 2022-03-17 18:21:35.662698
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-17 18:21:35.952985
+
+[17] Log opened at 2022-03-18 14:09:55.905271
+[17] [Step Debug] INFO: Checking remote connect back address.
+[17] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[17] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[17] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[17] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[17] Log closed at 2022-03-18 14:09:56.247622
+
+[21] Log opened at 2022-03-18 14:12:32.284912
+[21] [Step Debug] INFO: Checking remote connect back address.
+[21] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[21] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[21] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[21] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[21] Log closed at 2022-03-18 14:12:32.635922
+
+[24] Log opened at 2022-03-18 14:13:27.894846
+[24] [Step Debug] INFO: Checking remote connect back address.
+[24] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[24] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[24] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[24] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[24] Log closed at 2022-03-18 14:13:28.231934
+
+[7] Log opened at 2022-03-18 14:18:15.881937
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 14:18:16.090459
+
+[8] Log opened at 2022-03-18 14:27:03.921201
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 14:27:04.141156
+
+[7] Log opened at 2022-03-18 14:27:04.512451
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 14:27:04.722154
+
+[7] Log opened at 2022-03-18 14:38:52.194556
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 14:38:52.402345
+
+[8] Log opened at 2022-03-18 14:38:53.238717
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 14:38:53.446906
+
+[7] Log opened at 2022-03-18 14:38:54.342290
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 14:38:54.550010
+
+[8] Log opened at 2022-03-18 14:38:54.632961
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 14:38:54.838428
+
+[7] Log opened at 2022-03-18 14:38:55.400191
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 14:38:55.605837
+
+[8] Log opened at 2022-03-18 14:39:26.334729
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 14:39:26.541064
+
+[7] Log opened at 2022-03-18 14:39:26.725953
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 14:39:26.932166
+
+[8] Log opened at 2022-03-18 14:40:24.784948
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 14:40:24.990769
+
+[7] Log opened at 2022-03-18 14:41:26.857876
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 14:41:27.065709
+
+[8] Log opened at 2022-03-18 14:41:31.512266
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 14:41:31.719456
+
+[7] Log opened at 2022-03-18 14:42:00.049196
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 14:42:00.254632
+
+[8] Log opened at 2022-03-18 14:42:03.785362
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 14:42:03.991327
+
+[7] Log opened at 2022-03-18 14:42:24.632543
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 14:42:24.838322
+
+[8] Log opened at 2022-03-18 14:42:35.215281
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 14:42:35.420981
+
+[7] Log opened at 2022-03-18 14:42:36.117354
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 14:42:36.320987
+
+[8] Log opened at 2022-03-18 14:42:36.701977
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 14:42:36.908609
+
+[7] Log opened at 2022-03-18 15:07:23.866148
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 15:07:24.072446
+
+[8] Log opened at 2022-03-18 15:07:54.439094
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 15:07:54.647796
+
+[7] Log opened at 2022-03-18 15:07:55.376678
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 15:07:55.586820
+
+[8] Log opened at 2022-03-18 15:08:03.768716
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 15:08:03.975607
+
+[7] Log opened at 2022-03-18 15:08:04.614294
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 15:08:04.819243
+
+[8] Log opened at 2022-03-18 15:08:28.088965
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 15:08:28.295506
+
+[7] Log opened at 2022-03-18 15:09:00.240217
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 15:09:00.446700
+
+[8] Log opened at 2022-03-18 15:11:59.924809
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 15:12:00.134225
+
+[7] Log opened at 2022-03-18 15:12:02.137611
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 15:12:02.346162
+
+[16] Log opened at 2022-03-18 15:19:16.289823
+[16] [Step Debug] INFO: Checking remote connect back address.
+[16] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[16] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[16] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[16] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[16] Log closed at 2022-03-18 15:19:16.566721
+
+[19] Log opened at 2022-03-18 15:19:24.586238
+[19] [Step Debug] INFO: Checking remote connect back address.
+[19] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[19] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[19] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[19] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[19] Log closed at 2022-03-18 15:21:54.537934
+
+[36] Log opened at 2022-03-18 15:24:23.112083
+[36] [Step Debug] INFO: Checking remote connect back address.
+[36] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[36] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[36] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[36] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[36] Log closed at 2022-03-18 15:24:24.562246
+
+[16] Log opened at 2022-03-18 15:30:37.060583
+[16] [Step Debug] INFO: Checking remote connect back address.
+[16] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[16] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[16] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[16] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[16] Log closed at 2022-03-18 15:31:08.463363
+
+[7] Log opened at 2022-03-18 15:31:52.606912
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 15:31:52.816715
+
+[8] Log opened at 2022-03-18 15:31:55.561865
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 15:31:55.769686
+
+[7] Log opened at 2022-03-18 15:31:56.849905
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 15:31:57.055336
+
+[8] Log opened at 2022-03-18 15:31:58.201705
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 15:31:58.407990
+
+[7] Log opened at 2022-03-18 15:31:59.078146
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 15:31:59.282962
+
+[8] Log opened at 2022-03-18 15:32:07.862390
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 15:32:08.122169
+
+[7] Log opened at 2022-03-18 15:32:09.210653
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 15:32:09.478918
+
+[8] Log opened at 2022-03-18 15:37:22.517859
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[8] Log closed at 2022-03-18 15:37:24.018997
+
+[7] Log opened at 2022-03-18 15:37:39.562634
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 15:37:40.942369
+
+[8] Log opened at 2022-03-18 15:38:21.570534
+[8] [Step Debug] INFO: Checking remote connect back address.
+[8] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[8] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[8] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[8] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[8] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[8] [Step Debug] INFO: Connected to debugging client: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port). :-)
+[8] [Step Debug] -> <init xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" fileuri="file:///var/www/html/index.php" language="PHP" xdebug:language_version="8.1.3" protocol_version="1.0" appid="8"><engine version="3.1.2"><![CDATA[Xdebug]]></engine><author><![CDATA[Derick Rethans]]></author><url><![CDATA[https://xdebug.org]]></url><copyright><![CDATA[Copyright (c) 2002-2021 by Derick Rethans]]></copyright></init>
+
+[8] [Step Debug] <- feature_set -i 1 -n resolved_breakpoints -v 1
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="feature_set" transaction_id="1" feature="resolved_breakpoints" success="1"></response>
+
+[8] [Step Debug] <- feature_set -i 2 -n notify_ok -v 1
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="feature_set" transaction_id="2" feature="notify_ok" success="1"></response>
+
+[8] [Step Debug] <- feature_set -i 3 -n extended_properties -v 1
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="feature_set" transaction_id="3" feature="extended_properties" success="1"></response>
+
+[8] [Step Debug] <- breakpoint_set -i 4 -t line -f file:///var/www/html/index.php -n 2
+[8] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="2" state="enabled" hit_count="0" hit_value="0" id="80001"></breakpoint></notify>
+
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="4" id="80001" resolved="resolved"></response>
+
+[8] [Step Debug] <- breakpoint_get -i 5 -d 80001
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="5"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="2" state="enabled" hit_count="0" hit_value="0" id="80001"></breakpoint></response>
+
+[8] [Step Debug] <- breakpoint_set -i 6 -t line -f file:///var/www/html/index.php -n 10
+[8] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="11" state="enabled" hit_count="0" hit_value="0" id="80002"></breakpoint></notify>
+
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="6" id="80002" resolved="resolved"></response>
+
+[8] [Step Debug] <- breakpoint_get -i 7 -d 80002
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="7"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="11" state="enabled" hit_count="0" hit_value="0" id="80002"></breakpoint></response>
+
+[8] [Step Debug] <- breakpoint_set -i 8 -t line -f file:///var/www/html/index.php -n 11
+[8] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="11" state="enabled" hit_count="0" hit_value="0" id="80003"></breakpoint></notify>
+
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="8" id="80003" resolved="resolved"></response>
+
+[8] [Step Debug] <- breakpoint_get -i 9 -d 80003
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="9"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="11" state="enabled" hit_count="0" hit_value="0" id="80003"></breakpoint></response>
+
+[8] [Step Debug] <- breakpoint_set -i 10 -t line -f file:///var/www/html/index.php -n 15
+[8] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="15" state="enabled" hit_count="0" hit_value="0" id="80004"></breakpoint></notify>
+
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="10" id="80004" resolved="resolved"></response>
+
+[8] [Step Debug] <- breakpoint_get -i 11 -d 80004
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="11"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="15" state="enabled" hit_count="0" hit_value="0" id="80004"></breakpoint></response>
+
+[8] [Step Debug] <- breakpoint_set -i 12 -t line -f file:///var/www/html/index.php -n 16
+[8] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="21" state="enabled" hit_count="0" hit_value="0" id="80005"></breakpoint></notify>
+
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="12" id="80005" resolved="resolved"></response>
+
+[8] [Step Debug] <- breakpoint_get -i 13 -d 80005
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="13"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="21" state="enabled" hit_count="0" hit_value="0" id="80005"></breakpoint></response>
+
+[8] [Step Debug] <- breakpoint_set -i 14 -t line -f file:///var/www/html/index.php -n 21
+[8] [Step Debug] -> <notify xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" name="breakpoint_resolved"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="21" state="enabled" hit_count="0" hit_value="0" id="80006"></breakpoint></notify>
+
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="14" id="80006" resolved="resolved"></response>
+
+[8] [Step Debug] <- breakpoint_get -i 15 -d 80006
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_get" transaction_id="15"><breakpoint type="line" resolved="resolved" filename="file:///var/www/html/index.php" lineno="21" state="enabled" hit_count="0" hit_value="0" id="80006"></breakpoint></response>
+
+[8] [Step Debug] <- breakpoint_set -i 16 -t line -f file:///var/www/html/mysql.php -n 10
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="16" id="80007" resolved="unresolved"></response>
+
+[8] [Step Debug] <- breakpoint_set -i 17 -t line -f file:///var/www/html/mysql.php -n 13
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="17" id="80008" resolved="unresolved"></response>
+
+[8] [Step Debug] <- breakpoint_set -i 18 -t line -f file:///var/www/html/mysql.php -n 15
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="breakpoint_set" transaction_id="18" id="80009" resolved="unresolved"></response>
+
+[8] [Step Debug] <- run -i 19
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="run" transaction_id="19" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="2"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 20
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="20"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="2"></stack></response>
+
+[8] [Step Debug] <- context_names -i 21 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="21"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 22 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="22" context="0"><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="uninitialized"></property><property name="$response" fullname="$response" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[8] [Step Debug] <- step_into -i 23
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="23" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/persona.php" lineno="12"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 24
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="24"><stack where="require_once" level="0" type="file" filename="file:///var/www/html/persona.php" lineno="12"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="2"></stack></response>
+
+[8] [Step Debug] <- context_names -i 25 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="25"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 26 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="26" context="0"><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="uninitialized"></property><property name="$response" fullname="$response" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[8] [Step Debug] <- step_into -i 27
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="27" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="5"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 28
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="28"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="5"></stack></response>
+
+[8] [Step Debug] <- context_names -i 29 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="29"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 30 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="30" context="0"><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="uninitialized"></property><property name="$response" fullname="$response" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[8] [Step Debug] <- step_into -i 31
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="31" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/vendor/autoload.php" lineno="5"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 32
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="32"><stack where="require_once" level="0" type="file" filename="file:///var/www/html/vendor/autoload.php" lineno="5"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="5"></stack></response>
+
+[8] [Step Debug] <- context_names -i 33 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="33"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 34 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="34" context="0"><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="uninitialized"></property><property name="$response" fullname="$response" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[8] [Step Debug] <- step_into -i 35
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="35" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/vendor/composer/autoload_real.php" lineno="81"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 36
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="36"><stack where="require_once" level="0" type="file" filename="file:///var/www/html/vendor/composer/autoload_real.php" lineno="81"></stack><stack where="require_once" level="1" type="file" filename="file:///var/www/html/vendor/autoload.php" lineno="5"></stack><stack where="{main}" level="2" type="file" filename="file:///var/www/html/index.php" lineno="5"></stack></response>
+
+[8] [Step Debug] <- context_names -i 37 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="37"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 38 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="38" context="0"><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="uninitialized"></property><property name="$response" fullname="$response" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[8] [Step Debug] <- step_into -i 39
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_into" transaction_id="39" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/vendor/autoload.php" lineno="7"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 40
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="40"><stack where="require_once" level="0" type="file" filename="file:///var/www/html/vendor/autoload.php" lineno="7"></stack><stack where="{main}" level="1" type="file" filename="file:///var/www/html/index.php" lineno="5"></stack></response>
+
+[8] [Step Debug] <- context_names -i 41 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="41"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 42 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="42" context="0"><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="uninitialized"></property><property name="$response" fullname="$response" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[8] [Step Debug] <- step_over -i 43
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="43" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="11"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 44
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="44"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="11"></stack></response>
+
+[8] [Step Debug] <- context_names -i 45 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="45"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 46 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="46" context="0"><property name="$__composer_autoload_files" fullname="$__composer_autoload_files" type="array" children="1" numchildren="4" page="0" pagesize="32"><property name="7b11c4dc42b3b3023073cb14e519683c" fullname="$__composer_autoload_files[&quot;7b11c4dc42b3b3023073cb14e519683c&quot;]" type="bool"><![CDATA[1]]></property><property name="c964ee0ededf28c96ebd9db5099ef910" fullname="$__composer_autoload_files[&quot;c964ee0ededf28c96ebd9db5099ef910&quot;]" type="bool"><![CDATA[1]]></property><property name="6e3fae29631ef280660b3cdad06f25a8" fullname="$__composer_autoload_files[&quot;6e3fae29631ef280660b3cdad06f25a8&quot;]" type="bool"><![CDATA[1]]></property><property name="37a3dc5111fe8f707ab4c132ef1dbc62" fullname="$__composer_autoload_files[&quot;37a3dc5111fe8f707ab4c132ef1dbc62&quot;]" type="bool"><![CDATA[1]]></property></property><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="uninitialized"></property><property name="$response" fullname="$response" type="uninitialized"></property><property name="$var" fullname="$var" type="uninitialized"></property></response>
+
+[8] [Step Debug] <- step_over -i 47
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="47" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="12"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 48
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="48"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="12"></stack></response>
+
+[8] [Step Debug] <- context_names -i 49 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="49"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 50 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="50" context="0"><property name="$__composer_autoload_files" fullname="$__composer_autoload_files" type="array" children="1" numchildren="4" page="0" pagesize="32"><property name="7b11c4dc42b3b3023073cb14e519683c" fullname="$__composer_autoload_files[&quot;7b11c4dc42b3b3023073cb14e519683c&quot;]" type="bool"><![CDATA[1]]></property><property name="c964ee0ededf28c96ebd9db5099ef910" fullname="$__composer_autoload_files[&quot;c964ee0ededf28c96ebd9db5099ef910&quot;]" type="bool"><![CDATA[1]]></property><property name="6e3fae29631ef280660b3cdad06f25a8" fullname="$__composer_autoload_files[&quot;6e3fae29631ef280660b3cdad06f25a8&quot;]" type="bool"><![CDATA[1]]></property><property name="37a3dc5111fe8f707ab4c132ef1dbc62" fullname="$__composer_autoload_files[&quot;37a3dc5111fe8f707ab4c132ef1dbc62&quot;]" type="bool"><![CDATA[1]]></property></property><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="uninitialized"></property><property name="$response" fullname="$response" type="uninitialized"></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[8] [Step Debug] <- step_over -i 51
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="51" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="13"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 52
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="52"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="13"></stack></response>
+
+[8] [Step Debug] <- context_names -i 53 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="53"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 54 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="54" context="0"><property name="$__composer_autoload_files" fullname="$__composer_autoload_files" type="array" children="1" numchildren="4" page="0" pagesize="32"><property name="7b11c4dc42b3b3023073cb14e519683c" fullname="$__composer_autoload_files[&quot;7b11c4dc42b3b3023073cb14e519683c&quot;]" type="bool"><![CDATA[1]]></property><property name="c964ee0ededf28c96ebd9db5099ef910" fullname="$__composer_autoload_files[&quot;c964ee0ededf28c96ebd9db5099ef910&quot;]" type="bool"><![CDATA[1]]></property><property name="6e3fae29631ef280660b3cdad06f25a8" fullname="$__composer_autoload_files[&quot;6e3fae29631ef280660b3cdad06f25a8&quot;]" type="bool"><![CDATA[1]]></property><property name="37a3dc5111fe8f707ab4c132ef1dbc62" fullname="$__composer_autoload_files[&quot;37a3dc5111fe8f707ab4c132ef1dbc62&quot;]" type="bool"><![CDATA[1]]></property></property><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="uninitialized"></property><property name="$response" fullname="$response" type="uninitialized"></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[8] [Step Debug] <- step_over -i 55
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="55" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="15"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 56
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="56"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="15"></stack></response>
+
+[8] [Step Debug] <- context_names -i 57 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="57"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 58 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="58" context="0"><property name="$__composer_autoload_files" fullname="$__composer_autoload_files" type="array" children="1" numchildren="4" page="0" pagesize="32"><property name="7b11c4dc42b3b3023073cb14e519683c" fullname="$__composer_autoload_files[&quot;7b11c4dc42b3b3023073cb14e519683c&quot;]" type="bool"><![CDATA[1]]></property><property name="c964ee0ededf28c96ebd9db5099ef910" fullname="$__composer_autoload_files[&quot;c964ee0ededf28c96ebd9db5099ef910&quot;]" type="bool"><![CDATA[1]]></property><property name="6e3fae29631ef280660b3cdad06f25a8" fullname="$__composer_autoload_files[&quot;6e3fae29631ef280660b3cdad06f25a8&quot;]" type="bool"><![CDATA[1]]></property><property name="37a3dc5111fe8f707ab4c132ef1dbc62" fullname="$__composer_autoload_files[&quot;37a3dc5111fe8f707ab4c132ef1dbc62&quot;]" type="bool"><![CDATA[1]]></property></property><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="uninitialized"></property><property name="$response" fullname="$response" type="uninitialized"></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[8] [Step Debug] <- step_over -i 59
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="59" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="21"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 60
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="60"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="21"></stack></response>
+
+[8] [Step Debug] <- context_names -i 61 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="61"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 62 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="62" context="0"><property name="$__composer_autoload_files" fullname="$__composer_autoload_files" type="array" children="1" numchildren="4" page="0" pagesize="32"><property name="7b11c4dc42b3b3023073cb14e519683c" fullname="$__composer_autoload_files[&quot;7b11c4dc42b3b3023073cb14e519683c&quot;]" type="bool"><![CDATA[1]]></property><property name="c964ee0ededf28c96ebd9db5099ef910" fullname="$__composer_autoload_files[&quot;c964ee0ededf28c96ebd9db5099ef910&quot;]" type="bool"><![CDATA[1]]></property><property name="6e3fae29631ef280660b3cdad06f25a8" fullname="$__composer_autoload_files[&quot;6e3fae29631ef280660b3cdad06f25a8&quot;]" type="bool"><![CDATA[1]]></property><property name="37a3dc5111fe8f707ab4c132ef1dbc62" fullname="$__composer_autoload_files[&quot;37a3dc5111fe8f707ab4c132ef1dbc62&quot;]" type="bool"><![CDATA[1]]></property></property><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="object" classname="GuzzleHttp\Client" children="1" numchildren="1" page="0" pagesize="32"><property name="config" fullname="$client-&gt;config" facet="private" type="array" children="1" numchildren="9"></property></property><property name="$response" fullname="$response" type="uninitialized"></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[8] [Step Debug] <- context_names -i 63 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="63"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 64 -d 0 -c 0 -n "$client"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="64"><property name="$client" fullname="$client" type="object" classname="GuzzleHttp\Client" children="1" numchildren="1" page="0" pagesize="32"><property name="config" fullname="$client-&gt;config" facet="private" type="array" children="1" numchildren="9"></property></property></response>
+
+[8] [Step Debug] <- context_names -i 65 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="65"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 66 -d 0 -c 0 -n "$client"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="66"><property name="$client" fullname="$client" type="object" classname="GuzzleHttp\Client" children="1" numchildren="1" page="0" pagesize="32"><property name="config" fullname="$client-&gt;config" facet="private" type="array" children="1" numchildren="9"></property></property></response>
+
+[8] [Step Debug] <- property_get -i 67 -d 0 -c 0 -n "$client->config"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="67"><property name="$client-&gt;config" fullname="$client-&gt;config" type="array" children="1" numchildren="9" page="0" pagesize="32"><property name="base_uri" fullname="$client-&gt;config[&quot;base_uri&quot;]" type="object" classname="GuzzleHttp\Psr7\Uri" children="1" numchildren="8"></property><property name="handler" fullname="$client-&gt;config[&quot;handler&quot;]" type="object" classname="GuzzleHttp\HandlerStack" children="1" numchildren="3"></property><property name="allow_redirects" fullname="$client-&gt;config[&quot;allow_redirects&quot;]" type="array" children="1" numchildren="5"></property><property name="http_errors" fullname="$client-&gt;config[&quot;http_errors&quot;]" type="bool"><![CDATA[1]]></property><property name="decode_content" fullname="$client-&gt;config[&quot;decode_content&quot;]" type="bool"><![CDATA[1]]></property><property name="verify" fullname="$client-&gt;config[&quot;verify&quot;]" type="bool"><![CDATA[1]]></property><property name="cookies" fullname="$client-&gt;config[&quot;cookies&quot;]" type="bool"><![CDATA[0]]></property><property name="idn_conversion" fullname="$client-&gt;config[&quot;idn_conversion&quot;]" type="bool"><![CDATA[0]]></property><property name="headers" fullname="$client-&gt;config[&quot;headers&quot;]" type="array" children="1" numchildren="1"></property></property></response>
+
+[8] [Step Debug] <- property_get -i 68 -d 0 -c 0 -n "$client->config"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="68"><property name="$client-&gt;config" fullname="$client-&gt;config" type="array" children="1" numchildren="9" page="0" pagesize="32"><property name="base_uri" fullname="$client-&gt;config[&quot;base_uri&quot;]" type="object" classname="GuzzleHttp\Psr7\Uri" children="1" numchildren="8"></property><property name="handler" fullname="$client-&gt;config[&quot;handler&quot;]" type="object" classname="GuzzleHttp\HandlerStack" children="1" numchildren="3"></property><property name="allow_redirects" fullname="$client-&gt;config[&quot;allow_redirects&quot;]" type="array" children="1" numchildren="5"></property><property name="http_errors" fullname="$client-&gt;config[&quot;http_errors&quot;]" type="bool"><![CDATA[1]]></property><property name="decode_content" fullname="$client-&gt;config[&quot;decode_content&quot;]" type="bool"><![CDATA[1]]></property><property name="verify" fullname="$client-&gt;config[&quot;verify&quot;]" type="bool"><![CDATA[1]]></property><property name="cookies" fullname="$client-&gt;config[&quot;cookies&quot;]" type="bool"><![CDATA[0]]></property><property name="idn_conversion" fullname="$client-&gt;config[&quot;idn_conversion&quot;]" type="bool"><![CDATA[0]]></property><property name="headers" fullname="$client-&gt;config[&quot;headers&quot;]" type="array" children="1" numchildren="1"></property></property></response>
+
+[8] [Step Debug] <- property_get -i 69 -d 0 -c 0 -n "$client->config[\"base_uri\"]"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="69"><property name="$client-&gt;config[&quot;base_uri&quot;]" fullname="$client-&gt;config[&quot;base_uri&quot;]" type="object" classname="GuzzleHttp\Psr7\Uri" children="1" numchildren="8" page="0" pagesize="32"><property name="scheme" fullname="$client-&gt;config[&quot;base_uri&quot;]-&gt;scheme" facet="private" type="string" size="5" encoding="base64"><![CDATA[aHR0cHM=]]></property><property name="userInfo" fullname="$client-&gt;config[&quot;base_uri&quot;]-&gt;userInfo" facet="private" type="string" size="0" encoding="base64"><![CDATA[]]></property><property name="host" fullname="$client-&gt;config[&quot;base_uri&quot;]-&gt;host" facet="private" type="string" size="28" encoding="base64"><![CDATA[anNvbnBsYWNlaG9sZGVyLnR5cGljb2RlLmNvbQ==]]></property><property name="port" fullname="$client-&gt;config[&quot;base_uri&quot;]-&gt;port" facet="private" type="null"></property><property name="path" fullname="$client-&gt;config[&quot;base_uri&quot;]-&gt;path" facet="private" type="string" size="0" encoding="base64"><![CDATA[]]></property><property name="query" fullname="$client-&gt;config[&quot;base_uri&quot;]-&gt;query" facet="private" type="string" size="0" encoding="base64"><![CDATA[]]></property><property name="fragment" fullname="$client-&gt;config[&quot;base_uri&quot;]-&gt;fragment" facet="private" type="string" size="0" encoding="base64"><![CDATA[]]></property><property name="composedComponents" fullname="$client-&gt;config[&quot;base_uri&quot;]-&gt;composedComponents" facet="private" type="null"></property></property></response>
+
+[8] [Step Debug] <- step_over -i 70
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="70" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="23"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 71
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="71"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="23"></stack></response>
+
+[8] [Step Debug] <- context_names -i 72 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="72"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 73 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="73" context="0"><property name="$__composer_autoload_files" fullname="$__composer_autoload_files" type="array" children="1" numchildren="4" page="0" pagesize="32"><property name="7b11c4dc42b3b3023073cb14e519683c" fullname="$__composer_autoload_files[&quot;7b11c4dc42b3b3023073cb14e519683c&quot;]" type="bool"><![CDATA[1]]></property><property name="c964ee0ededf28c96ebd9db5099ef910" fullname="$__composer_autoload_files[&quot;c964ee0ededf28c96ebd9db5099ef910&quot;]" type="bool"><![CDATA[1]]></property><property name="6e3fae29631ef280660b3cdad06f25a8" fullname="$__composer_autoload_files[&quot;6e3fae29631ef280660b3cdad06f25a8&quot;]" type="bool"><![CDATA[1]]></property><property name="37a3dc5111fe8f707ab4c132ef1dbc62" fullname="$__composer_autoload_files[&quot;37a3dc5111fe8f707ab4c132ef1dbc62&quot;]" type="bool"><![CDATA[1]]></property></property><property name="$body" fullname="$body" type="uninitialized"></property><property name="$client" fullname="$client" type="object" classname="GuzzleHttp\Client" children="1" numchildren="1" page="0" pagesize="32"><property name="config" fullname="$client-&gt;config" facet="private" type="array" children="1" numchildren="9"></property></property><property name="$response" fullname="$response" type="object" classname="GuzzleHttp\Psr7\Response" children="1" numchildren="6" page="0" pagesize="32"><property name="reasonPhrase" fullname="$response-&gt;reasonPhrase" facet="private" type="string" size="2" encoding="base64"><![CDATA[T0s=]]></property><property name="statusCode" fullname="$response-&gt;statusCode" facet="private" type="int"><![CDATA[200]]></property><property name="headers" fullname="$response-&gt;headers" facet="private" type="array" children="1" numchildren="24"></property><property name="headerNames" fullname="$response-&gt;headerNames" facet="private" type="array" children="1" numchildren="24"></property><property name="protocol" fullname="$response-&gt;protocol" facet="private" type="string" size="3" encoding="base64"><![CDATA[MS4x]]></property><property name="stream" fullname="$response-&gt;stream" facet="private" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7"></property></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[8] [Step Debug] <- context_names -i 74 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="74"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 75 -d 0 -c 0 -n "$response"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="75"><property name="$response" fullname="$response" type="object" classname="GuzzleHttp\Psr7\Response" children="1" numchildren="6" page="0" pagesize="32"><property name="reasonPhrase" fullname="$response-&gt;reasonPhrase" facet="private" type="string" size="2" encoding="base64"><![CDATA[T0s=]]></property><property name="statusCode" fullname="$response-&gt;statusCode" facet="private" type="int"><![CDATA[200]]></property><property name="headers" fullname="$response-&gt;headers" facet="private" type="array" children="1" numchildren="24"></property><property name="headerNames" fullname="$response-&gt;headerNames" facet="private" type="array" children="1" numchildren="24"></property><property name="protocol" fullname="$response-&gt;protocol" facet="private" type="string" size="3" encoding="base64"><![CDATA[MS4x]]></property><property name="stream" fullname="$response-&gt;stream" facet="private" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7"></property></property></response>
+
+[8] [Step Debug] <- property_get -i 76 -d 0 -c 0 -n "$response->headers"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="76"><property name="$response-&gt;headers" fullname="$response-&gt;headers" type="array" children="1" numchildren="24" page="0" pagesize="32"><property name="Date" fullname="$response-&gt;headers[&quot;Date&quot;]" type="array" children="1" numchildren="1"></property><property name="Content-Type" fullname="$response-&gt;headers[&quot;Content-Type&quot;]" type="array" children="1" numchildren="1"></property><property name="Transfer-Encoding" fullname="$response-&gt;headers[&quot;Transfer-Encoding&quot;]" type="array" children="1" numchildren="1"></property><property name="Connection" fullname="$response-&gt;headers[&quot;Connection&quot;]" type="array" children="1" numchildren="1"></property><property name="X-Powered-By" fullname="$response-&gt;headers[&quot;X-Powered-By&quot;]" type="array" children="1" numchildren="1"></property><property name="X-Ratelimit-Limit" fullname="$response-&gt;headers[&quot;X-Ratelimit-Limit&quot;]" type="array" children="1" numchildren="1"></property><property name="X-Ratelimit-Remaining" fullname="$response-&gt;headers[&quot;X-Ratelimit-Remaining&quot;]" type="array" children="1" numchildren="1"></property><property name="X-Ratelimit-Reset" fullname="$response-&gt;headers[&quot;X-Ratelimit-Reset&quot;]" type="array" children="1" numchildren="1"></property><property name="Vary" fullname="$response-&gt;headers[&quot;Vary&quot;]" type="array" children="1" numchildren="1"></property><property name="Access-Control-Allow-Credentials" fullname="$response-&gt;headers[&quot;Access-Control-Allow-Credentials&quot;]" type="array" children="1" numchildren="1"></property><property name="Cache-Control" fullname="$response-&gt;headers[&quot;Cache-Control&quot;]" type="array" children="1" numchildren="1"></property><property name="Pragma" fullname="$response-&gt;headers[&quot;Pragma&quot;]" type="array" children="1" numchildren="1"></property><property name="Expires" fullname="$response-&gt;headers[&quot;Expires&quot;]" type="array" children="1" numchildren="1"></property><property name="X-Content-Type-Options" fullname="$response-&gt;headers[&quot;X-Content-Type-Options&quot;]" type="array" children="1" numchildren="1"></property><property name="Etag" fullname="$response-&gt;headers[&quot;Etag&quot;]" type="array" children="1" numchildren="1"></property><property name="Via" fullname="$response-&gt;headers[&quot;Via&quot;]" type="array" children="1" numchildren="1"></property><property name="CF-Cache-Status" fullname="$response-&gt;headers[&quot;CF-Cache-Status&quot;]" type="array" children="1" numchildren="1"></property><property name="Age" fullname="$response-&gt;headers[&quot;Age&quot;]" type="array" children="1" numchildren="1"></property><property name="Expect-CT" fullname="$response-&gt;headers[&quot;Expect-CT&quot;]" type="array" children="1" numchildren="1"></property><property name="Report-To" fullname="$response-&gt;headers[&quot;Report-To&quot;]" type="array" children="1" numchildren="1"></property><property name="NEL" fullname="$response-&gt;headers[&quot;NEL&quot;]" type="array" children="1" numchildren="1"></property><property name="Server" fullname="$response-&gt;headers[&quot;Server&quot;]" type="array" children="1" numchildren="1"></property><property name="CF-RAY" fullname="$response-&gt;headers[&quot;CF-RAY&quot;]" type="array" children="1" numchildren="1"></property><property name="alt-svc" fullname="$response-&gt;headers[&quot;alt-svc&quot;]" type="array" children="1" numchildren="1"></property></property></response>
+
+[8] [Step Debug] <- context_names -i 77 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="77"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 78 -d 0 -c 0 -n "$body"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="78" status="break" reason="ok"><error code="300"><message><![CDATA[can not get property]]></message></error></response>
+
+[8] [Step Debug] <- context_names -i 79 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="79"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 80 -d 0 -c 0 -n "$response"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="80"><property name="$response" fullname="$response" type="object" classname="GuzzleHttp\Psr7\Response" children="1" numchildren="6" page="0" pagesize="32"><property name="reasonPhrase" fullname="$response-&gt;reasonPhrase" facet="private" type="string" size="2" encoding="base64"><![CDATA[T0s=]]></property><property name="statusCode" fullname="$response-&gt;statusCode" facet="private" type="int"><![CDATA[200]]></property><property name="headers" fullname="$response-&gt;headers" facet="private" type="array" children="1" numchildren="24"></property><property name="headerNames" fullname="$response-&gt;headerNames" facet="private" type="array" children="1" numchildren="24"></property><property name="protocol" fullname="$response-&gt;protocol" facet="private" type="string" size="3" encoding="base64"><![CDATA[MS4x]]></property><property name="stream" fullname="$response-&gt;stream" facet="private" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7"></property></property></response>
+
+[8] [Step Debug] <- context_names -i 81 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="81"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 82 -d 0 -c 0 -n "$response"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="82"><property name="$response" fullname="$response" type="object" classname="GuzzleHttp\Psr7\Response" children="1" numchildren="6" page="0" pagesize="32"><property name="reasonPhrase" fullname="$response-&gt;reasonPhrase" facet="private" type="string" size="2" encoding="base64"><![CDATA[T0s=]]></property><property name="statusCode" fullname="$response-&gt;statusCode" facet="private" type="int"><![CDATA[200]]></property><property name="headers" fullname="$response-&gt;headers" facet="private" type="array" children="1" numchildren="24"></property><property name="headerNames" fullname="$response-&gt;headerNames" facet="private" type="array" children="1" numchildren="24"></property><property name="protocol" fullname="$response-&gt;protocol" facet="private" type="string" size="3" encoding="base64"><![CDATA[MS4x]]></property><property name="stream" fullname="$response-&gt;stream" facet="private" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7"></property></property></response>
+
+[8] [Step Debug] <- property_get -i 83 -d 0 -c 0 -n "$response->headers"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="83"><property name="$response-&gt;headers" fullname="$response-&gt;headers" type="array" children="1" numchildren="24" page="0" pagesize="32"><property name="Date" fullname="$response-&gt;headers[&quot;Date&quot;]" type="array" children="1" numchildren="1"></property><property name="Content-Type" fullname="$response-&gt;headers[&quot;Content-Type&quot;]" type="array" children="1" numchildren="1"></property><property name="Transfer-Encoding" fullname="$response-&gt;headers[&quot;Transfer-Encoding&quot;]" type="array" children="1" numchildren="1"></property><property name="Connection" fullname="$response-&gt;headers[&quot;Connection&quot;]" type="array" children="1" numchildren="1"></property><property name="X-Powered-By" fullname="$response-&gt;headers[&quot;X-Powered-By&quot;]" type="array" children="1" numchildren="1"></property><property name="X-Ratelimit-Limit" fullname="$response-&gt;headers[&quot;X-Ratelimit-Limit&quot;]" type="array" children="1" numchildren="1"></property><property name="X-Ratelimit-Remaining" fullname="$response-&gt;headers[&quot;X-Ratelimit-Remaining&quot;]" type="array" children="1" numchildren="1"></property><property name="X-Ratelimit-Reset" fullname="$response-&gt;headers[&quot;X-Ratelimit-Reset&quot;]" type="array" children="1" numchildren="1"></property><property name="Vary" fullname="$response-&gt;headers[&quot;Vary&quot;]" type="array" children="1" numchildren="1"></property><property name="Access-Control-Allow-Credentials" fullname="$response-&gt;headers[&quot;Access-Control-Allow-Credentials&quot;]" type="array" children="1" numchildren="1"></property><property name="Cache-Control" fullname="$response-&gt;headers[&quot;Cache-Control&quot;]" type="array" children="1" numchildren="1"></property><property name="Pragma" fullname="$response-&gt;headers[&quot;Pragma&quot;]" type="array" children="1" numchildren="1"></property><property name="Expires" fullname="$response-&gt;headers[&quot;Expires&quot;]" type="array" children="1" numchildren="1"></property><property name="X-Content-Type-Options" fullname="$response-&gt;headers[&quot;X-Content-Type-Options&quot;]" type="array" children="1" numchildren="1"></property><property name="Etag" fullname="$response-&gt;headers[&quot;Etag&quot;]" type="array" children="1" numchildren="1"></property><property name="Via" fullname="$response-&gt;headers[&quot;Via&quot;]" type="array" children="1" numchildren="1"></property><property name="CF-Cache-Status" fullname="$response-&gt;headers[&quot;CF-Cache-Status&quot;]" type="array" children="1" numchildren="1"></property><property name="Age" fullname="$response-&gt;headers[&quot;Age&quot;]" type="array" children="1" numchildren="1"></property><property name="Expect-CT" fullname="$response-&gt;headers[&quot;Expect-CT&quot;]" type="array" children="1" numchildren="1"></property><property name="Report-To" fullname="$response-&gt;headers[&quot;Report-To&quot;]" type="array" children="1" numchildren="1"></property><property name="NEL" fullname="$response-&gt;headers[&quot;NEL&quot;]" type="array" children="1" numchildren="1"></property><property name="Server" fullname="$response-&gt;headers[&quot;Server&quot;]" type="array" children="1" numchildren="1"></property><property name="CF-RAY" fullname="$response-&gt;headers[&quot;CF-RAY&quot;]" type="array" children="1" numchildren="1"></property><property name="alt-svc" fullname="$response-&gt;headers[&quot;alt-svc&quot;]" type="array" children="1" numchildren="1"></property></property></response>
+
+[8] [Step Debug] <- context_names -i 84 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="84"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 85 -d 0 -c 0 -n "$response"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="85"><property name="$response" fullname="$response" type="object" classname="GuzzleHttp\Psr7\Response" children="1" numchildren="6" page="0" pagesize="32"><property name="reasonPhrase" fullname="$response-&gt;reasonPhrase" facet="private" type="string" size="2" encoding="base64"><![CDATA[T0s=]]></property><property name="statusCode" fullname="$response-&gt;statusCode" facet="private" type="int"><![CDATA[200]]></property><property name="headers" fullname="$response-&gt;headers" facet="private" type="array" children="1" numchildren="24"></property><property name="headerNames" fullname="$response-&gt;headerNames" facet="private" type="array" children="1" numchildren="24"></property><property name="protocol" fullname="$response-&gt;protocol" facet="private" type="string" size="3" encoding="base64"><![CDATA[MS4x]]></property><property name="stream" fullname="$response-&gt;stream" facet="private" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7"></property></property></response>
+
+[8] [Step Debug] <- property_get -i 86 -d 0 -c 0 -n "$response->headerNames"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="86"><property name="$response-&gt;headerNames" fullname="$response-&gt;headerNames" type="array" children="1" numchildren="24" page="0" pagesize="32"><property name="date" fullname="$response-&gt;headerNames[&quot;date&quot;]" type="string" size="4" encoding="base64"><![CDATA[RGF0ZQ==]]></property><property name="content-type" fullname="$response-&gt;headerNames[&quot;content-type&quot;]" type="string" size="12" encoding="base64"><![CDATA[Q29udGVudC1UeXBl]]></property><property name="transfer-encoding" fullname="$response-&gt;headerNames[&quot;transfer-encoding&quot;]" type="string" size="17" encoding="base64"><![CDATA[VHJhbnNmZXItRW5jb2Rpbmc=]]></property><property name="connection" fullname="$response-&gt;headerNames[&quot;connection&quot;]" type="string" size="10" encoding="base64"><![CDATA[Q29ubmVjdGlvbg==]]></property><property name="x-powered-by" fullname="$response-&gt;headerNames[&quot;x-powered-by&quot;]" type="string" size="12" encoding="base64"><![CDATA[WC1Qb3dlcmVkLUJ5]]></property><property name="x-ratelimit-limit" fullname="$response-&gt;headerNames[&quot;x-ratelimit-limit&quot;]" type="string" size="17" encoding="base64"><![CDATA[WC1SYXRlbGltaXQtTGltaXQ=]]></property><property name="x-ratelimit-remaining" fullname="$response-&gt;headerNames[&quot;x-ratelimit-remaining&quot;]" type="string" size="21" encoding="base64"><![CDATA[WC1SYXRlbGltaXQtUmVtYWluaW5n]]></property><property name="x-ratelimit-reset" fullname="$response-&gt;headerNames[&quot;x-ratelimit-reset&quot;]" type="string" size="17" encoding="base64"><![CDATA[WC1SYXRlbGltaXQtUmVzZXQ=]]></property><property name="vary" fullname="$response-&gt;headerNames[&quot;vary&quot;]" type="string" size="4" encoding="base64"><![CDATA[VmFyeQ==]]></property><property name="access-control-allow-credentials" fullname="$response-&gt;headerNames[&quot;access-control-allow-credentials&quot;]" type="string" size="32" encoding="base64"><![CDATA[QWNjZXNzLUNvbnRyb2wtQWxsb3ctQ3JlZGVudGlhbHM=]]></property><property name="cache-control" fullname="$response-&gt;headerNames[&quot;cache-control&quot;]" type="string" size="13" encoding="base64"><![CDATA[Q2FjaGUtQ29udHJvbA==]]></property><property name="pragma" fullname="$response-&gt;headerNames[&quot;pragma&quot;]" type="string" size="6" encoding="base64"><![CDATA[UHJhZ21h]]></property><property name="expires" fullname="$response-&gt;headerNames[&quot;expires&quot;]" type="string" size="7" encoding="base64"><![CDATA[RXhwaXJlcw==]]></property><property name="x-content-type-options" fullname="$response-&gt;headerNames[&quot;x-content-type-options&quot;]" type="string" size="22" encoding="base64"><![CDATA[WC1Db250ZW50LVR5cGUtT3B0aW9ucw==]]></property><property name="etag" fullname="$response-&gt;headerNames[&quot;etag&quot;]" type="string" size="4" encoding="base64"><![CDATA[RXRhZw==]]></property><property name="via" fullname="$response-&gt;headerNames[&quot;via&quot;]" type="string" size="3" encoding="base64"><![CDATA[Vmlh]]></property><property name="cf-cache-status" fullname="$response-&gt;headerNames[&quot;cf-cache-status&quot;]" type="string" size="15" encoding="base64"><![CDATA[Q0YtQ2FjaGUtU3RhdHVz]]></property><property name="age" fullname="$response-&gt;headerNames[&quot;age&quot;]" type="string" size="3" encoding="base64"><![CDATA[QWdl]]></property><property name="expect-ct" fullname="$response-&gt;headerNames[&quot;expect-ct&quot;]" type="string" size="9" encoding="base64"><![CDATA[RXhwZWN0LUNU]]></property><property name="report-to" fullname="$response-&gt;headerNames[&quot;report-to&quot;]" type="string" size="9" encoding="base64"><![CDATA[UmVwb3J0LVRv]]></property><property name="nel" fullname="$response-&gt;headerNames[&quot;nel&quot;]" type="string" size="3" encoding="base64"><![CDATA[TkVM]]></property><property name="server" fullname="$response-&gt;headerNames[&quot;server&quot;]" type="string" size="6" encoding="base64"><![CDATA[U2VydmVy]]></property><property name="cf-ray" fullname="$response-&gt;headerNames[&quot;cf-ray&quot;]" type="string" size="6" encoding="base64"><![CDATA[Q0YtUkFZ]]></property><property name="alt-svc" fullname="$response-&gt;headerNames[&quot;alt-svc&quot;]" type="string" size="7" encoding="base64"><![CDATA[YWx0LXN2Yw==]]></property></property></response>
+
+[8] [Step Debug] <- property_get -i 87 -d 0 -c 0 -n "$response->stream"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="87"><property name="$response-&gt;stream" fullname="$response-&gt;stream" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7" page="0" pagesize="32"><property name="stream" fullname="$response-&gt;stream-&gt;stream" facet="private" type="resource"><![CDATA[resource id='45' type='stream']]></property><property name="size" fullname="$response-&gt;stream-&gt;size" facet="private" type="null"></property><property name="seekable" fullname="$response-&gt;stream-&gt;seekable" facet="private" type="bool"><![CDATA[1]]></property><property name="readable" fullname="$response-&gt;stream-&gt;readable" facet="private" type="bool"><![CDATA[1]]></property><property name="writable" fullname="$response-&gt;stream-&gt;writable" facet="private" type="bool"><![CDATA[1]]></property><property name="uri" fullname="$response-&gt;stream-&gt;uri" facet="private" type="string" size="10" encoding="base64"><![CDATA[cGhwOi8vdGVtcA==]]></property><property name="customMetadata" fullname="$response-&gt;stream-&gt;customMetadata" facet="private" type="array" children="0" numchildren="0"></property></property></response>
+
+[8] [Step Debug] <- step_over -i 88
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="step_over" transaction_id="88" status="break" reason="ok"><xdebug:message filename="file:///var/www/html/index.php" lineno="24"></xdebug:message></response>
+
+[8] [Step Debug] <- stack_get -i 89
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stack_get" transaction_id="89"><stack where="{main}" level="0" type="file" filename="file:///var/www/html/index.php" lineno="24"></stack></response>
+
+[8] [Step Debug] <- context_names -i 90 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="90"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- context_get -i 91 -d 0 -c 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_get" transaction_id="91" context="0"><property name="$__composer_autoload_files" fullname="$__composer_autoload_files" type="array" children="1" numchildren="4" page="0" pagesize="32"><property name="7b11c4dc42b3b3023073cb14e519683c" fullname="$__composer_autoload_files[&quot;7b11c4dc42b3b3023073cb14e519683c&quot;]" type="bool"><![CDATA[1]]></property><property name="c964ee0ededf28c96ebd9db5099ef910" fullname="$__composer_autoload_files[&quot;c964ee0ededf28c96ebd9db5099ef910&quot;]" type="bool"><![CDATA[1]]></property><property name="6e3fae29631ef280660b3cdad06f25a8" fullname="$__composer_autoload_files[&quot;6e3fae29631ef280660b3cdad06f25a8&quot;]" type="bool"><![CDATA[1]]></property><property name="37a3dc5111fe8f707ab4c132ef1dbc62" fullname="$__composer_autoload_files[&quot;37a3dc5111fe8f707ab4c132ef1dbc62&quot;]" type="bool"><![CDATA[1]]></property></property><property name="$body" fullname="$body" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7" page="0" pagesize="32"><property name="stream" fullname="$body-&gt;stream" facet="private" type="resource"><![CDATA[resource id='45' type='stream']]></property><property name="size" fullname="$body-&gt;size" facet="private" type="null"></property><property name="seekable" fullname="$body-&gt;seekable" facet="private" type="bool"><![CDATA[1]]></property><property name="readable" fullname="$body-&gt;readable" facet="private" type="bool"><![CDATA[1]]></property><property name="writable" fullname="$body-&gt;writable" facet="private" type="bool"><![CDATA[1]]></property><property name="uri" fullname="$body-&gt;uri" facet="private" type="string" size="10" encoding="base64"><![CDATA[cGhwOi8vdGVtcA==]]></property><property name="customMetadata" fullname="$body-&gt;customMetadata" facet="private" type="array" children="0" numchildren="0"></property></property><property name="$client" fullname="$client" type="object" classname="GuzzleHttp\Client" children="1" numchildren="1" page="0" pagesize="32"><property name="config" fullname="$client-&gt;config" facet="private" type="array" children="1" numchildren="9"></property></property><property name="$response" fullname="$response" type="object" classname="GuzzleHttp\Psr7\Response" children="1" numchildren="6" page="0" pagesize="32"><property name="reasonPhrase" fullname="$response-&gt;reasonPhrase" facet="private" type="string" size="2" encoding="base64"><![CDATA[T0s=]]></property><property name="statusCode" fullname="$response-&gt;statusCode" facet="private" type="int"><![CDATA[200]]></property><property name="headers" fullname="$response-&gt;headers" facet="private" type="array" children="1" numchildren="24"></property><property name="headerNames" fullname="$response-&gt;headerNames" facet="private" type="array" children="1" numchildren="24"></property><property name="protocol" fullname="$response-&gt;protocol" facet="private" type="string" size="3" encoding="base64"><![CDATA[MS4x]]></property><property name="stream" fullname="$response-&gt;stream" facet="private" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7"></property></property><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[8] [Step Debug] <- context_names -i 92 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="92"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 93 -d 0 -c 0 -n "$body"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="93"><property name="$body" fullname="$body" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7" page="0" pagesize="32"><property name="stream" fullname="$body-&gt;stream" facet="private" type="resource"><![CDATA[resource id='45' type='stream']]></property><property name="size" fullname="$body-&gt;size" facet="private" type="null"></property><property name="seekable" fullname="$body-&gt;seekable" facet="private" type="bool"><![CDATA[1]]></property><property name="readable" fullname="$body-&gt;readable" facet="private" type="bool"><![CDATA[1]]></property><property name="writable" fullname="$body-&gt;writable" facet="private" type="bool"><![CDATA[1]]></property><property name="uri" fullname="$body-&gt;uri" facet="private" type="string" size="10" encoding="base64"><![CDATA[cGhwOi8vdGVtcA==]]></property><property name="customMetadata" fullname="$body-&gt;customMetadata" facet="private" type="array" children="0" numchildren="0"></property></property></response>
+
+[8] [Step Debug] <- context_names -i 94 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="94"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 95 -d 0 -c 0 -n "$body"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="95"><property name="$body" fullname="$body" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7" page="0" pagesize="32"><property name="stream" fullname="$body-&gt;stream" facet="private" type="resource"><![CDATA[resource id='45' type='stream']]></property><property name="size" fullname="$body-&gt;size" facet="private" type="null"></property><property name="seekable" fullname="$body-&gt;seekable" facet="private" type="bool"><![CDATA[1]]></property><property name="readable" fullname="$body-&gt;readable" facet="private" type="bool"><![CDATA[1]]></property><property name="writable" fullname="$body-&gt;writable" facet="private" type="bool"><![CDATA[1]]></property><property name="uri" fullname="$body-&gt;uri" facet="private" type="string" size="10" encoding="base64"><![CDATA[cGhwOi8vdGVtcA==]]></property><property name="customMetadata" fullname="$body-&gt;customMetadata" facet="private" type="array" children="0" numchildren="0"></property></property></response>
+
+[8] [Step Debug] <- context_names -i 96 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="96"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 97 -d 0 -c 0 -n "$response"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="97"><property name="$response" fullname="$response" type="object" classname="GuzzleHttp\Psr7\Response" children="1" numchildren="6" page="0" pagesize="32"><property name="reasonPhrase" fullname="$response-&gt;reasonPhrase" facet="private" type="string" size="2" encoding="base64"><![CDATA[T0s=]]></property><property name="statusCode" fullname="$response-&gt;statusCode" facet="private" type="int"><![CDATA[200]]></property><property name="headers" fullname="$response-&gt;headers" facet="private" type="array" children="1" numchildren="24"></property><property name="headerNames" fullname="$response-&gt;headerNames" facet="private" type="array" children="1" numchildren="24"></property><property name="protocol" fullname="$response-&gt;protocol" facet="private" type="string" size="3" encoding="base64"><![CDATA[MS4x]]></property><property name="stream" fullname="$response-&gt;stream" facet="private" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7"></property></property></response>
+
+[8] [Step Debug] <- property_get -i 98 -d 0 -c 0 -n "$response->stream"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="98"><property name="$response-&gt;stream" fullname="$response-&gt;stream" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7" page="0" pagesize="32"><property name="stream" fullname="$response-&gt;stream-&gt;stream" facet="private" type="resource"><![CDATA[resource id='45' type='stream']]></property><property name="size" fullname="$response-&gt;stream-&gt;size" facet="private" type="null"></property><property name="seekable" fullname="$response-&gt;stream-&gt;seekable" facet="private" type="bool"><![CDATA[1]]></property><property name="readable" fullname="$response-&gt;stream-&gt;readable" facet="private" type="bool"><![CDATA[1]]></property><property name="writable" fullname="$response-&gt;stream-&gt;writable" facet="private" type="bool"><![CDATA[1]]></property><property name="uri" fullname="$response-&gt;stream-&gt;uri" facet="private" type="string" size="10" encoding="base64"><![CDATA[cGhwOi8vdGVtcA==]]></property><property name="customMetadata" fullname="$response-&gt;stream-&gt;customMetadata" facet="private" type="array" children="0" numchildren="0"></property></property></response>
+
+[8] [Step Debug] <- context_names -i 99 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="99"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 100 -d 0 -c 0 -n "$var"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="100"><property name="$var" fullname="$var" type="string" size="11" encoding="base64"><![CDATA[SGVsbG8gV29ybGQ=]]></property></response>
+
+[8] [Step Debug] <- context_names -i 101 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="101"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 102 -d 0 -c 0 -n "$response"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="102"><property name="$response" fullname="$response" type="object" classname="GuzzleHttp\Psr7\Response" children="1" numchildren="6" page="0" pagesize="32"><property name="reasonPhrase" fullname="$response-&gt;reasonPhrase" facet="private" type="string" size="2" encoding="base64"><![CDATA[T0s=]]></property><property name="statusCode" fullname="$response-&gt;statusCode" facet="private" type="int"><![CDATA[200]]></property><property name="headers" fullname="$response-&gt;headers" facet="private" type="array" children="1" numchildren="24"></property><property name="headerNames" fullname="$response-&gt;headerNames" facet="private" type="array" children="1" numchildren="24"></property><property name="protocol" fullname="$response-&gt;protocol" facet="private" type="string" size="3" encoding="base64"><![CDATA[MS4x]]></property><property name="stream" fullname="$response-&gt;stream" facet="private" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7"></property></property></response>
+
+[8] [Step Debug] <- context_names -i 103 -d 0
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="context_names" transaction_id="103"><context name="Locals" id="0"></context><context name="Superglobals" id="1"></context><context name="User defined constants" id="2"></context></response>
+
+[8] [Step Debug] <- property_get -i 104 -d 0 -c 0 -n "$body"
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="104"><property name="$body" fullname="$body" type="object" classname="GuzzleHttp\Psr7\Stream" children="1" numchildren="7" page="0" pagesize="32"><property name="stream" fullname="$body-&gt;stream" facet="private" type="resource"><![CDATA[resource id='45' type='stream']]></property><property name="size" fullname="$body-&gt;size" facet="private" type="null"></property><property name="seekable" fullname="$body-&gt;seekable" facet="private" type="bool"><![CDATA[1]]></property><property name="readable" fullname="$body-&gt;readable" facet="private" type="bool"><![CDATA[1]]></property><property name="writable" fullname="$body-&gt;writable" facet="private" type="bool"><![CDATA[1]]></property><property name="uri" fullname="$body-&gt;uri" facet="private" type="string" size="10" encoding="base64"><![CDATA[cGhwOi8vdGVtcA==]]></property><property name="customMetadata" fullname="$body-&gt;customMetadata" facet="private" type="array" children="0" numchildren="0"></property></property></response>
+
+[8] [Step Debug] <- run -i 105
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="run" transaction_id="105" status="stopping" reason="ok"></response>
+
+[8] [Step Debug] <- stop -i 106
+[8] [Step Debug] -> <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug" command="stop" transaction_id="106" status="stopped" reason="ok"></response>
+
+[8] Log closed at 2022-03-18 15:40:46.704867
+
+[16] Log opened at 2022-03-18 15:43:32.421430
+[16] [Step Debug] INFO: Checking remote connect back address.
+[16] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[16] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[16] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[16] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[16] Log closed at 2022-03-18 15:43:50.831184
+
+[255] Log opened at 2022-03-18 15:47:27.196689
+[255] [Step Debug] INFO: Checking remote connect back address.
+[255] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[255] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[255] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[255] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[255] Log closed at 2022-03-18 15:47:27.538134
+
+[275] Log opened at 2022-03-18 15:48:27.740823
+[275] [Step Debug] INFO: Checking remote connect back address.
+[275] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[275] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[275] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[275] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[275] Log closed at 2022-03-18 15:57:38.130224
+
+[7] Log opened at 2022-03-18 15:57:53.303445
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] [Step Debug] INFO: Checking remote connect back address.
+[7] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[7] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[7] [Step Debug] INFO: Client host discovered through HTTP header, connecting to 172.20.0.1:9003.
+[7] [Step Debug] WARN: Creating socket for '172.20.0.1:9003', poll success, but error: Operation now in progress (29).
+[7] [Step Debug] WARN: Could not connect to client host discovered through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[7] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 172.20.0.1:9003 (from REMOTE_ADDR HTTP header), 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[7] Log closed at 2022-03-18 15:57:54.837758
+
+[1974] Log opened at 2022-03-18 15:58:52.134923
+[1974] [Step Debug] INFO: Checking remote connect back address.
+[1974] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[1974] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[1974] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[1974] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[1974] Log closed at 2022-03-18 15:58:52.698542
+
+[1979] Log opened at 2022-03-18 16:01:22.427626
+[1979] [Step Debug] INFO: Checking remote connect back address.
+[1979] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[1979] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[1979] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[1979] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[1979] Log closed at 2022-03-18 16:01:23.170048
+
+[1984] Log opened at 2022-03-18 16:01:48.825962
+[1984] [Step Debug] INFO: Checking remote connect back address.
+[1984] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[1984] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[1984] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[1984] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[1984] Log closed at 2022-03-18 16:01:49.745037
+
+[1989] Log opened at 2022-03-18 16:02:12.036111
+[1989] [Step Debug] INFO: Checking remote connect back address.
+[1989] [Step Debug] INFO: Checking header 'HTTP_X_FORWARDED_FOR'.
+[1989] [Step Debug] INFO: Checking header 'REMOTE_ADDR'.
+[1989] [Step Debug] WARN: Could not discover client host through HTTP headers, connecting to configured address/port: 10.10.54.230:9003. :-|
+[1989] [Step Debug] ERR: Time-out connecting to debugging client, waited: 200 ms. Tried: 10.10.54.230:9003 (fallback through xdebug.client_host/xdebug.client_port) :-(
+[1989] Log closed at 2022-03-18 16:02:12.948454
+

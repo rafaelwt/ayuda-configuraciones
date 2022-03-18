@@ -1,0 +1,20 @@
+{
+    "name": "root/html",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Root\\Html\\": "/"
+        }
+    },
+    "authors": [
+        {
+            "name": "rwt"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    }
+}
