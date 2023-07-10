@@ -1,8 +1,12 @@
 ### Guia de configuracion para un servidor ubuntu
 [Configurar Ip](https://linuxize.com/post/how-to-configure-static-ip-address-on-ubuntu-20-04/#:~:text=Configuring%20Static%20IP%20address%20on%20Ubuntu%20Desktop,-Setting%20up%20a&text=Depending%20on%20the%20interface%20you,IP%20address%2C%20Netmask%20and%20Gateway.)
-1. Activar ssh
+1. Instalar neofetch
+   > sudo apt update && sudo apt upgrade -y
+   > sudo apt install neofetch -y
+   > neofetch --version
+2. Activar ssh
    > sudo apt install openssh-server
-2. Instalar Servidor FTP
+1. Instalar Servidor FTP
    1. >sudo apt update
    2. > sudo apt install vsftpd
 ####Verificar el servicio
