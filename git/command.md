@@ -23,3 +23,21 @@ git branch -d <branch_name> # Eliminar rama
 git checkout main
 git merge <branch_name>
 ```
+
+### Subir la rama creada al github
+
+```bash
+git push origin <branch_name>
+```
+
+### Para borrar una rama en el repositorio remoto
+
+```bash
+git push origin --delete <branch_name>
+```
+
+### Listar ramas remotas
+
+```bash
+git branch -r
+```
