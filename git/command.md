@@ -15,7 +15,13 @@ git checkout <branch_name> # Cambiar a rama
 git checkout -b <branch_name> # Crear y cambiar a rama
 git merge <branch_name> # Fusionar rama
 git branch -d <branch_name> # Eliminar rama
+
+## usando switch
+git switch <branch_name> # Cambiar a rama
+git switch -c <branch_name>  # Crear y cambiar a rama
 ```
+
+
 
 ### Para fusionar una rama con la rama principal
 
