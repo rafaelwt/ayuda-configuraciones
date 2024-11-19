@@ -1,0 +1,20 @@
+services:
+  nats:
+    image: nats:latest
+    command:
+      - "--jetstream"
+      - "--server_name"
+      - "nats-server"
+      - "--store_dir"
+      - "/data"
+      - "--http_port"
+      - "8222"
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    volumes:
+      - ./nats-data:/data
+      - ./nats-config:/config
+volumes:
+  nats-data:
+  nats-config:
