@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "SQLServer2019!"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+      MSSQL_TCP_PORT: "1433"
+      MSSQL_MEMORY_LIMIT_MB: "2048"
+      MSSQL_ENABLE_HADR: "0"
+      MSSQL_AGENT_ENABLED: "true"
+      TZ: "UTC"
+      MSSQL_ENCRYPT: "0"
+      MSSQL_SSL_CERT_PATH: ""  # Deshabilita la verificación del certificado
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+      - ./backup:/var/opt/mssql/backup:rw
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "SQLServer2019!" -C -N -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  sqldata:
+    driver: local
