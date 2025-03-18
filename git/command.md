@@ -47,3 +47,12 @@ git push origin --delete <branch_name>
 ```bash
 git branch -r
 ```
+
+
+### Dejar de rastrear un archivo
+
+```bash
+git rm --cached <file>
+```
+
+
