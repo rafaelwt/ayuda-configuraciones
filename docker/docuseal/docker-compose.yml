@@ -1,0 +1,13 @@
+services:
+  app:
+    image: docuseal/docuseal:latest
+    ports:
+      - 8050:3000
+    volumes:
+      - ./docuseal:/data/docuseal
+networks:
+  app-network:
+    driver: bridge
+  pap-octane-network:
+    external: true
+    name: pap-network
