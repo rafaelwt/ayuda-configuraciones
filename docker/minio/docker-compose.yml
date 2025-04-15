@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"   # API S3 compatible
+      - "9001:9001"   # Consola web de administración
+    volumes:
+      - ./minio/data:/data
+      - ./minio/config:/root/.minio
+    environment:
+      MINIO_ROOT_USER: minioadmin     # cámbialo por algo más seguro
+      MINIO_ROOT_PASSWORD: minioadmin   # cámbialo por una buena contraseña
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+networks:
+  default:
+    name: minio_network

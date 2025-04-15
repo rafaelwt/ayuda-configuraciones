@@ -10,7 +10,7 @@ sudo apt install build-essential libssl-dev libreadline-dev zlib1g-dev
 
 ---
 
-## 💎 Paso 2: Instala `rbenv` para gestionar versiones de Ruby
+## 💎 Paso 2: Instala `rbenv` para gestionar versiones de Ruby se puede seleccionar todo
 
 ```bash
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
