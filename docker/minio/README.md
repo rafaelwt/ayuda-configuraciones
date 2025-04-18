@@ -82,3 +82,37 @@ location / {
 	chunked_transfer_encoding off;
 }
 ```
+### Para el acceso a los archivos de minio 
+```nginx
+# Excluir el HTML del proxy
+location = /link-expirado.html {
+	root /var/www/vhosts/domino.net/cloud/httpdocs;
+	index link-expirado.html;
+}
+
+# Bloquea el acceso directo a la raíz y redirige al HTML personalizado
+location = / {
+	return 302 /link-expirado.html;
+}
+
+# Configuración para proxy a MinIO (como ya tienes)
+location / {
+	proxy_pass http://localhost:9000;
+	proxy_set_header Host $http_host;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_set_header X-Forwarded-Proto $scheme;
+
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection "upgrade";
+
+	client_max_body_size 0;
+	proxy_buffering off;
+	proxy_request_buffering off;
+	chunked_transfer_encoding off;
+
+	error_page 403 = /link-expirado.html;
+	error_page 404 = /link-expirado.html;
+}
+```
