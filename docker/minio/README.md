@@ -84,18 +84,18 @@ location / {
 ```
 ### Para el acceso a los archivos de minio 
 ```nginx
-# Excluir el HTML del proxy
-location = /link-expirado.html {
-	root /var/www/vhosts/domino.net/cloud/httpdocs;
-	index link-expirado.html;
+# Permite acceder a /link-expirado como alias de /link-expirado.html
+location /link-expirado {
+	root /var/www/vhosts/pagoalpaso247.net/cloud/httpdocs;
+	try_files /link-expirado.html =404;
 }
 
-# Bloquea el acceso directo a la raíz y redirige al HTML personalizado
+# Redirección si alguien entra directamente a /
 location = / {
-	return 302 /link-expirado.html;
+	return 302 /link-expirado;
 }
 
-# Configuración para proxy a MinIO (como ya tienes)
+# Proxy para MinIO en puerto 9000
 location / {
 	proxy_pass http://localhost:9000;
 	proxy_set_header Host $http_host;
@@ -112,7 +112,9 @@ location / {
 	proxy_request_buffering off;
 	chunked_transfer_encoding off;
 
-	error_page 403 = /link-expirado.html;
-	error_page 404 = /link-expirado.html;
+	# Manejo de errores usando /link-expirado (sin .html)
+	error_page 403 = /link-expirado;
+	error_page 404 = /link-expirado;
 }
+
 ```
