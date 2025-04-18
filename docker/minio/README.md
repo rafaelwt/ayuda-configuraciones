@@ -50,3 +50,35 @@ Los datos y la configuración se almacenan en tu máquina local en las siguiente
 Estas carpetas se crearán automáticamente cuando inicies el servicio.
 
 Si deseas cambiar la ubicación, modifica las rutas en la sección `volumes:` del docker-compose.yml.
+
+
+### Configuracion en plesk 
+
+desactivar para Peticiones de proxys Nginx a Apache Desactívelo para dejar de usar Apache.
+configuración nginx
+[] Modo proxy   // no debe estar seleccionado 
+
+luego guardar y salir 
+
+INGREDAR NUEVAMENTE 
+
+y en directivas adicionales de nginx agregar lo siguiente 
+
+```nginx   
+location / {
+	proxy_pass http://localhost:9001;
+	proxy_set_header Host $http_host;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_set_header X-Forwarded-Proto $scheme;
+
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection "upgrade";
+
+	client_max_body_size 0;
+	proxy_buffering off;
+	proxy_request_buffering off;
+	chunked_transfer_encoding off;
+}
+```
