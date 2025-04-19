@@ -84,18 +84,17 @@ location / {
 ```
 ### Para el acceso a los archivos de minio 
 ```nginx
-# Permite acceder a /link-expirado como alias de /link-expirado.html
-location /link-expirado {
+# Página personalizada para errores
+location /link-invalido {
 	root /var/www/vhosts/pagoalpaso247.net/cloud/httpdocs;
-	try_files /link-expirado.html =404;
+	try_files /link-invalido.html =404;
 }
-
 # Redirección si alguien entra directamente a /
 location = / {
-	return 302 /link-expirado;
+	return 302 /link-invalido ;
 }
 
-# Proxy para MinIO en puerto 9000
+# Proxy MinIO
 location / {
 	proxy_pass http://localhost:9000;
 	proxy_set_header Host $http_host;
@@ -112,9 +111,11 @@ location / {
 	proxy_request_buffering off;
 	chunked_transfer_encoding off;
 
-	# Manejo de errores usando /link-expirado (sin .html)
-	error_page 403 = /link-expirado;
-	error_page 404 = /link-expirado;
+	# Importante para capturar errores del backend
+	proxy_intercept_errors on;
+
+	# Redirecciones de errores
+	error_page 400 401 403 404 405 408 413 429 500 502 503 504 = /link-invalido;
 }
 
 ```
