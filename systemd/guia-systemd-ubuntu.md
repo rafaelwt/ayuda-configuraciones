@@ -37,9 +37,69 @@ sudo chown <usuario>:<grupo> /opt/<appname>/<appname>
 sudo chown <usuario>:<grupo> /opt/<appname>/
 ```
 
+## 👤 1.1. Crear un usuario específico para servicios
 
+Es una buena práctica crear un usuario específico para ejecutar servicios, en lugar de usar root u otros usuarios del sistema. Esto mejora la seguridad y el aislamiento.
 
+```bash
+# Crear usuario de sistema sin directorio home y sin shell de login
+sudo useradd -r -s /bin/false svcapps
 
+# Verificar que el usuario se ha creado correctamente
+id svcapps
+```
+
+Para crear un usuario con diferentes opciones:
+
+```bash
+# Crear usuario con directorio home
+sudo useradd -m -s /bin/bash svcapps
+
+# Asignar contraseña (opcional, solo si necesitas iniciar sesión con este usuario)
+sudo passwd svcapps
+
+# Agregar el usuario a grupos adicionales (si es necesario)
+sudo usermod -aG sudo,adm svcapps
+```
+
+### Usuario para acceso por Cockpit y FTP
+
+Si necesitas un usuario que pueda iniciar sesión y utilizar herramientas como Cockpit y FTP, debes crear un usuario completo:
+
+```bash
+# Crear usuario con directorio home y shell bash (permite login)
+sudo useradd -m -s /bin/bash svcapps
+
+# Asignar contraseña (requerido para login)
+sudo passwd svcapps
+
+# Agregar el usuario a grupos necesarios para administración
+sudo usermod -aG sudo svcapps
+
+# Para FTP, agregar al grupo www-data (si usas vsftpd o similar)
+sudo usermod -aG www-data svcapps
+
+# Para Cockpit, asegurar que esté en grupo sudo o admin
+sudo usermod -aG cockpit-admin svcapps  # si existe este grupo
+```
+
+Para habilitar acceso SSH para este usuario (si es necesario):
+
+```bash
+# Asegurar que SSH esté instalado
+sudo apt install openssh-server -y
+
+# Iniciar y habilitar SSH
+sudo systemctl enable ssh
+sudo systemctl start ssh
+```
+
+Después de crear el usuario, puedes usarlo en la configuración del servicio en el archivo .service:
+
+```bash
+User=svcapps
+Group=svcapps
+```
 
 Los servicios personalizados se definen en:
 
