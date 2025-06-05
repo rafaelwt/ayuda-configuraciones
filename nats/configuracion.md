@@ -1,3 +1,22 @@
+
+
+#### 1. Crea un usuario dedicado para NATS
+
+
+```bash
+sudo useradd --system --no-create-home --shell /usr/sbin/nologin nats
+sudo mkdir -p /etc/nats
+sudo chown -R nats:nats /etc/nats
+```
+
+crear /var/lib/nats para datos o logs:
+
+```bash
+sudo mkdir -p /var/lib/nats
+sudo chown -R nats:nats /var/lib/nats
+```
+
+
 ### Configurar para iniciar con systemd
 
 ```bash
@@ -39,3 +58,4 @@ journalctl -u nats
 ```bash
 sudo systemctl daemon-reload
 ```
+
