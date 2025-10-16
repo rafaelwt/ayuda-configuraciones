@@ -1,0 +1,44 @@
+﻿# router-redirect
+
+# para que no ingrese al modulo padre con la pantalla en blanco  
+
+ const routes: Routes = [{
+         path: '',
+         canActivate: [AuthGuard],
+         children: [{
+               path: '',
+               redirectTo: '/dashboard',
+               pathMatch: 'full'
+            },
+            {
+               path: 'dashboard',
+               component: DashboardComponent,
+               children: [{
+                     path: '',
+                     redirectTo: 'profile'
+                  },
+                  {
+                     path: 'profile',
+                     component: ProfileComponent
+                  },
+                  {
+                     path: 'user-management',
+                     component: UserManagementComponent
+                  },
+                  {
+                     path: 'role-management',
+                     component: RoleManagementComponent
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         path: 'login',
+         component: LoginComponent
+      },
+      {
+         path: 'token-verify',
+         component: TwoFactorVerificationComponent
+      }
+   ];

@@ -1,0 +1,8 @@
+﻿# apuntes
+
+# ejecutar composer
+
+composer init 
+
+# ejecutar test
+./vendor/bin/phpunit tests

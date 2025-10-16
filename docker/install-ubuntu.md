@@ -1,0 +1,5 @@
+﻿# install-ubuntu
+
+https://linuxhostsupport.com/blog/how-to-install-and-configure-docker-compose-on-ubuntu-20-04/
+
+https://noviello.it/es/como-instalar-y-configurar-docker-en-ubuntu-20-04-lts/

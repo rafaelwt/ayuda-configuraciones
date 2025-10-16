@@ -1,9 +1,0 @@
-# Descomprimir archivo tar sin crear carpeta
-tar xvf group.tar --strip-components 1
-
-# Descomprimir archivo tar sin crear carpeta en otro folder
-tar xvf group.tar -C /var/www --strip-components 1
-
-# Borrar un directorio con todos sus archivos
-rm -rfv /home/vivek/data/
-

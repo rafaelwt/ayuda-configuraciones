@@ -1,0 +1,41 @@
+﻿# php-debug
+
+----XAMP--------------------
+
+https://xdebug.org/wizard.php  --> pegar la el contenido de phpinfo()
+
+But here are the instructions anyway:
+PASO 1
+Download php_xdebug-2.7.2-7.2-vc15.dll
+Move the downloaded file to C:\xampp\php\ext
+PASO 2
+Update C:\xampp\php\php.ini and change the line
+PASO 3  agregar estas lineas en C:\xampp\php\php.ini
+zend_extension = C:\xampp\php\ext\php_xdebug-2.7.2-7.2-vc15.dll
+xdebug.remote_enable = 1
+xdebug.remote_autostart = 1
+xdebug.remote.port=9000
+
+
+Restart the webserver
+
+
+[xdebug]
+ if the version of the xdebug.dll is 3, replaced as below 
+ 
+ zend_extension = "C:\xampp\php\ext\php_xdebug-3.2.2â€“8.0-vs16-x86_64.dll"
+ xdebug.mode = debug
+ xdebug.start_with_request = yes
+ 
+ if the version of the xdebug.dll is 2, replaced as below 
+ 
+ [xdebug]
+ zend_extension = "C:\xampp\php\ext\${name}.dll"
+ xdebug.remote_enable = 1
+ xdebug.remote_autostart = 1
+ 
+ ### visual code add 
+ https://medium.com/@asd66998854/php-code-debug-using-xampp-on-vscode-editor-97c5f6cc4487
+"php.validate.executablePath": "C:\\xampp\\php\\php.exe",
+"php.debug.executablePath": "C:\\xampp\\php\\php.exe"
+

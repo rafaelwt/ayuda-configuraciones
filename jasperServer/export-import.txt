@@ -1,4 +1,0 @@
-# Ubicarce dentro de la carpeta  /opt/jasperreports-server-cp-7.5.0/buildomatic 
-# Ejecutar el siguiente comando genera un key secret que se usara para importar
-# Version de jasper 7.5 en adelante
-./js-export.sh --everything /public --output-zip backup.zip  --keyalias deprecatedImportExportEncSecret --genkey

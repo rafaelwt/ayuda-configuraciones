@@ -1,0 +1,108 @@
+﻿# publishHostAspCoreasWindowsService
+
+// NUEVA FORMAAAAA
+https://dev.to/sumitkharche/how-to-host-asp-net-core-3-1-web-applications-as-windows-service-52k2
+============ asp.net core 3.1 ==========================
+
+1. Instalar paquete especifico de 3.1 para publicar como servicio de windows
+
+	dotnet add package Microsoft.Extensions.Hosting.WindowsServices --version 3.1.13
+
+2. Entrar a Program.cs y agregar .UseWindowsService(); en CreateHostBuilder
+
+	
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                }).UseWindowsService();
+
+3. Ejecutar comando para que se publique como servicio de windows
+	
+	dotnet publish -c Release -r win-x64 --self-contained
+
+
+
+
+
+
+https://gunnarpeipman.com/aspnet-core-windows-service/
+============ asp.net core 2.x y 3.1 ==========================
+
+1. agregar el paquete nuget :  Microsoft.AspNetCore.Hosting.WindowsServices
+
+	dotnet add package Microsoft.AspNetCore.Hosting.WindowsServices --version 3.1.11
+
+2. modificar las instancias del appsettings.json (en la clase conexion por ejemplo)
+	
+        public c_conexion()
+        {
+            // appSettingsInstance = new ConfigurationBuilder()
+            //                         .SetBasePath(Directory.GetCurrentDirectory())
+            //                         .AddJsonFile("appsettings.json").Build();
+            appSettingsInstance = new ConfigurationBuilder()
+                                    .AddJsonFile("appsettings.json").Build();
+        }
+
+
+2. en la clase: Program.cs modicar el metodo main: 
+
+
+       public static void Main(string[] args)
+        {
+            //CreateHostBuilder(args).Build().Run();
+
+
+            #region CORRER COMO SERVICIO
+
+            var isService = !(Debugger.IsAttached || args.Contains("--console"));
+            var pathToContentRoot = Directory.GetCurrentDirectory();
+            var webHostArgs = args.Where(arg => arg != "--console").ToArray();
+
+            if (isService)
+            {
+                var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
+                pathToContentRoot = Path.GetDirectoryName(pathToExe);
+            }
+
+            var host = WebHost.CreateDefaultBuilder(webHostArgs)
+                .UseContentRoot(pathToContentRoot)
+                .UseUrls("http://0.0.0.0:5010")
+                .UseStartup<Startup>()
+                .Build();
+
+            if (isService)
+            {
+                host.RunAsService();
+            }
+            else
+            {
+                host.Run();
+            }
+            #endregion 
+        }
+
+3. modificar  el archivo [nombreProyecto].csproj  y agregar:  
+
+    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
+
+	agregar al final de : 
+
+	<PropertyGroup>
+    	  <TargetFramework>netcoreapp3.1</TargetFramework>
+    	  <RootNamespace>migracionBAS_core</RootNamespace>
+    	  <RuntimeIdentifier>win7-x64</RuntimeIdentifier>  <!-- agregar eso  -->
+  	</PropertyGroup>
+ 
+4.-  Generar el compilador con la opcion publicar deber generar un archivo .exe
+
+5. crear el servicio en windows
+
+abrir la consola en modo administrador
+a) crear servicio
+	sc create [nombreService] binPath= "D:\user\[nombreProyecto].exe"
+b) iniciar servicio
+	sc start [nombreService]
+c) detener servicio
+	sc stop [nombreService]

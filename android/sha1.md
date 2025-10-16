@@ -1,0 +1,7 @@
+﻿# sha1
+
+==== windows 10 ========= ejecutar en powershell o gitbash , requisido java jdk
+
+keytool -list -v -keystore "C:\Users\[username]\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
+
+
