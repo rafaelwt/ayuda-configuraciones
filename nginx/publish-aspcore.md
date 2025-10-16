@@ -3,7 +3,7 @@ https://www.campusmvp.es/recursos/post/como-configurar-asp-net-core-2-1-en-linux
 https://medium.com/@setu677/how-to-host-asp-net-core-on-linux-using-nginx-85339560e929
 
 // ========================================
-Correr directamente el dll ir a la carpeta donde esta el proyecto y ejecutar el siguiente comando
+### Correr directamente el dll ir a la carpeta donde esta el proyecto y ejecutar el siguiente comando
 1.- dotnet CoreRESTServer.dll
 Asisgnar perimisos
 2.- chmod u+x CoreRESTServer.dll
@@ -25,8 +25,9 @@ También puedes comprobar qué aplicaciones web se están ejecutando usando:
 
 ps -A all | grep dotnet
 
-//===========Proxy reverso nginx =================
+## ===========Proxy reverso nginx =================
 agregar la siguiente linea en el archivo nginx config
+```bash
   server {
     listen 8080;
     location / {
@@ -38,8 +39,8 @@ agregar la siguiente linea en el archivo nginx config
   	proxy_cache_bypass $http_upgrade;
      }
    }
-
-//==== PROBLEMAS =================================
+```
+## ==== PROBLEMAS =================================
 Si redirecciona al puerto 5001 con https usando nginx proxy reverso comentar la siguiente linea en el arhivo 
 Startup.cs
      public void Configure(IApplicationBuilder app, IHostingEnvironment env)
