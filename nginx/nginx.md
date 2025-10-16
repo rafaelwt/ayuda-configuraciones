@@ -1,4 +1,3 @@
-
 https://www.cyberciti.biz/faq/how-to-install-and-use-nginx-on-centos-7-rhel-7/
 
 Instalacion y configuracion en centOS
@@ -35,5 +34,4 @@ success
 success
 # iptables-save | grep 8081
 -A IN_public_allow -p tcp -m tcp --dport 8081 -m conntrack --ctstate NEW -j ACCEPT
-
 
