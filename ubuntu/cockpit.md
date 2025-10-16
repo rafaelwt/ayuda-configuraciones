@@ -107,4 +107,11 @@ sudo apt install cockpit-podman -y
 
 ---
 
-¡Con esto, tienes una guía completa para instalar y configurar Cockpit en Ubuntu 24.04!
+
+### Https para ovh si ya existe un certificado ssl
+
+```bash
+sudo bash -c "cat /etc/letsencrypt/live/{tu-dominio}/fullchain.pem /etc/letsencrypt/live/{tu-dominio}/privkey.pem > /etc/cockpit/ws-certs.d/{tu-dominio}.cert"
+sudo chmod 640 /etc/cockpit/ws-certs.d/{tu-dominio}.cert
+sudo systemctl restart cockpit
+```
