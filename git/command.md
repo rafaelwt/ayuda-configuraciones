@@ -48,6 +48,38 @@ git push origin --delete <branch_name>
 git branch -r
 ```
 
+### Descargar una rama creada remotamente
+
+```bash
+# Descargar todas las ramas remotas
+git fetch origin
+
+# Cambiar a una rama remota específica
+git checkout <branch_name>
+
+# O crear una rama local que rastree la rama remota
+git checkout -b <local_branch_name> origin/<remote_branch_name>
+
+# O usando switch (método más moderno)
+git switch <branch_name>
+```
+
+### Descargar una rama específica
+
+```bash
+# Descargar solo una rama específica
+git fetch origin <branch_name>
+
+# Cambiar a esa rama específica
+git checkout <branch_name>
+
+# O en un solo comando (descargar y cambiar)
+git checkout -b <branch_name> origin/<branch_name>
+
+# Usando switch (método moderno)
+git switch -c <branch_name> origin/<branch_name>
+```
+
 
 ### Dejar de rastrear un archivo
 
