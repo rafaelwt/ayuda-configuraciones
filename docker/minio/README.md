@@ -1,3 +1,12 @@
+# Version que conserva el panel de administracion 
+```yaml
+version: '3.8'
+
+services:
+  minio:
+    image: minio/minio:latest  #     image: minio/minio:RELEASE.2025-04-08T15-41-24Z
+    container_name: minio
+```
 # MinIO para Producción
 
 Este es un archivo docker-compose básico para ejecutar MinIO en un entorno de producción.
