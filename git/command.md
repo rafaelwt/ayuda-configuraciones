@@ -1,9 +1,7 @@
-Si un archivo ya esta rastreado por git y queremos que deje de estarlo
+### Clonar un repositorio
 
-```
-git rm --cached <file>
-git add .
-git commit -m "Remove file from tracking"
+```bash
+git clone <repo_url>
 ```
 
 ### Trabajar con ramas en git
@@ -81,10 +79,11 @@ git switch -c <branch_name> origin/<branch_name>
 ```
 
 
-### Dejar de rastrear un archivo
+
+### Si un archivo ya esta rastreado por git y queremos que deje de estarlo
 
 ```bash
 git rm --cached <file>
+git add .
+git commit -m "Remove file from tracking"
 ```
-
-
