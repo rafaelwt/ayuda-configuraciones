@@ -49,18 +49,24 @@ git branch -r
 ### Descargar una rama creada remotamente
 
 ```bash
-# Descargar todas las ramas remotas
-git fetch origin
+# Clonar el repositorio
+git clone https://github.com/usuario/repositorio.git
 
-# Cambiar a una rama remota específica
-git checkout <branch_name>
+# Cambiar a la carpeta del repositorio
+cd repositorio
 
-# O crear una rama local que rastree la rama remota
+# Ver ramas remotas
+git branch -r
+
+# Crear una rama local que rastree la rama remota
 git checkout -b <local_branch_name> origin/<remote_branch_name>
 
-# O usando switch (método más moderno)
-git switch <branch_name>
+# usando switch (método más moderno)
+git switch -c <local_branch_name> origin/<remote_branch_name>
+
+
 ```
+
 
 ### Descargar una rama específica
 
