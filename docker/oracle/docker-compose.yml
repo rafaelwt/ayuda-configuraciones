@@ -1,0 +1,16 @@
+services:
+  oracle-db:
+    image: oracleinanutshell/oracle-xe-11g
+    container_name: oracle-db
+    environment:
+      - ORACLE_PWD=oracle # Cambia esta contraseña  # username: system , password: oracle
+      - ORACLE_ALLOW_REMOTE=true # Para permitir conexiones remotas
+    ports:
+      - "1521:1521" # Puerto de Oracle
+      - "5500:5500" # Puerto EM Express
+    volumes:
+      - oracle-data:/u01/app/oracle/oradata # Persistencia de datos
+    restart: always
+
+volumes:
+  oracle-data:

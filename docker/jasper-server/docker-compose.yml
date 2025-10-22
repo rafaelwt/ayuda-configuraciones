@@ -1,0 +1,104 @@
+version: '3.8'
+
+services:
+  # Base de datos PostgreSQL
+  jasper-postgres:
+    image: postgres:15-alpine
+    container_name: jasper-postgres
+    restart: unless-stopped
+
+    environment:
+      - POSTGRES_DB=jasperserver
+      - POSTGRES_USER=jasper
+      - POSTGRES_PASSWORD=jasper_db_password_seguro  # CAMBIAR EN PRODUCCIÓN
+      - PGDATA=/var/lib/postgresql/data/pgdata
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - jasper_network
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jasper -d jasperserver"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    # Límites de recursos
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # JasperReports Server
+  jasperserver:
+    image: retriever/jasperserver:latest
+    container_name: jasperserver-production
+    restart: unless-stopped
+
+    depends_on:
+      jasper-postgres:
+        condition: service_healthy
+
+    ports:
+      - "8080:8080"  # Cambia el puerto si es necesario (ej: "8090:8080")
+
+    environment:
+      # Configuración de base de datos PostgreSQL interna
+      - DB_TYPE=postgresql
+      - DB_HOST=jasper-postgres
+      - DB_PORT=5432
+      - DB_NAME=jasperserver
+      - DB_USER=jasper
+      - DB_PASSWORD=jasper_db_password_seguro  # DEBE COINCIDIR CON POSTGRES
+
+      # Credenciales de administrador de JasperServer
+      # NOTA: Esta imagen usa credenciales por defecto jasperadmin/jasperadmin
+      # Debes cambiar la contraseña desde la interfaz web después del primer login
+      - JRS_ADMIN_USERNAME=jasperadmin
+      - JRS_ADMIN_PASSWORD=jasperadmin
+
+      # Configuración de memoria Java para producción
+      - JAVA_OPTS=-Xmx2048m -Xms1024m -XX:+UseG1GC -XX:MaxMetaspaceSize=512m
+
+    volumes:
+      # Persistencia de datos y configuraciones
+      - jasper_webapp:/usr/local/tomcat/webapps/jasperserver
+      - jasper_license:/usr/local/share/jasperserver/license
+
+    networks:
+      - jasper_network
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/jasperserver/login.html"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+    # Límites de recursos para producción
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 3G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+
+volumes:
+  postgres_data:
+    driver: local
+  jasper_webapp:
+    driver: local
+  jasper_license:
+    driver: local
+
+networks:
+  jasper_network:
+    driver: bridge

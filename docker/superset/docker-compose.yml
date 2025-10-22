@@ -1,0 +1,160 @@
+services:
+    # Container for Database operations
+    superset-db:
+        image: postgres:15
+        container_name: superset-db
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: 'superset'
+            POSTGRES_PASSWORD: 'superset'
+            POSTGRES_DB: 'superset'
+        volumes:
+            - ./superset/db_data:/var/lib/postgresql/data
+        ports:
+            - "5433:5432"
+        networks:
+            - mylan
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U superset -d superset"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 40s
+
+    superset-redis:
+        image: redis:7
+        container_name: superset-redis
+        restart: unless-stopped
+        networks:
+            - mylan
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+
+    superset:
+        image: apache/superset:latest
+        container_name: superset
+        restart: unless-stopped
+        ports:
+            - 8088:8088
+        environment:
+            SUPERSET_SECRET_KEY: 'esta_es_una_clave_secreta_muy_larga_para_superset_debe_ser_unica_y_segura_con_mas_de_32_caracteres'
+            REDIS_HOST: superset-redis
+            DATABASE_HOST: superset-db
+            DATABASE_USER: superset
+            DATABASE_PASSWORD: superset
+            DATABASE_DB: superset
+            CELERY_BROKER_URL: 'redis://superset-redis:6379/0'
+            CELERY_RESULT_BACKEND: 'redis://superset-redis:6379/0'
+            # Variables para habilitar funcionalidades avanzadas
+            ENABLE_TEMPLATE_PROCESSING: 'True'
+            ALLOW_CTAS: 'True'
+            ALLOW_CVAS: 'True'
+            ALLOW_DML: 'True'
+            ALLOW_RUN_ASYNC: 'True'
+            SUPERSET_CONFIG_PATH: '/app/superset/superset_config.py'
+            # Deshabilitar carga de ejemplos
+            SUPERSET_LOAD_EXAMPLES: 'false'
+            # Variables adicionales para producción
+            FLASK_ENV: 'production'
+            SUPERSET_ENV: 'production'
+            WTF_CSRF_ENABLED: 'True'
+            MAPBOX_API_KEY: ''  # Agregar tu API key de Mapbox si usas mapas
+        volumes:
+            - ./superset/home_data:/app/superset_home
+            - ./superset/superset_config.py:/app/superset/superset_config.py
+        networks:
+            - mylan
+        depends_on:
+            superset-db:
+                condition: service_healthy
+            superset-redis:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8088/health"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 60s
+
+    superset-worker:
+        image: apache/superset:latest
+        container_name: superset-worker
+        restart: unless-stopped
+        command: ["celery", "--app=superset.tasks.celery_app:app", "worker", "--loglevel=INFO", "-c", "4"]
+        environment:
+            SUPERSET_SECRET_KEY: 'esta_es_una_clave_secreta_muy_larga_para_superset_debe_ser_unica_y_segura_con_mas_de_32_caracteres'
+            REDIS_HOST: superset-redis
+            DATABASE_HOST: superset-db
+            DATABASE_USER: superset
+            DATABASE_PASSWORD: superset
+            DATABASE_DB: superset
+            CELERY_BROKER_URL: 'redis://superset-redis:6379/0'
+            CELERY_RESULT_BACKEND: 'redis://superset-redis:6379/0'
+            # Deshabilitar carga de ejemplos también en workers
+            SUPERSET_LOAD_EXAMPLES: 'false'
+            FLASK_ENV: 'production'
+            SUPERSET_ENV: 'production'
+        volumes:
+            - ./superset/superset_config.py:/app/superset/superset_config.py
+        networks:
+            - mylan
+        depends_on:
+            superset-db:
+                condition: service_healthy
+            superset-redis:
+                condition: service_healthy
+            superset:
+                condition: service_healthy
+
+    superset-worker-beat:
+        image: apache/superset:latest
+        container_name: superset-worker-beat
+        restart: unless-stopped
+        command: ["celery", "--app=superset.tasks.celery_app:app", "beat", "--loglevel=INFO"]
+        environment:
+            SUPERSET_SECRET_KEY: 'esta_es_una_clave_secreta_muy_larga_para_superset_debe_ser_unica_y_segura_con_mas_de_32_caracteres'
+            REDIS_HOST: superset-redis
+            DATABASE_HOST: superset-db
+            DATABASE_USER: superset
+            DATABASE_PASSWORD: superset
+            DATABASE_DB: superset
+            CELERY_BROKER_URL: 'redis://superset-redis:6379/0'
+            CELERY_RESULT_BACKEND: 'redis://superset-redis:6379/0'
+            C_FORCE_ROOT: 'true'
+            # Deshabilitar carga de ejemplos
+            SUPERSET_LOAD_EXAMPLES: 'false'
+            FLASK_ENV: 'production'
+            SUPERSET_ENV: 'production'
+        volumes:
+            - ./superset/beat_data:/tmp/celery
+            - ./superset/superset_config.py:/app/superset/superset_config.py
+        networks:
+            - mylan
+        depends_on:
+            superset-db:
+                condition: service_healthy
+            superset-redis:
+                condition: service_healthy
+            superset:
+                condition: service_healthy
+        user: root
+
+networks:
+    mylan:
+        driver: bridge
+
+volumes:
+    superset_db_data:
+        driver: local
+    superset_home_data:
+        driver: local
+    superset_beat_data:
+        driver: local
+
+# Primeros pasos para inicializar la base de datos y crear un usuario admin
+# docker-compose exec superset superset db upgrade
+# docker-compose exec superset superset fab create-admin
+# docker-compose exec superset superset init

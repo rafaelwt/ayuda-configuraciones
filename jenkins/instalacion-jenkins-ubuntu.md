@@ -38,6 +38,10 @@ Jenkins requiere Java para funcionar. Jenkins soporta oficialmente **Java 11** y
 ```bash
 sudo apt install openjdk-17-jdk
 ```
+Opcionalmente se puede instalar Java 21
+```bash
+sudo apt install openjdk-21-jdk
+```
 
 Verificar la instalación:
 
@@ -55,6 +59,8 @@ OpenJDK 64-Bit Server VM (build 17.0.x+xx, mixed mode)
 
 ### Paso 3: Agregar Repositorio de Jenkins
 
+#### Opción A: Instalación Estándar (Última Versión)
+
 Importar la clave GPG de Jenkins:
 
 ```bash
@@ -67,9 +73,33 @@ Agregar el repositorio de Jenkins a sources.list:
 sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
 ```
 
+#### Opción B: Instalación LTS (Long Term Support) - Recomendada para Producción
+
+Las versiones LTS (Long Term Support) son elegidas cada 12 semanas desde el flujo de versiones regulares como la versión estable para ese período de tiempo. Ofrecen mayor estabilidad y soporte a largo plazo, siendo ideales para entornos de producción.
+
+Importar la clave GPG de Jenkins:
+
+```bash
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+```
+
+Agregar el repositorio de Jenkins a sources.list:
+
+```bash
+sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+```
+
+**Ventajas de Jenkins LTS:**
+- **Mayor Estabilidad**: Versiones probadas y estables durante períodos más largos
+- **Soporte Extendido**: Actualizaciones de seguridad y correcciones de bugs por más tiempo
+- **Menor Riesgo**: Menos probabilidad de problemas en entornos de producción
+- **Ciclo de Actualización Predecible**: Nuevas versiones LTS cada 12 semanas
+
 ### Paso 4: Instalar Jenkins
 
 Jenkins no está disponible en los repositorios por defecto de Ubuntu, por lo que necesitamos usar el repositorio que acabamos de agregar.
+
+**Recomendación**: Para entornos de producción, se recomienda usar la **Opción B (LTS)** por su mayor estabilidad y soporte a largo plazo.
 
 Actualizar la lista de paquetes e instalar Jenkins:
 
@@ -79,6 +109,22 @@ sudo apt install jenkins
 ```
 
 Una vez instalado, Jenkins se iniciará automáticamente como servicio.
+
+**Nota**: Independientemente de la opción elegida (estándar o LTS), el comando de instalación es el mismo. La diferencia está en el repositorio configurado en el paso anterior.
+
+#### Verificar la Versión Instalada
+
+Para verificar qué versión de Jenkins se instaló:
+
+```bash
+jenkins --version
+```
+
+O accediendo a la interfaz web de Jenkins, la versión se muestra en la esquina inferior derecha del dashboard.
+
+**Diferencias entre Versiones:**
+- **Versión Estándar**: Incluye las últimas características y mejoras, pero puede tener cambios más frecuentes
+- **Versión LTS**: Versión estable con soporte extendido, ideal para entornos de producción
 
 ### Paso 5: Iniciar y Habilitar Jenkins
 
