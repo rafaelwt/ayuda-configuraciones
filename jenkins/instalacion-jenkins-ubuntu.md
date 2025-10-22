@@ -327,6 +327,28 @@ sudo journalctl -u jenkins --since "1 hour ago"
 /var/lib/jenkins/jobs/
 ```
 
+### Configurar Prefijo (Prefix) en Jenkins
+
+Para cambiar el prefijo de Jenkins (ej: `http://tu-servidor:8080/jenkins/`):
+
+1. **Editar el archivo:**
+```bash
+sudo nano /lib/systemd/system/jenkins.service
+```
+
+2. **Agregar esta línea en la sección [Service]:**
+```ini
+Environment="JENKINS_OPTS=--prefix=/jenkins"
+```
+
+3. **Recargar y reiniciar:**
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart jenkins
+```
+
+**Para revertir:** Eliminar la línea agregada y repetir los comandos de recarga.
+
 ## Solución de Problemas Comunes
 
 ### Jenkins no inicia:
