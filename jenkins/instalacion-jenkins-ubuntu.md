@@ -360,7 +360,11 @@ Si aparece el mensaje: *"It appears that your reverse proxy set up is broken"*
    - A: `http://tu-servidor:8080/jenkins/`
 3. Hacer clic en **Save**
 
-**Nota:** El Jenkins URL debe coincidir con el prefijo configurado.
+**Si Jenkins está detrás de nginx con dominio:**
+- Cambiar Jenkins URL a: `https://tu-dominio.com/jenkins/`
+- Ejemplo: `https://jenkins.miempresa.com/jenkins/`
+
+**Nota:** El Jenkins URL debe coincidir con el prefijo configurado y usar el dominio público si está detrás de un proxy.
 
 ## Solución de Problemas Comunes
 
