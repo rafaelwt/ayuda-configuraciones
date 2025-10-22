@@ -349,6 +349,19 @@ sudo systemctl restart jenkins
 
 **Para revertir:** Eliminar la línea agregada y repetir los comandos de recarga.
 
+### Solucionar Error de Reverse Proxy
+
+Si aparece el mensaje: *"It appears that your reverse proxy set up is broken"*
+
+**Solución:**
+1. Ir a **Manage Jenkins** → **Configure System**
+2. En **Jenkins URL** cambiar de:
+   - `http://tu-servidor:8080/`
+   - A: `http://tu-servidor:8080/jenkins/`
+3. Hacer clic en **Save**
+
+**Nota:** El Jenkins URL debe coincidir con el prefijo configurado.
+
 ## Solución de Problemas Comunes
 
 ### Jenkins no inicia:
