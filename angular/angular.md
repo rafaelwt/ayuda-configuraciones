@@ -9,6 +9,8 @@ error al ejecutar comandos angular  windows 10
 ejecutar el siguiente comando en powershell
 > Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
+## Angular docs
+>Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 
 si al crear un nuevo proyecto no fucionar el auto import instalar la siguiente extension 
