@@ -105,7 +105,21 @@ User.create!(
 )
 ```
 
-Esto creará un nuevo usuario administrador activo.
+ 
+---
+
+## 🔁 Activar / Confirmar un usuario existente
+
+Si tienes un usuario creado pero no confirmado (por ejemplo un agente nuevo), puedes confirmarlo desde la consola de Rails con el siguiente snippet:
+
+```ruby
+user = User.find_by(email: 'nuevoagente@empresa.com')
+user.confirm
+user.save!
+```
+Esto marcará la cuenta como confirmada (activa). Sustituye el correo por el del usuario que quieres activar.
+
+Para cambiar el password entrar al a consola SuperAdmin
 
 ---
 
