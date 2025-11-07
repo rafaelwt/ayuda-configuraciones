@@ -61,6 +61,13 @@ docker compose up -d --build
 docker compose exec rails ls -la /app/public
 ```
 
+### 9️⃣ **compilar dentro del contenedor**
+
+```bash
+# Prepara los assets para la consola SuperAdmin
+docker compose exec <contenedor> SKIP_VITE_BUILD=true RAILS_ENV=production bundle exec rake assets:precompile
+```
+
 ---
 
 ## ✅ Verificación Final
