@@ -49,6 +49,18 @@ Para usuarios de Windows 11, la configuración de MCP se almacena en la siguient
 }
 ```
 
+## Ruta mac os
+
+  > : ~/.local/bin/claude
+
+
+  Next: Run claude --help to get started
+
+⚠ Setup notes:
+  • Native installation exists but ~/.local/bin is not in your PATH. Run:
+```bash
+  echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
+```
 ## Referencias
 
 
