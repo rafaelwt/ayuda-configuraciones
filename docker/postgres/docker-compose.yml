@@ -1,17 +1,37 @@
-version: '3'
 services:
-    db:
-        container_name: postgres
-        image: postgres:12
-        restart: always
-        volumes:
-            - "/home/docker/postgres/data:/var/lib/postgresql/data"
-        environment:
-            POSTGRES_PASSWORD: 123456Zxcv
-            POSTGRES_HOST_AUTH_METHOD: "trust"
-        expose:
-            - 5432
-        ports:
-            - "5432:5432"
-#volumes:
-#    /home/docker/postgres/data:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres-prod
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - postgres-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-admin}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 256M
+
+volumes:
+  postgres_data:
+    name: postgres-prod-data
+
+networks:
+  postgres-network:
+    name: postgres-network
+    driver: bridge
