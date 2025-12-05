@@ -24,8 +24,33 @@ claude mcp add --transport http context7 https://mcp.context7.com/mcp
 
 Una vez agregados los servidores MCP, estarán disponibles automáticamente en tus sesiones de Claude Code.
 
+### Ruta de configuración den windows 11 
+Para usuarios de Windows 11, la configuración de MCP se almacena en la siguiente ruta:
+
+> C:\Users\<TuUsuario>\.claude.json
+```json
+{
+  "mcp": {
+    "servers": {
+      "chrome-devtools": {
+        "type": "local",
+        "command": "npx chrome-devtools-mcp@latest"
+      },
+      "context7": {
+        "type": "http",
+        "url": "https://mcp.context7.com/mcp"
+      },
+      "mariadb": {
+        "url": "http://localhost:9001/sse",
+        "transport": "sse"
+      }
+    }
+  }
+}
+```
+
 ## Referencias
 
-- [Documentación oficial de Claude MCP](https://docs.anthropic.com/claude/docs)
+
 - [Chrome DevTools MCP](https://github.com/anthropics/chrome-devtools-mcp)
 - [Context7](https://mcp.context7.com/)
