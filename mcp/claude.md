@@ -9,7 +9,9 @@ Este documento contiene los comandos para configurar los servidores MCP (Model C
 Integración con Chrome DevTools para debugging y análisis de aplicaciones web.
 
 ```bash
+# Linux mac os
 claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
+# Windows
 ```
 
 ### Context7
@@ -18,6 +20,11 @@ Servicio de contexto extendido para mejorar las capacidades de Claude.
 
 ```bash
 claude mcp add --transport http context7 https://mcp.context7.com/mcp
+```
+
+### Angular mcp
+```bash
+claude mcp add angular-cli -- npx -y @angular/cli mcp
 ```
 
 ## Uso
