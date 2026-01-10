@@ -12,6 +12,7 @@ Integración con Chrome DevTools para debugging y análisis de aplicaciones web.
 # Linux mac os
 claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
 # Windows
+claude mcp add chrome-devtools cmd /c npx chrome-devtools-mcp@latest
 ```
 
 ### Context7
@@ -25,8 +26,18 @@ claude mcp add --transport http context7 https://mcp.context7.com/mcp
 ### Angular mcp
 ```bash
 claude mcp add angular-cli -- npx -y @angular/cli mcp
+# windows 
+claude mcp add angular-cli -- cmd /c npx -y @angular/cli mcp
 ```
 
+### PrimeNG MCP 
+```bash
+  # Windows
+  claude mcp add primeng -- cmd /c npx -y @primeng/mcp
+
+  # Linux/macOS
+  claude mcp add primeng -- npx -y @primeng/mcp
+```
 ## Uso
 
 Una vez agregados los servidores MCP, estarán disponibles automáticamente en tus sesiones de Claude Code.
