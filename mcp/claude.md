@@ -24,13 +24,15 @@ claude mcp add --transport http context7 https://mcp.context7.com/mcp
 ```
 
 ### Angular mcp
+
 ```bash
 claude mcp add angular-cli -- npx -y @angular/cli mcp
-# windows 
+# windows
 claude mcp add angular-cli -- cmd /c npx -y @angular/cli mcp
 ```
 
-### PrimeNG MCP 
+### PrimeNG MCP
+
 ```bash
   # Windows
   claude mcp add primeng -- cmd /c npx -y @primeng/mcp
@@ -38,14 +40,17 @@ claude mcp add angular-cli -- cmd /c npx -y @angular/cli mcp
   # Linux/macOS
   claude mcp add primeng -- npx -y @primeng/mcp
 ```
+
 ## Uso
 
 Una vez agregados los servidores MCP, estarán disponibles automáticamente en tus sesiones de Claude Code.
 
-### Ruta de configuración den windows 11 
+### Ruta de configuración den windows 11
+
 Para usuarios de Windows 11, la configuración de MCP se almacena en la siguiente ruta:
 
 > C:\Users\<TuUsuario>\.claude.json
+
 ```json
 {
   "mcp": {
@@ -69,18 +74,18 @@ Para usuarios de Windows 11, la configuración de MCP se almacena en la siguient
 
 ## Ruta mac os
 
-  > : ~/.local/bin/claude
+> : ~/.local/bin/claude
 
-
-  Next: Run claude --help to get started
+Next: Run claude --help to get started
 
 ⚠ Setup notes:
-  • Native installation exists but ~/.local/bin is not in your PATH. Run:
+• Native installation exists but ~/.local/bin is not in your PATH. Run:
+
 ```bash
   echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
 ```
-## Referencias
 
+## Referencias
 
 - [Chrome DevTools MCP](https://github.com/anthropics/chrome-devtools-mcp)
 - [Context7](https://mcp.context7.com/)
