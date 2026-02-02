@@ -31,14 +31,6 @@ claude mcp add angular-cli -- npx -y @angular/cli mcp
 claude mcp add angular-cli -- cmd /c npx -y @angular/cli mcp
 ```
 
-### Stack Overflow
-
-```bash
-claude mcp add stack-mcp-server -- npx mcp-remote mcp.stackoverflow.com
-# windows
-claude mcp add stack-mcp-server -- cmd /c npx mcp-remote mcp.stackoverflow.com
-```
-
 ### PrimeNG MCP
 
 ```bash
