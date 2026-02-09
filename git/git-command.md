@@ -93,3 +93,47 @@ git rm --cached <file>
 git add .
 git commit -m "Remove file from tracking"
 ```
+
+### Resolver conflictos de merge conservando los cambios de la otra rama (theirs)
+
+Cuando haces `git merge <branch_name>` desde `main` y aparecen conflictos, pero quieres conservar los cambios de la rama que estás fusionando.
+
+> En un merge, `theirs` = la rama que estás fusionando, `ours` = la rama actual.
+
+**Opción 1: Resolver archivo por archivo**
+
+```bash
+# 1. Ver archivos en conflicto
+git status
+
+# 2. Tomar la versión de la otra rama para cada archivo
+git checkout --theirs <archivo>
+# Ejemplo:
+git checkout --theirs src/config/app.xml
+git checkout --theirs src/models/users.sql
+
+# 3. Marcar como resueltos (obligatorio)
+git add <archivo>
+# O todos a la vez:
+git add -A
+
+# 4. Finalizar el merge
+git commit
+```
+
+**Opción 2: Rehacer el merge prefiriendo automáticamente la otra rama**
+
+```bash
+git merge --abort
+git merge <branch_name> -X theirs
+```
+
+**Verificar que no queden conflictos**
+
+```bash
+# Buscar marcadores de conflicto en el código
+git grep "<<<<<<<"
+# Si no devuelve nada, el merge está limpio
+```
+
+> **Nota:** `git checkout --theirs` solo actualiza el archivo, no hace commit. Siempre ejecuta `git add` después de resolver un conflicto. En archivos XML o de configuración, conviene revisar manualmente que no se pierdan referencias.
