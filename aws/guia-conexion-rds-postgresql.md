@@ -72,10 +72,30 @@ psql -h <endpoint-rds> -p 5432 -U tu_usuario -d tu_base
 
 ---
 
+## Verificar que el RDS sea públicamente accesible
+
+1. En la consola de AWS, ir a **RDS → Databases**
+2. Seleccionar tu instancia RDS
+3. En la pestaña **Connectivity & security**, buscar la sección **Networking**
+4. Verificar que **Publicly accessible** diga **Yes**
+
+### Si dice "No", cambiar a "Yes":
+
+1. Clic en **Modify** (botón superior derecho)
+2. En la sección **Connectivity**, expandir **Additional configuration**
+3. Marcar **Publicly accessible**
+4. Clic en **Continue**
+5. Seleccionar **Apply immediately**
+6. Clic en **Modify DB instance**
+
+> **Nota:** La instancia RDS también debe estar en una **subnet** que tenga una **route table** con acceso a un **Internet Gateway** para que sea accesible desde fuera de la VPC.
+
+---
+
 ## Solución de problemas
 
 Si `TcpTestSucceeded: False` o la conexión falla, verifica:
 
 1. El **Security Group** tiene la regla para puerto 5432
 2. Tu IP está permitida en el Source de la regla
-3. La instancia RDS tiene **Publicly Accessible: Yes**
+3. La instancia RDS tiene **Publicly Accessible: Yes** (ver sección anterior)
