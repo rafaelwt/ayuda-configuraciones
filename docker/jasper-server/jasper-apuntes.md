@@ -1,0 +1,2 @@
+#  **Importante:** JasperServer Docker usa credenciales por defecto (`jasperadmin`/`jasperadmin`).
+Para cambiar la contraseña, accede a JasperServer desde el navegador y cámbiala en **Settings → User Profile → Change Password**.
