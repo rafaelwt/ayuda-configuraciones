@@ -1,0 +1,12 @@
+services:
+  postgres-mcp:
+    image: crystaldba/postgres-mcp
+    container_name: postgres-mcp-server
+    restart: no
+    env_file:
+      - .env
+    environment:
+      DATABASE_URI: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+    ports:
+      - "8000:8000"
+    command: ["--access-mode=unrestricted", "--transport=sse"]
