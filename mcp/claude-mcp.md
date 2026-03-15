@@ -41,6 +41,22 @@ claude mcp add angular-cli -- cmd /c npx -y @angular/cli mcp
   claude mcp add primeng -- npx -y @primeng/mcp
 ```
 
+### PostgreSQL MCP
+
+Integración con bases de datos PostgreSQL via servidor MCP local (SSE).
+
+```bash
+claude mcp add --transport sse postgres http://localhost:8000/sse
+```
+
+### MariaDB MCP
+
+Integración con bases de datos MariaDB via servidor MCP local (SSE).
+
+```bash
+claude mcp add --transport sse mariadb http://localhost:9001/sse
+```
+
 ## Uso
 
 Una vez agregados los servidores MCP, estarán disponibles automáticamente en tus sesiones de Claude Code.
@@ -62,6 +78,10 @@ Para usuarios de Windows 11, la configuración de MCP se almacena en la siguient
       "context7": {
         "type": "http",
         "url": "https://mcp.context7.com/mcp"
+      },
+      "postgres": {
+        "url": "http://localhost:8000/sse",
+        "transport": "sse"
       },
       "mariadb": {
         "url": "http://localhost:9001/sse",
