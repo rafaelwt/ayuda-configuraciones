@@ -1,52 +1,89 @@
-### Clonar un repositorio
+# Guía de Git
+
+---
+
+## Clonar un repositorio
 
 ```bash
 git clone <repo_url>
 ```
 
-### Trabajar con ramas en git
+---
+
+## Trabajar con ramas en git
 
 ```bash
-git branch # Listar ramas
-git branch <branch_name> # Crear rama
-git checkout <branch_name> # Cambiar a rama
+git branch                    # Listar ramas
+git branch <branch_name>     # Crear rama
+git checkout <branch_name>   # Cambiar a rama
 git checkout -b <branch_name> # Crear y cambiar a rama
-git merge <branch_name> # Fusionar rama
-git branch -d <branch_name> # Eliminar rama
+git merge <branch_name>      # Fusionar rama
+git branch -d <branch_name>  # Eliminar rama
 
-## usando switch
-git switch <branch_name> # Cambiar a rama
-git switch -c <branch_name>  # Crear y cambiar a rama
+# Usando switch (método moderno)
+git switch <branch_name>      # Cambiar a rama
+git switch -c <branch_name>   # Crear y cambiar a rama
 ```
 
+---
 
-
-### Para fusionar una rama con la rama principal
+## Fusionar una rama con la rama principal
 
 ```bash
 git checkout main
 git merge <branch_name>
 ```
 
-### Subir la rama creada al github
+---
+
+## Subir una rama al repositorio remoto
 
 ```bash
 git push origin <branch_name>
 ```
 
-### Para borrar una rama en el repositorio remoto
+---
+
+## Vincular rama local con rama remota (set upstream)
+
+Cuando creás una rama local y al hacer `git push` te da el error:
+
+```
+fatal: The current branch develop has no upstream branch.
+```
+
+Ejecutá:
+
+```bash
+# Vincular y subir la rama en un solo paso
+git push --set-upstream origin <branch_name>
+```
+
+Para que esto se haga automáticamente en todas las ramas nuevas:
+
+```bash
+git config --global push.autoSetupRemote true
+```
+
+---
+
+## Borrar una rama en el repositorio remoto
 
 ```bash
 git push origin --delete <branch_name>
 ```
 
-### Listar ramas remotas
+---
+
+## Listar ramas remotas
 
 ```bash
 git branch -r
 ```
 
-### Descargar una rama creada remotamente
+---
+
+## Descargar una rama creada remotamente
 
 ```bash
 # Clonar el repositorio
@@ -61,14 +98,13 @@ git branch -r
 # Crear una rama local que rastree la rama remota
 git checkout -b <local_branch_name> origin/<remote_branch_name>
 
-# usando switch (método más moderno)
+# Usando switch (método moderno)
 git switch -c <local_branch_name> origin/<remote_branch_name>
-
-
 ```
 
+---
 
-### Descargar una rama específica
+## Descargar una rama específica
 
 ```bash
 # Descargar solo una rama específica
@@ -84,9 +120,9 @@ git checkout -b <branch_name> origin/<branch_name>
 git switch -c <branch_name> origin/<branch_name>
 ```
 
+---
 
-
-### Si un archivo ya esta rastreado por git y queremos que deje de estarlo
+## Si un archivo ya está rastreado por git y queremos que deje de estarlo
 
 ```bash
 git rm --cached <file>
@@ -94,13 +130,15 @@ git add .
 git commit -m "Remove file from tracking"
 ```
 
-### Resolver conflictos de merge conservando los cambios de la otra rama (theirs)
+---
 
-Cuando haces `git merge <branch_name>` desde `main` y aparecen conflictos, pero quieres conservar los cambios de la rama que estás fusionando.
+## Resolver conflictos de merge conservando los cambios de la otra rama (theirs)
+
+Cuando hacés `git merge <branch_name>` desde `main` y aparecen conflictos, pero querés conservar los cambios de la rama que estás fusionando.
 
 > En un merge, `theirs` = la rama que estás fusionando, `ours` = la rama actual.
 
-**Opción 1: Resolver archivo por archivo**
+### Opción 1: Resolver archivo por archivo
 
 ```bash
 # 1. Ver archivos en conflicto
@@ -121,14 +159,14 @@ git add -A
 git commit
 ```
 
-**Opción 2: Rehacer el merge prefiriendo automáticamente la otra rama**
+### Opción 2: Rehacer el merge prefiriendo automáticamente la otra rama
 
 ```bash
 git merge --abort
 git merge <branch_name> -X theirs
 ```
 
-**Verificar que no queden conflictos**
+### Verificar que no queden conflictos
 
 ```bash
 # Buscar marcadores de conflicto en el código
@@ -136,4 +174,4 @@ git grep "<<<<<<<"
 # Si no devuelve nada, el merge está limpio
 ```
 
-> **Nota:** `git checkout --theirs` solo actualiza el archivo, no hace commit. Siempre ejecuta `git add` después de resolver un conflicto. En archivos XML o de configuración, conviene revisar manualmente que no se pierdan referencias.
+> **Nota:** `git checkout --theirs` solo actualiza el archivo, no hace commit. Siempre ejecutá `git add` después de resolver un conflicto. En archivos XML o de configuración, conviene revisar manualmente que no se pierdan referencias.
