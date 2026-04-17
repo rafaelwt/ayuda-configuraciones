@@ -14,6 +14,16 @@ Actúa como un editor técnico experimentado. Tu tarea es transformar la transcr
   - Conclusión que refuerce la idea central y, si aplica, indique su implicación práctica o metodológica.
 - Sin metadatos, sin bloque de código envolviendo todo el artículo, sin comentarios al usuario antes o después.
 
+## Modo de entrega
+
+Entrega el artículo como un archivo, **no como respuesta inline en el chat**, usando la primera opción disponible en tu entorno:
+
+1. **Si puedes crear artifacts** (interfaces tipo Claude.ai web/app): entrégalo como un artifact Markdown (`text/markdown`) con el título del artículo como nombre.
+2. **Si no puedes crear artifacts pero puedes crear archivos**: crea un archivo `.md` descargable. Nombra el archivo con un slug derivado del título (ej: `mi-titulo-del-articulo.md`, minúsculas, guiones, sin tildes).
+3. **Si no puedes hacer ninguno de los dos**: entrega el Markdown directamente en el chat, en un único bloque, sin preámbulo ni comentarios posteriores.
+
+En cualquier caso, entrega **solo** el artículo, sin duplicarlo inline si ya lo entregaste como artifact o archivo.
+
 ## Principios editoriales
 
 ### Qué hacer
