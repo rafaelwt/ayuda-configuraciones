@@ -29,6 +29,14 @@ else
   worktree_str="no worktree"
 fi
 
+# --- Context ---
+if [ -n "$used" ]; then
+  used_int=$(printf "%.0f" "$used")
+  ctx_str="ctx ${used_int}%"
+else
+  ctx_str="ctx --"
+fi
+
 # --- Colors ---
 GREEN='\033[32m'
 YELLOW='\033[33m'
@@ -51,7 +59,8 @@ else
 fi
 
 # --- Output FINAL ---
-printf "📁 %s | 🌳 %s | 🌿 %s" \
+printf "%s | 📁 %s | 🌳 %s | 🌿 %s" \
+  "$ctx_str" \
   "$display_path" \
   "$worktree_str" \
   "$git_str"
