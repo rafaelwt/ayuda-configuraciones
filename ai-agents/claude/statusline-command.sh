@@ -59,8 +59,8 @@ else
 fi
 
 # --- Output FINAL ---
-printf "%s | 📁 %s | 🌳 %s | 🌿 %s" \
-  "$ctx_str" \
+printf "📁 %s | 🌳 %s | 🌿 %s | %s" \
   "$display_path" \
   "$worktree_str" \
-  "$git_str"
+  "$git_str" \
+  "$ctx_str"
