@@ -88,10 +88,10 @@ Get-ChildItem Env:ANTHROPIC*
 ---
 
 ## 2. Eliminar variables si existen
-
+```bash
 Remove-Item Env:ANTHROPIC_AUTH_TOKEN -ErrorAction SilentlyContinue
 Remove-Item Env:ANTHROPIC_BASE_URL -ErrorAction SilentlyContinue
-
+```
 ---
 
 ## 3. Verificar carpeta de configuracion
