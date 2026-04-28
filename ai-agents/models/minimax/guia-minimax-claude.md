@@ -31,7 +31,7 @@ nano ~/.claude/settings.json
 ---
 
 ## 4. Configuracion MiniMax
-
+```json
 {
   "alwaysThinkingEnabled": false,
   "env": {
@@ -45,6 +45,7 @@ nano ~/.claude/settings.json
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "MiniMax-M2.7"
   }
 }
+```
 
 ---
 
@@ -106,7 +107,7 @@ notepad $HOME\.claude\settings.json
 ---
 
 ## 5. Configuracion MiniMax
-
+```json
 {
   "alwaysThinkingEnabled": false,
   "env": {
@@ -120,7 +121,7 @@ notepad $HOME\.claude\settings.json
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "MiniMax-M2.7"
   }
 }
-
+```
 ---
 
 ## 6. Ejecutar Claude Code
@@ -148,11 +149,11 @@ Model: MiniMax-M2.7
 # Volver a Claude oficial (Linux y Windows)
 
 Editar settings.json y dejar:
-
+```json
 {
   "alwaysThinkingEnabled": false
 }
-
+```
 ---
 
 # Notas
