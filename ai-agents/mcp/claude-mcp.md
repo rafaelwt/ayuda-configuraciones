@@ -102,19 +102,17 @@ Agrega un `opencode.json` en la raíz del proyecto. Tiene mayor precedencia que 
     },
     "angular-cli": {
       "type": "local",
-      "command": "npx",
-      "args": ["-y", "@angular/cli", "mcp"]
+      "command": ["npx", "-y", "@angular/cli", "mcp"]
     },
     "primeng": {
       "type": "local",
-      "command": "npx",
-      "args": ["-y", "@primeng/mcp"]
+      "command": ["npx", "-y", "@primeng/mcp"]
     }
   }
 }
 ```
 
-> En Windows, para MCPs locales (`type: local`) que requieran `cmd /c`, reemplazá `"command": "npx"` por `"command": "cmd"` y agregá `"/c", "npx"` al inicio de `args`.
+> En Windows, para MCPs locales que requieran `cmd /c`, el array quedaría: `"command": ["cmd", "/c", "npx", "-y", "@primeng/mcp"]`.
 
 ### Agregar MCP via CLI de OpenCode
 
