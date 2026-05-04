@@ -5,7 +5,9 @@ description: Create a git commit with semantic format
 
 ## Allowed Commands (ONLY these)
 1. `git add .`
-2. `git commit -m "<message>"`
+2. `git diff --stat`
+3. `git diff --cached --stat`
+4. `git commit -m "<message>"`
 
 ## Special Rule for .claude/settings.local.json
 If `.claude/settings.local.json` was modified during the process and is not staged after `git add .`, run `git add .` again before committing to ensure it's included.
