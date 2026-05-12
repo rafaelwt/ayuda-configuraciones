@@ -8,12 +8,16 @@ description: Guide for creating global commands in Claude Code and OpenCode
 
 Location: `~/.claude/commands/`
 
-1. Copy the command file (e.g., `commit.md`) to:
+1. Create the `commands` folder if it doesn't exist:
+   ```
+   mkdir -p ~/.claude/commands
+   ```
+2. Copy the command file (e.g., `commit.md`) to:
    ```
    ~/.claude/commands/commit.md
    ```
 
-2. The command will be available as `/commit` in Claude Code.
+3. The command will be available as `/commit` in Claude Code.
 
 ---
 
@@ -21,12 +25,50 @@ Location: `~/.claude/commands/`
 
 Location: `~/.config/opencode/`
 
-1. Copy the command file (e.g., `commit.md`) to:
+1. Create the `opencode` folder if it doesn't exist:
+   ```
+   mkdir -p ~/.config/opencode
+   ```
+2. Copy the command file (e.g., `commit.md`) to:
    ```
    ~/.config/opencode/commit.md
    ```
 
-2. The command will be available as `/commit` in OpenCode.
+3. The command will be available as `/commit` in OpenCode.
+
+---
+
+## Windows 11
+
+### Claude Code
+
+Location: `C:\Users\<username>\.claude\commands\`
+
+1. Create the `commands` folder if it doesn't exist:
+   ```
+   mkdir %USERPROFILE%\.claude\commands
+   ```
+2. Copy the command file (e.g., `commit.md`) to:
+   ```
+   C:\Users\<username>\.claude\commands\commit.md
+   ```
+
+3. The command will be available as `/commit` in Claude Code.
+
+### OpenCode
+
+Location: `C:\Users\<username>\.config\opencode\commands\`
+
+1. Create the `commands` folder if it doesn't exist:
+   ```
+   mkdir %USERPROFILE%\.config\opencode\commands
+   ```
+2. Copy the command file (e.g., `commit.md`) to:
+   ```
+   C:\Users\<username>\.config\opencode\commands\commit.md
+   ```
+
+3. The command will be available as `/commit` in OpenCode.
 
 ---
 
