@@ -6,10 +6,10 @@ OpenCode usa su propio archivo `opencode.json` para definir los servidores MCP. 
 
 ### Global
 
-| SO | Ruta |
-|---|---|
-| Windows 11 | `C:\Users\<TuUsuario>\.config\opencode\opencode.json` |
-| Linux / macOS | `~/.config/opencode/opencode.json` |
+| SO            | Ruta                                                  |
+| ------------- | ----------------------------------------------------- |
+| Windows 11    | `C:\Users\<TuUsuario>\.config\opencode\opencode.json` |
+| Linux / macOS | `~/.config/opencode/opencode.json`                    |
 
 ### Por Proyecto
 
@@ -50,6 +50,15 @@ Agrega un `opencode.json` en la raíz del proyecto. Tiene mayor precedencia que 
     "primeng": {
       "type": "local",
       "command": ["npx", "-y", "@primeng/mcp"]
+    },
+    "MiniMax": {
+      "type": "local",
+      "command": ["uvx", "minimax-coding-plan-mcp", "-y"],
+      "enabled": true,
+      "environment": {
+        "MINIMAX_API_KEY": "api_key",
+        "MINIMAX_API_HOST": "https://api.minimax.io"
+      }
     }
   }
 }

@@ -4,7 +4,9 @@ description: Guide for creating global commands in Claude Code and OpenCode
 
 # Global Commands Guide
 
-## Claude Code (Mac OS)
+## Mac OS & Linux
+
+### Claude Code
 
 Location: `~/.claude/commands/`
 
@@ -19,19 +21,17 @@ Location: `~/.claude/commands/`
 
 3. The command will be available as `/commit` in Claude Code.
 
----
+### OpenCode
 
-## OpenCode (Mac OS)
+Location: `~/.config/opencode/commands/`
 
-Location: `~/.config/opencode/`
-
-1. Create the `opencode` folder if it doesn't exist:
+1. Create the `commands` folder if it doesn't exist:
    ```
-   mkdir -p ~/.config/opencode
+   mkdir -p ~/.config/opencode/commands
    ```
 2. Copy the command file (e.g., `commit.md`) to:
    ```
-   ~/.config/opencode/commit.md
+   ~/.config/opencode/commands/commit.md
    ```
 
 3. The command will be available as `/commit` in OpenCode.
