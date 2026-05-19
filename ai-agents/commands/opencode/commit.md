@@ -41,16 +41,17 @@ Follow this exact sequence — do not skip or reorder steps:
 2. **Stop immediately** if `git status --short` returns empty output. Say: `No changes to commit.`
 3. **Stop immediately** if any file shows conflict status `UU`, `AA`, `DD`, `AU`, `UA`, `DU`, or `UD` (unresolved merge conflict). Say: `Merge conflict detected in: <file>. Resolve conflicts before committing.`
 4. Inspect the changed file list for **sensitive files** (see Sensitive Files Rule below). Stop and confirm before continuing if any are found.
-5. Run `git diff --name-status` to identify changed files by status.
-6. Run `git diff --stat` to summarize unstaged changes.
-7. Run `git diff` to inspect the actual unstaged code changes. If the diff exceeds 500 lines, rely primarily on diff stats and file paths. **Note:** untracked files (`??`) do not appear in `git diff` before staging — always use `git diff --cached` after `git add .` as the final source of truth.
-8. Run `git log -10 --pretty=format:"%s"` to understand the repository commit style.
-9. Run `git add .` — **Note:** this stages ALL untracked and modified files. If `git status` showed many untracked files (`??`) that seem unrelated to the current work, warn the user before staging.
-10. Run `git diff --cached --name-status` to confirm staged files.
-11. Run `git diff --cached --stat` to confirm the staged summary.
-12. Run `git diff --cached` to inspect the exact staged changes.
-13. Generate the commit message based **only** on the staged diff.
-14. Run the appropriate `git commit` command.
+5. **Check for untracked files:** If `git status --short` shows lines starting with `??`, note that these files and folders will **not** appear in `git diff` until staged. This is expected — do not interpret an empty `git diff` as "no changes". Proceed normally.
+6. Run `git diff --name-status` to identify modified or deleted tracked files. This output may be empty if all changes are untracked (`??`) — that is normal.
+7. Run `git diff --stat` to summarize unstaged changes to tracked files. May also be empty for purely untracked changes.
+8. Run `git diff` to inspect unstaged changes to tracked files. **If output is empty and `git status` showed `??` entries, do not stop — the actual content will be visible after staging.**
+9. Run `git log -10 --pretty=format:"%s"` to understand the repository commit style.
+10. Run `git add .` — **Note:** this stages ALL untracked and modified files. If `git status` showed many untracked files (`??`) that seem unrelated to the current work, warn the user before staging.
+11. Run `git diff --cached --name-status` to confirm staged files.
+12. Run `git diff --cached --stat` to confirm the staged summary.
+13. Run `git diff --cached` to inspect the exact staged changes.
+14. Generate the commit message based **only** on the staged diff.
+15. Run the appropriate `git commit` command.
 
 ---
 
@@ -61,6 +62,7 @@ The final commit message must be based **only** on the staged diff shown by `git
 - Use `git diff` (before staging) only as preliminary context.
 - After `git add .`, ignore the unstaged diff entirely.
 - If the unstaged diff and staged diff differ, the **staged diff is the source of truth**.
+- **If `git diff` returned empty output** before staging and `git status --short` showed `??` entries, this is expected behavior: untracked files are invisible to `git diff` before being staged. The staged diff (`git diff --cached`) is the only valid basis for the commit message.
 
 ---
 
