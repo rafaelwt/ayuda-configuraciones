@@ -1,4 +1,4 @@
-# Fix temporal para parpadeo en Chrome/Brave con KDE Wayland + NVIDIA
+# Fix para parpadeo en Chrome/Brave con KDE Wayland + NVIDIA
 
 ## Contexto
 
@@ -24,27 +24,24 @@ El problema no estaba relacionado con:
 
 - Resolución
 - Frecuencia de refresco
-- Perfil de color
 - Cable o monitor defectuoso
 - Cambio a X11
 
-La causa más probable era la composición acelerada por GPU de Chromium en la combinación:
+La causa real es el uso por parte de Chromium del protocolo de Wayland de **gestión de color** (`wp_color_manager_v1`), en la combinación:
 
 ```text
-KDE Plasma Wayland + NVIDIA + dos monitores + Chrome/Brave + GPU compositing
+KDE Plasma Wayland + NVIDIA + Chrome/Brave + protocolo de color wp_color_manager_v1
 ```
 
-La prueba que confirmó el diagnóstico fue iniciar Chrome con:
-
-```bash
-google-chrome-stable --disable-gpu-compositing
-```
-
-Al usar ese flag, el parpadeo desapareció.
+La negociación de gestión de color entre Chromium y el compositor (KWin) sobre NVIDIA provoca el parpadeo. Al desactivar que Chromium use ese protocolo, el conflicto desaparece.
 
 ## Solución aplicada
 
-Se creó un archivo de flags para Chrome y otro para Brave.
+Se desactiva únicamente la función de gestión de color de Chromium mediante un flag, sin tocar la aceleración gráfica.
+
+> **Nota:** versiones anteriores de esta guía usaban `--disable-gpu-compositing`. Ese flag también quitaba el parpadeo, pero movía el ensamblado de capas (compositing) al CPU. El flag actual es mejor: **conserva el 100% de la aceleración gráfica** (compositing por GPU, decodificación de video, WebGL), porque solo desactiva el protocolo de color.
+
+Se crea un archivo de flags para Chrome y otro para Brave.
 
 ### Chrome
 
@@ -54,10 +51,10 @@ Archivo:
 ~/.config/chrome-flags.conf
 ```
 
-Contenido:
+Contenido (una sola línea):
 
 ```text
---disable-gpu-compositing
+--disable-features=WaylandWpColorManagerV1
 ```
 
 Comando para crearlo o editarlo:
@@ -74,10 +71,10 @@ Archivo:
 ~/.config/brave-flags.conf
 ```
 
-Contenido:
+Contenido (una sola línea):
 
 ```text
---disable-gpu-compositing
+--disable-features=WaylandWpColorManagerV1
 ```
 
 Comando para crearlo o editarlo:
@@ -85,6 +82,8 @@ Comando para crearlo o editarlo:
 ```bash
 nano ~/.config/brave-flags.conf
 ```
+
+> **Importante:** asegúrate de que cada archivo tenga **solo** esta línea. Si quedó un `--disable-gpu` o `--disable-gpu-compositing` de una configuración anterior, elimínalo para no perder aceleración gráfica sin necesidad.
 
 Después de crear o modificar estos archivos, cerrar completamente los navegadores:
 
@@ -114,13 +113,13 @@ Command Line
 Debe aparecer:
 
 ```text
---disable-gpu-compositing
+--disable-features=WaylandWpColorManagerV1
 ```
 
 Ejemplo válido:
 
 ```text
-/opt/google/chrome/google-chrome --disable-gpu-compositing ...
+/opt/google/chrome/google-chrome --disable-features=WaylandWpColorManagerV1 ...
 ```
 
 ### Brave
@@ -140,22 +139,36 @@ Command Line
 Debe aparecer:
 
 ```text
---disable-gpu-compositing
+--disable-features=WaylandWpColorManagerV1
 ```
 
 Ejemplo válido:
 
 ```text
-/opt/brave-bin/brave --disable-gpu-compositing ...
+/opt/brave-bin/brave --disable-features=WaylandWpColorManagerV1 ...
 ```
 
 Si aparece el flag en `Command Line`, la configuración quedó aplicada correctamente.
 
-## Cómo eliminar el fix temporal
+### Comprobar que la aceleración sigue activa
+
+A diferencia de los flags antiguos, este no debería desactivar nada de la GPU. Para confirmarlo, abrir:
+
+```text
+chrome://gpu
+```
+
+Verificar que sigan en verde (Hardware accelerated):
+
+- Video Decode
+- WebGL / WebGL2
+- Compositing
+
+## Cómo eliminar el fix
 
 Cuando se actualice el driver de NVIDIA, KDE Plasma o Chromium/Chrome/Brave, conviene probar si el problema ya fue corregido.
 
-Para quitar el fix temporal:
+Para quitar el fix:
 
 ```bash
 rm ~/.config/chrome-flags.conf
@@ -180,7 +193,7 @@ Después de eliminar los archivos:
 3. Verificar que ya no aparezca:
 
 ```text
---disable-gpu-compositing
+--disable-features=WaylandWpColorManagerV1
 ```
 
 4. Mover el navegador al segundo monitor.
@@ -202,7 +215,7 @@ nano ~/.config/chrome-flags.conf
 Contenido:
 
 ```text
---disable-gpu-compositing
+--disable-features=WaylandWpColorManagerV1
 ```
 
 ```bash
@@ -212,7 +225,7 @@ nano ~/.config/brave-flags.conf
 Contenido:
 
 ```text
---disable-gpu-compositing
+--disable-features=WaylandWpColorManagerV1
 ```
 
 Cerrar y reabrir los navegadores:
@@ -222,8 +235,12 @@ pkill chrome
 pkill brave
 ```
 
+## Consideración sobre HDR y color
+
+Este flag desactiva la gestión de color de Chromium. Para uso normal de navegación no se nota ninguna diferencia. Sin embargo, si usas un monitor con **HDR activado** o trabajas con perfiles de color precisos (edición de foto/video en el navegador), los colores podrían verse ligeramente distintos. En ese caso, conviene reevaluar tras cada actualización para volver a habilitar el color en cuanto el bug esté corregido.
+
 ## Nota final
 
 Este fix mantiene Wayland. No requiere cambiar a X11.
 
-Es un workaround limpio, reversible y limitado solo a navegadores Chromium. No modifica la configuración global de KDE ni del sistema.
+Es un workaround limpio, reversible y limitado solo a navegadores Chromium. No modifica la configuración global de KDE ni del sistema, y **conserva la aceleración gráfica completa**.
