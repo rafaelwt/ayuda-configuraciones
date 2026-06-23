@@ -41,19 +41,26 @@ claude-deepseek() {
 
 **Kimi:**
 
+Si la URL `https://api.moonshot.ai/anthropic` no funciona, usa `https://api.kimi.com/coding/`.
+
 ```zsh
 claude-kimi() {
-  ANTHROPIC_BASE_URL="https://api.moonshot.ai/anthropic" \
-  ANTHROPIC_AUTH_TOKEN="TU_API_KEY_MOONSHOT" \
+  ANTHROPIC_BASE_URL="https://api.kimi.com/coding/" \
+  ANTHROPIC_API_KEY="TU_API_KEY_KIMI" \
+  CLAUDE_CODE_AUTO_COMPACT_WINDOW="262144" \
+  command claude "$@"
+}
+```
+
+Opcionales según el modelo que quieras usar:
+
+```zsh
   ANTHROPIC_MODEL="kimi-k2.7-code" \
   ANTHROPIC_DEFAULT_OPUS_MODEL="kimi-k2.7-code" \
   ANTHROPIC_DEFAULT_SONNET_MODEL="kimi-k2.7-code" \
   ANTHROPIC_DEFAULT_HAIKU_MODEL="kimi-k2.7-code" \
   CLAUDE_CODE_SUBAGENT_MODEL="kimi-k2.7-code" \
   ENABLE_TOOL_SEARCH="false" \
-  CLAUDE_CODE_AUTO_COMPACT_WINDOW="262144" \
-  command claude "$@"
-}
 ```
 
 Guarda en nano: `Ctrl+O`, `Enter`, `Ctrl+X`.

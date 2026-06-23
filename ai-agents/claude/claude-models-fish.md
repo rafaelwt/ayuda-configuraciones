@@ -33,20 +33,27 @@ end
 
 **Kimi:**
 
+Si la URL `https://api.moonshot.ai/anthropic` no funciona, usa `https://api.kimi.com/coding/`.
+
 ```fish
 function claude-kimi
-    set -lx ANTHROPIC_BASE_URL https://api.moonshot.ai/anthropic
-    set -lx ANTHROPIC_AUTH_TOKEN "TU_API_KEY_MOONSHOT"
-    set -lx ANTHROPIC_MODEL kimi-k2.7-code
-    set -lx ANTHROPIC_DEFAULT_OPUS_MODEL kimi-k2.7-code
-    set -lx ANTHROPIC_DEFAULT_SONNET_MODEL kimi-k2.7-code
-    set -lx ANTHROPIC_DEFAULT_HAIKU_MODEL kimi-k2.7-code
-    set -lx CLAUDE_CODE_SUBAGENT_MODEL kimi-k2.7-code
-    set -lx ENABLE_TOOL_SEARCH false
+    set -lx ANTHROPIC_BASE_URL https://api.kimi.com/coding/
+    set -lx ANTHROPIC_API_KEY "TU_API_KEY_KIMI"
     set -lx CLAUDE_CODE_AUTO_COMPACT_WINDOW 262144
 
     command claude $argv
 end
+```
+
+Opcionales según el modelo que quieras usar:
+
+```fish
+set -lx ANTHROPIC_MODEL kimi-k2.7-code
+set -lx ANTHROPIC_DEFAULT_OPUS_MODEL kimi-k2.7-code
+set -lx ANTHROPIC_DEFAULT_SONNET_MODEL kimi-k2.7-code
+set -lx ANTHROPIC_DEFAULT_HAIKU_MODEL kimi-k2.7-code
+set -lx CLAUDE_CODE_SUBAGENT_MODEL kimi-k2.7-code
+set -lx ENABLE_TOOL_SEARCH false
 ```
 
 Guarda en nano: `Ctrl+O`, `Enter`, `Ctrl+X`.

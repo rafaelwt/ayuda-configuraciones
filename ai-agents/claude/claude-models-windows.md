@@ -48,26 +48,33 @@ function claude-deepseek {
 
 **Kimi:**
 
+Si la URL `https://api.moonshot.ai/anthropic` no funciona, usa `https://api.kimi.com/coding/`.
+
 ```powershell
 function claude-kimi {
-    $env:ANTHROPIC_BASE_URL            = "https://api.moonshot.ai/anthropic"
-    $env:ANTHROPIC_AUTH_TOKEN          = "TU_API_KEY_MOONSHOT"
+    $env:ANTHROPIC_BASE_URL              = "https://api.kimi.com/coding/"
+    $env:ANTHROPIC_API_KEY               = "TU_API_KEY_KIMI"
+    $env:CLAUDE_CODE_AUTO_COMPACT_WINDOW = "262144"
+    try { claude @args }
+    finally {
+        Remove-Item Env:ANTHROPIC_BASE_URL, Env:ANTHROPIC_API_KEY, `
+            Env:CLAUDE_CODE_AUTO_COMPACT_WINDOW -ErrorAction SilentlyContinue
+    }
+}
+```
+
+Opcionales según el modelo que quieras usar:
+
+```powershell
     $env:ANTHROPIC_MODEL               = "kimi-k2.7-code"
     $env:ANTHROPIC_DEFAULT_OPUS_MODEL  = "kimi-k2.7-code"
     $env:ANTHROPIC_DEFAULT_SONNET_MODEL = "kimi-k2.7-code"
     $env:ANTHROPIC_DEFAULT_HAIKU_MODEL = "kimi-k2.7-code"
     $env:CLAUDE_CODE_SUBAGENT_MODEL    = "kimi-k2.7-code"
     $env:ENABLE_TOOL_SEARCH            = "false"
-    $env:CLAUDE_CODE_AUTO_COMPACT_WINDOW = "262144"
-    try { claude @args }
-    finally {
-        Remove-Item Env:ANTHROPIC_BASE_URL, Env:ANTHROPIC_AUTH_TOKEN, Env:ANTHROPIC_MODEL, `
-            Env:ANTHROPIC_DEFAULT_OPUS_MODEL, Env:ANTHROPIC_DEFAULT_SONNET_MODEL, `
-            Env:ANTHROPIC_DEFAULT_HAIKU_MODEL, Env:CLAUDE_CODE_SUBAGENT_MODEL, `
-            Env:ENABLE_TOOL_SEARCH, Env:CLAUDE_CODE_AUTO_COMPACT_WINDOW -ErrorAction SilentlyContinue
-    }
-}
 ```
+
+Si agregas variables opcionales, recuerda incluirlas también en el `Remove-Item` de la función.
 
 Guarda y cierra el Bloc de notas.
 
