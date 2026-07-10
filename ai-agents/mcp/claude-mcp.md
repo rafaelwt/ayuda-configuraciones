@@ -59,10 +59,17 @@ claude mcp add --transport sse postgres http://localhost:8000/sse
 
 ### MariaDB MCP
 
-Integración con bases de datos MariaDB via servidor MCP local (SSE).
+Integración con bases de datos MariaDB via servidor MCP local. Se puede agregar por SSE o por Streamable HTTP.
+
+> Algunos ejemplos del servidor pueden mostrar la clave `servers` y `type: "streamable-http"`. En Claude Code, el archivo de configuración usa `mcpServers`; para Streamable HTTP, `type: "http"` es el formato recomendado por la documentación de Claude Code.
+> Si vas a usar Streamable HTTP, primero revisa la guía de instalación de MariaDB MCP para cambiar el `CMD` del Dockerfile y reconstruir la imagen: [Guía MariaDB MCP](./guia-mcp-mariadb.md).
 
 ```bash
+# SSE
 claude mcp add --transport sse mariadb http://localhost:9001/sse
+
+# Streamable HTTP
+claude mcp add --transport http mariadb-mcp-server http://localhost:9001/mcp
 ```
 
 ---
@@ -102,6 +109,10 @@ El formato correcto del archivo usa la clave **`mcpServers`** en la raíz (no an
     "mariadb": {
       "url": "http://localhost:9001/sse",
       "transport": "sse"
+    },
+    "mariadb-mcp-server": {
+      "type": "http",
+      "url": "http://localhost:9001/mcp"
     }
   }
 }

@@ -43,6 +43,10 @@ Agrega un `opencode.json` en la raíz del proyecto. Tiene mayor precedencia que 
       "type": "remote",
       "url": "http://localhost:9001/sse"
     },
+    "mariadb-mcp-server": {
+      "type": "remote",
+      "url": "http://localhost:9001/mcp"
+    },
     "angular-cli": {
       "type": "local",
       "command": ["npx", "-y", "@angular/cli", "mcp"]
@@ -73,6 +77,24 @@ opencode mcp add
 ```
 
 El comando es interactivo y te guía para elegir tipo (local/remoto), nombre y URL.
+
+## MariaDB MCP por Streamable HTTP
+
+Si configuraste el servidor MariaDB MCP con Streamable HTTP, usa la URL `/mcp`:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "mariadb-mcp-server": {
+      "type": "remote",
+      "url": "http://localhost:9001/mcp"
+    }
+  }
+}
+```
+
+Antes de usar esta opción, asegúrate de haber cambiado el `CMD` del Dockerfile y reconstruido la imagen como se indica en la [Guía MariaDB MCP](./guia-mcp-mariadb.md).
 
 ## Deshabilitar un MCP en un proyecto específico
 
