@@ -85,10 +85,63 @@ Para lanzar el cliente después (si el ícono del menú no abre en Wayland):
 QT_QPA_PLATFORM=xcb /opt/HillstoneSecureConnect/bin/HillstoneSecureConnect
 ```
 
+> Si el texto de los campos no se ve, salta a la sección 8.
+
+---
+
+## 8. Arreglar texto invisible (tema oscuro de Plasma)
+
+**Síntoma:** la app abre bien, pero en los diálogos (p. ej. *Add Connection*) el texto de los campos no se ve a menos que lo selecciones — texto blanco sobre fondo blanco.
+
+**Causa:** el cliente hereda la paleta oscura de KDE Plasma (`~/.config/kdeglobals`), pero dibuja sus campos con fondo blanco fijo. El `-style fusion` que ya trae el lanzador **no** basta, y renombrar `~/.config/Trolltech.conf` tampoco lo arregla (probado).
+
+**Solución probada:** aislar la app de la configuración de tema del usuario con un `XDG_CONFIG_HOME` propio.
+
+```fish
+# 1. Crear directorio de config persistente (NO usar /tmp: se borra al reiniciar)
+mkdir -p ~/.config-hillstone
+
+# 2. Probar que se ve bien
+env XDG_CONFIG_HOME=/home/linux/.config-hillstone /opt/HillstoneSecureConnect/bin/HillstoneSecureConnect -style fusion
+```
+
+**Hacerlo permanente** (lanzador propio, sin tocar el del sistema):
+
+```fish
+cp /usr/share/applications/HillstoneSecureConnect.desktop ~/.local/share/applications/
+```
+
+Editar la copia (`nano ~/.local/share/applications/HillstoneSecureConnect.desktop`) y reemplazar la línea `Exec=` por:
+
+```
+Exec=env XDG_CONFIG_HOME=/home/linux/.config-hillstone /opt/HillstoneSecureConnect/bin/HillstoneSecureConnect -style fusion
+```
+
+> Ajusta `/home/linux` a tu usuario real. El lanzador de `~/.local/share/applications/` tiene prioridad sobre el del sistema.
+
+Después, cerrar cualquier instancia abierta de la app y refrescar el caché de lanzadores:
+
+```fish
+pkill -f HillstoneSecureConnect   # "Operation not permitted" en el PID del servicio root es normal, ignorar
+update-desktop-database ~/.local/share/applications 2>/dev/null
+kbuildsycoca6 2>/dev/null; or kbuildsycoca5 2>/dev/null
+```
+
+Si el menú sigue abriendo la versión con texto invisible, **reiniciar el PC** resuelve ambas cosas (instancias viejas + caché de Plasma).
+
+**Verificar que el lanzador nuevo se está usando** (con la app abierta):
+
+```fish
+cat /proc/(pgrep -u $USER -f HillstoneSecureConnect | head -1)/environ | tr '\0' '\n' | grep XDG_CONFIG_HOME
+```
+
+Si devuelve la ruta, la app arrancó con la variable correcta.
+
+> Nota: con `XDG_CONFIG_HOME` aislado, la app guarda sus ajustes en `~/.config-hillstone` en vez de `~/.config`. Las conexiones VPN se guardan aparte en `~/Documents/HillstoneSecureConnect`, así que no se pierden.
+
 ---
 
 ## Desinstalar / revertir
 
 - Desinstalador propio: `/opt/HillstoneSecureConnect/MaintenanceTool`
 - O revertir todo con el snapshot: `sudo snapper list` → `sudo snapper undochange NUMERO..0`
-
