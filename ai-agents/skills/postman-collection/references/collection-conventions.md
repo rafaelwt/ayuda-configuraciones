@@ -53,7 +53,34 @@ if (json.accessToken) {
 ```
 
 - Cookie-based refresh tokens need no handling — Postman's cookie jar replays them automatically. Note it in the request description.
-- Prefill Login with seed credentials when the repo defines them.
+- Prefill Login with seed credentials when the repo defines them, exposed as `loginEmail`/`loginPassword` variables.
+- Add a collection-level pre-request auto-login: for requests not marked `noauth`, if `accessToken` is missing or its JWT `exp` is near, `pm.sendRequest` the login endpoint with `loginEmail`/`loginPassword` and store the token. Read inputs with `pm.variables.get()` so environment values override collection fallbacks:
+
+```js
+const isPublic = pm.request.auth && pm.request.auth.type === 'noauth';
+if (!isPublic) {
+    const token = pm.collectionVariables.get('accessToken');
+    if (!token || isExpired(token)) {
+        pm.sendRequest({
+            url: pm.variables.get('baseUrl') + '<login-path>',
+            method: 'POST',
+            header: { 'Content-Type': 'application/json' },
+            body: { mode: 'raw', raw: JSON.stringify({
+                email: pm.variables.get('loginEmail'),
+                password: pm.variables.get('loginPassword')
+            }) }
+        }, (err, res) => {
+            if (!err && res.code === 200) {
+                pm.collectionVariables.set('accessToken', res.json().accessToken);
+            }
+        });
+    }
+}
+function isExpired(token) {
+    try { return JSON.parse(atob(token.split('.')[1])).exp * 1000 < Date.now() + 30000; }
+    catch (e) { return true; }
+}
+```
 
 ## Optional query params
 
@@ -83,6 +110,19 @@ Provide a realistic sample payload matching the provider's actual shape (e.g. Me
 
 ## MCP specifics
 
-- Discover tools with ToolSearch query `postman`; tool names vary by server version — prefer create/update-collection operations that accept a full v2.1 collection object.
+- Discover tools with ToolSearch query `postman`. `getCollections` requires a workspace ID — enumerate with `getWorkspaces` first.
 - Search the workspace for a collection with the same name first; update it instead of creating a duplicate.
-- On any MCP failure, fall back to writing the local file and report the reason.
+- **Schema gotcha (verified against @postman/postman-mcp-server, all modes)**: `createCollection`/`putCollection` declare the collection body with `additionalProperties: false`, and their nested item schema omits `event` (pre-request/test scripts) and `formdata` bodies below the top level. Pushing a full-featured collection through them strips or rejects those fields. This is identical in minimal/code/full modes — switching modes does not help (`--code` is read-oriented and drops the write tools entirely).
+- For collections with scripts or file uploads, push via the raw Postman API with the local file as source of truth:
+
+```bash
+KEY=$(jq -r '[.. | objects | select(has("postman")) | .postman.env.POSTMAN_API_KEY? // empty] | first // empty' ~/.claude.json)
+jq '{collection: .}' postman/<repo>.postman_collection.json | \
+  curl -s -X PUT -H "X-Api-Key: $KEY" -H "Content-Type: application/json" -d @- \
+  https://api.getpostman.com/collections/<collection-uid>
+```
+
+  Never print or echo the key. For a new collection, POST to `https://api.getpostman.com/collections?workspace=<id>` instead.
+- Deletes are not exposed by the minimal MCP; use `curl -X DELETE` against the same API.
+- Create matching environments via MCP `createEnvironment` (flat schema, safe): baseUrl, login credentials, and HMAC secrets as `secret`-type variables; mirror them in `postman/<repo>.local.postman_environment.json`.
+- On any push failure, fall back to writing the local file and report the reason.

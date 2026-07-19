@@ -49,6 +49,17 @@ claude mcp add primeng -- npx -y @primeng/mcp
 claude mcp add primeng -- cmd /c npx -y @primeng/mcp
 ```
 
+### Postman MCP
+
+Integración con Postman para crear y administrar colecciones desde el agente. Requiere una API key de Postman (se genera en [postman.com/settings/me/api-keys](https://web.postman.co/settings/me/api-keys)).
+
+```bash
+# Linux / macOS
+claude mcp add postman --env POSTMAN_API_KEY=<POSTMAN_API_KEY> -- npx @postman/postman-mcp-server@latest
+# Windows
+claude mcp add postman --env POSTMAN_API_KEY=<POSTMAN_API_KEY> -- cmd /c npx @postman/postman-mcp-server@latest
+```
+
 ### PostgreSQL MCP
 
 Integración con bases de datos PostgreSQL via servidor MCP local (SSE).
@@ -113,6 +124,14 @@ El formato correcto del archivo usa la clave **`mcpServers`** en la raíz (no an
     "mariadb-mcp-server": {
       "type": "http",
       "url": "http://localhost:9001/mcp"
+    },
+    "postman": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@postman/postman-mcp-server@latest"],
+      "env": {
+        "POSTMAN_API_KEY": "<POSTMAN_API_KEY>"
+      }
     }
   }
 }
@@ -125,4 +144,5 @@ El formato correcto del archivo usa la clave **`mcpServers`** en la raíz (no an
 - [Conectar Claude Code a herramientas vía MCP (Docs oficiales)](https://code.claude.com/docs/en/mcp)
 - [Chrome DevTools MCP](https://github.com/anthropics/chrome-devtools-mcp)
 - [Context7](https://mcp.context7.com/)
+- [Postman MCP Server](https://github.com/postmanlabs/postman-mcp-server)
 - [OpenCode MCP](./opencode-mcp.md)

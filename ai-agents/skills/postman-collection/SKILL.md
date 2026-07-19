@@ -4,7 +4,7 @@ description: "Trigger: postman collection, coleccion postman, test endpoints, pr
 license: Apache-2.0
 metadata:
   author: rafaelwt
-  version: "1.0"
+  version: "1.1"
 ---
 
 ## Activation Contract
@@ -23,9 +23,10 @@ Use when the user asks to generate, update, or organize a Postman collection for
 
 | Condition | Action |
 |-----------|--------|
-| Postman MCP tools available (ToolSearch for `postman` → `mcp__postman*` tools) | Build the collection and create/update it in the user's Postman workspace via MCP. Update by name if it already exists — do not duplicate. |
+| Postman MCP tools available (ToolSearch for `postman` → `mcp__postman*` tools) | Push to the user's Postman workspace. Update by name if it already exists — do not duplicate. |
+| Collection contains scripts (`event`) or formdata bodies | Do NOT push through MCP create/put tools — their strict schemas strip those fields. Use the raw Postman API instead (see "MCP specifics" in references). MCP stays for discovery, environments, and simple collections. |
 | No Postman MCP | Write `postman/<repo>.postman_collection.json` (schema v2.1) in the repo. |
-| MCP push fails (auth/network) | Fall back to the local file and tell the user why. |
+| Push fails (auth/network) | Fall back to the local file and tell the user why. |
 
 ## Execution Steps
 

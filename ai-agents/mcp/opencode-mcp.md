@@ -55,6 +55,14 @@ Agrega un `opencode.json` en la raíz del proyecto. Tiene mayor precedencia que 
       "type": "local",
       "command": ["npx", "-y", "@primeng/mcp"]
     },
+    "postman": {
+      "type": "local",
+      "command": ["npx", "@postman/postman-mcp-server@latest"],
+      "enabled": true,
+      "environment": {
+        "POSTMAN_API_KEY": "<POSTMAN_API_KEY>"
+      }
+    },
     "MiniMax": {
       "type": "local",
       "command": ["uvx", "minimax-coding-plan-mcp", "-y"],
