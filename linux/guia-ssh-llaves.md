@@ -114,6 +114,8 @@ ssh-add ~/.ssh/servidor-vps
 
 A partir de ahí, te conectas sin que te pida la passphrase hasta que cierres sesión o reinicies.
 
+> Nota: ese `eval` vive solo en ESA terminal — cada terminal nueva arranca sin el agente. En un escritorio Linux normalmente no hace falta: GNOME Keyring o KWallet actúan como agente del sistema y te piden la passphrase una sola vez por sesión gráfica. Ten en cuenta que los procesos que corren FUERA de tu sesión (scripts, cron, agentes automatizados) no ven tu agente: para automatización se usa una llave dedicada sin passphrase y con alcance limitado.
+
 ---
 
 ## Paso 3 — Crear un usuario normal en el servidor
@@ -286,13 +288,19 @@ También revisa que la llave pública esté realmente dentro de:
 
 Haz esto solo cuando ya comprobaste que puedes entrar con llave.
 
-Conectado como `tunombre`, edita la configuración de SSH:
+> ⚠️ **Trampa en VPS con imagen cloud (OVH, DigitalOcean, Hetzner...):** estas imágenes traen el archivo `/etc/ssh/sshd_config.d/50-cloud-init.conf` con `PasswordAuthentication yes`. En OpenSSH **gana el PRIMER valor leído**, y el `Include` de ese directorio está al PRINCIPIO de `sshd_config` — así que si editas solo el archivo principal, tu cambio queda ignorado en silencio: `sshd -t` pasa, reinicias, y el password sigue activo. Verifica si existe:
+>
+> ```bash
+> ls /etc/ssh/sshd_config.d/
+> ```
+
+Por eso, en vez de editar `sshd_config` directamente, crea un archivo propio que ordene ANTES que el de cloud-init (los archivos del directorio se leen en orden alfabético, y `01-` le gana a `50-`):
 
 ```bash
-sudo nano /etc/ssh/sshd_config
+sudo nano /etc/ssh/sshd_config.d/01-hardening.conf
 ```
 
-Busca o agrega estas líneas:
+Con este contenido:
 
 ```sshconfig
 PermitRootLogin no
@@ -300,6 +308,8 @@ PasswordAuthentication no
 KbdInteractiveAuthentication no
 PubkeyAuthentication yes
 ```
+
+> En un servidor sin archivos en `sshd_config.d/` (instalación no-cloud), editar `sshd_config` directamente también funciona — pero el drop-in tiene otra ventaja: tus cambios no se mezclan con el archivo del sistema y sobreviven mejor a las actualizaciones del paquete.
 
 Explicación:
 
@@ -332,6 +342,14 @@ sudo sshd -t
 ```
 
 Si no muestra nada, la configuración es válida.
+
+Pero `sshd -t` solo valida SINTAXIS — no te dice qué valor ganó si hay opciones repetidas (ver la trampa de cloud-init en el Paso 7). Para ver la configuración **efectiva**, la que SSH realmente va a aplicar:
+
+```bash
+sudo sshd -T | grep -iE "passwordauthentication|permitrootlogin|kbdinteractive"
+```
+
+Debe mostrar `no` en `passwordauthentication` y `permitrootlogin`. Si muestra `yes`, otro archivo está ganando — revisa `/etc/ssh/sshd_config.d/`.
 
 Ahora reinicia SSH:
 
@@ -535,6 +553,16 @@ Aunque desactives login por contraseña, `fail2ban` sigue siendo útil para redu
 
 Cambiar el puerto SSH del `22` a otro puede reducir ruido de bots, pero **no reemplaza** las llaves ni una buena configuración.
 
+> ⚠️ **Ubuntu 22.10 o más nuevo (incluido 24.04):** SSH viene con **activación por socket** (`ssh.socket`), y en ese modo el `Port` de `sshd_config` **se ignora** — cambias el puerto, reinicias, y sigue escuchando en el 22 sin explicación. Verifica y desactiva el socket primero:
+>
+> ```bash
+> systemctl is-enabled ssh.socket    # si dice "enabled", aplica lo siguiente
+> sudo systemctl disable --now ssh.socket
+> sudo systemctl enable --now ssh.service
+> ```
+>
+> A partir de ahí, el `Port` de `sshd_config` vuelve a mandar.
+
 Para cambiarlo:
 
 ```bash
@@ -601,6 +629,7 @@ Antes de cerrar tu sesión antigua, verifica:
 - [ ] `KbdInteractiveAuthentication no` está configurado.
 - [ ] `PubkeyAuthentication yes` está configurado.
 - [ ] Ejecutaste `sudo sshd -t` sin errores.
+- [ ] `sudo sshd -T | grep -i passwordauthentication` muestra `no` (config EFECTIVA, no solo el archivo).
 - [ ] UFW permite el puerto SSH correcto.
 - [ ] Probaste la conexión desde otra terminal.
 - [ ] Mantienes tu clave privada solo en tu PC.
