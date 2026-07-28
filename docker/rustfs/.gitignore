@@ -1,0 +1,11 @@
+# Credentials — never commit or share
+.env
+.env.bak-*
+.env.local
+
+# Stored objects and server logs
+data/
+logs/
+
+# TLS material, if enabled later
+certs/

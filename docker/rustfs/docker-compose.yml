@@ -1,0 +1,28 @@
+services:
+  rustfs:
+    image: rustfs/rustfs:latest
+    container_name: rustfs
+    restart: unless-stopped
+    ports:
+      # S3 API — auth-gateway talks to this one (STORAGE_ENDPOINT/MINIO_PORT).
+      - "9000:9000"
+      # Console. Mapped to 9011 on the host because 9001 is already taken by
+      # the mariadb-mcp container; inside the container it stays 9001.
+      - "9011:9001"
+    environment:
+      RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:?set it in .env}
+      RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY:?set it in .env}
+    # The image defaults to UID/GID 10001, which cannot write to bind mounts
+    # owned by the host user. Running as the host UID/GID is the alternative the
+    # RustFS docs suggest when chowning to 10001 is impractical (it needs root),
+    # and it keeps ./data and ./logs owned by you rather than a phantom UID.
+    user: "1000:1000"
+    volumes:
+      - ./data:/data
+      - ./logs:/logs
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9000/ -o /dev/null || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
