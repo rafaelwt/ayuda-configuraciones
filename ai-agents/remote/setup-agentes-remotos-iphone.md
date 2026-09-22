@@ -69,21 +69,21 @@ corriendo, decidís y te vas.
 
 ### 2. SSH es cliente y servidor, y son cosas distintas
 
-| | Dirección | Archivos | Ejemplo |
-|---|---|---|---|
-| **Cliente** | Sale de tu máquina | `~/.ssh/id_*`, `~/.ssh/config` | `git push`, entrar a tu VPS |
-| **Servidor** | Entra a tu máquina | `~/.ssh/authorized_keys`, `sshd_config` | el iPhone llegando |
+|                    | Dirección          | Archivos                                    | Ejemplo                       |
+| ------------------ | ------------------- | ------------------------------------------- | ----------------------------- |
+| **Cliente**  | Sale de tu máquina | `~/.ssh/id_*`, `~/.ssh/config`          | `git push`, entrar a tu VPS |
+| **Servidor** | Entra a tu máquina | `~/.ssh/authorized_keys`, `sshd_config` | el iPhone llegando            |
 
 **Esta guía solo toca el servidor.** Tus llaves de GitHub y de tus VPS no se tocan: son
 de cliente, dirección opuesta. ✅ **verificado**
 
 ### 3. Tres capas independientes, y es fácil confundirlas
 
-| Capa | Quién la hace | De qué depende |
-|---|---|---|
-| **Llegar** | Tailscale (+ mosh) | La red privada |
-| **Que el trabajo viva** | herdr | Lanzar el agente **dentro** de herdr |
-| **Que te avise** | Hooks + demonio de moshi | De nada más |
+| Capa                          | Quién la hace           | De qué depende                           |
+| ----------------------------- | ------------------------ | ----------------------------------------- |
+| **Llegar**              | Tailscale (+ mosh)       | La red privada                            |
+| **Que el trabajo viva** | herdr                    | Lanzar el agente**dentro** de herdr |
+| **Que te avise**        | Hooks + demonio de moshi | De nada más                              |
 
 Las tres funcionan por separado, y ahí está la trampa: **vas a recibir notificaciones de
 agentes que no están en herdr, y a esos no los vas a poder atender desde el teléfono.**
@@ -95,10 +95,10 @@ Ver [Trampas verificadas](#trampas-verificadas).
 
 Esto se entiende mejor probándolo. ✅ **verificado** con dos experimentos:
 
-| Experimento | Resultado |
-|---|---|
-| Abrir una terminal en la PC, lanzar un agente, después entrar por Moshi | Moshi abre una **terminal limpia**. El agente no aparece por ningún lado |
-| Abrir una terminal, lanzar `herdr`, trabajar en dos tabs, después entrar por Moshi | **Están ahí.** Se continúa el trabajo desde el teléfono |
+| Experimento                                                                          | Resultado                                                                      |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Abrir una terminal en la PC, lanzar un agente, después entrar por Moshi             | Moshi abre una**terminal limpia**. El agente no aparece por ningún lado |
+| Abrir una terminal, lanzar`herdr`, trabajar en dos tabs, después entrar por Moshi | **Están ahí.** Se continúa el trabajo desde el teléfono              |
 
 ### El mecanismo
 
@@ -113,10 +113,10 @@ una ventana de terminal ajena.** Son cosas separadas a nivel del sistema operati
 
 herdr cambia de quién es la propiedad:
 
-| | Quién es dueño del pty | Consecuencia |
-|---|---|---|
-| **Terminal común** | La terminal misma | Cerrás la ventana, muere el proceso. Nadie más puede verlo |
-| **herdr** | El **servidor** de herdr | Tu terminal es solo un **visor**. Cualquier otro visor —incluida una sesión SSH desde el teléfono— se conecta a lo mismo |
+|                           | Quién es dueño del pty      | Consecuencia                                                                                                                      |
+| ------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Terminal común** | La terminal misma             | Cerrás la ventana, muere el proceso. Nadie más puede verlo                                                                      |
+| **herdr**           | El**servidor** de herdr | Tu terminal es solo un**visor**. Cualquier otro visor —incluida una sesión SSH desde el teléfono— se conecta a lo mismo |
 
 > **herdr separa el proceso de la pantalla que lo muestra.**
 
@@ -136,10 +136,10 @@ pty. La pregunta —*"¿puede que quiera tocar esto desde el teléfono?"*— hay
 
 Y ojo con no confundir las dos capas:
 
-| Para... | ¿Hace falta herdr? |
-|---|---|
-| Que te **avise** que algo pasó | ❌ No. Te llega igual, lo lances donde lo lances |
-| Poder **continuar** el trabajo desde el teléfono | ✅ Sí, siempre |
+| Para...                                                | ¿Hace falta herdr?                              |
+| ------------------------------------------------------ | ------------------------------------------------ |
+| Que te**avise** que algo pasó                   | ❌ No. Te llega igual, lo lances donde lo lances |
+| Poder**continuar** el trabajo desde el teléfono | ✅ Sí, siempre                                  |
 
 En la práctica: **si vas a laburar en serio, abrí `herdr` primero y trabajá siempre ahí
 adentro.** No cuesta nada y te saca la decisión de encima. Una terminal pelada dejala
@@ -184,16 +184,16 @@ fish -c 'echo $fish_user_paths'
 
 ### Reporte esperado
 
-| Check | ¿Conflicto? |
-|---|---|
-| Unidad SSH (`sshd` vs `ssh`) | §B |
-| Proceso que escucha en :22 | §A si es `tailscaled` |
-| `RunSSH` en prefs de Tailscale | §A si es `true` |
-| Firewall activo (ufw / firewalld / ninguno) | §D si hay dos |
-| `Linger` del usuario | — |
-| Chasis y `IdleAction` de logind | §E |
-| Multiplexores ya instalados | §C |
-| `~/.local/bin` en el PATH universal | §H |
+| Check                                       | ¿Conflicto?            |
+| ------------------------------------------- | ----------------------- |
+| Unidad SSH (`sshd` vs `ssh`)            | §B                     |
+| Proceso que escucha en :22                  | §A si es`tailscaled` |
+| `RunSSH` en prefs de Tailscale            | §A si es`true`       |
+| Firewall activo (ufw / firewalld / ninguno) | §D si hay dos          |
+| `Linger` del usuario                      | —                      |
+| Chasis y`IdleAction` de logind            | §E                     |
+| Multiplexores ya instalados                 | §C                     |
+| `~/.local/bin` en el PATH universal       | §H                     |
 
 ---
 
@@ -424,22 +424,22 @@ trabajando / terminado* en vez de adivinar mirando la pantalla.
 
 ### Uso mínimo
 
-| Acción | Comando / tecla |
-|---|---|
-| Lanzar o reatachar la sesión por defecto | `herdr` |
-| Detach (los agentes siguen) | `ctrl+b q` |
-| Listar sesiones | `herdr session list` |
-| Reatachar una sesión puntual | `herdr session attach <nombre>` |
-| Ver todos los keymaps | prefijo + `?` |
-| Parar el servidor (**mata todo**) | `herdr server stop` |
+| Acción                                   | Comando / tecla                   |
+| ----------------------------------------- | --------------------------------- |
+| Lanzar o reatachar la sesión por defecto | `herdr`                         |
+| Detach (los agentes siguen)               | `ctrl+b q`                      |
+| Listar sesiones                           | `herdr session list`            |
+| Reatachar una sesión puntual             | `herdr session attach <nombre>` |
+| Ver todos los keymaps                     | prefijo +`?`                    |
+| Parar el servidor (**mata todo**)   | `herdr server stop`             |
 
-| Acción | Qué pasa con tus agentes |
-|---|---|
-| Cerrar la terminal | **Siguen vivos** |
-| Detach | **Siguen vivos** |
-| `Ctrl+C` en un panel | Muere ese proceso |
-| `herdr server stop` | **Mueren todos** |
-| Reiniciar o apagar la máquina | **Mueren todos** |
+| Acción                        | Qué pasa con tus agentes |
+| ------------------------------ | ------------------------- |
+| Cerrar la terminal             | **Siguen vivos**    |
+| Detach                         | **Siguen vivos**    |
+| `Ctrl+C` en un panel         | Muere ese proceso         |
+| `herdr server stop`          | **Mueren todos**    |
+| Reiniciar o apagar la máquina | **Mueren todos**    |
 
 **Verificación:** lanzar herdr, abrir un agente, detach, cerrar la terminal, abrir otra,
 `herdr` → misma sesión, agente vivo. **Esta es la única prueba que valida el concepto
@@ -475,18 +475,17 @@ Te va a preguntar **qué dirección debe usar Moshi**. Elegí el nombre **MagicD
 Tailscale** (`tu-host.tailXXXXX.ts.net`), no la IP ni una dirección de LAN: ✅
 **verificado**
 
-| Opción | Sirve desde afuera |
-|---|---|
-| MagicDNS de Tailscale | ✅ y sobrevive si sacás y volvés a agregar el dispositivo |
-| IP de tailnet `100.x.y.z` | ✅ pero puede cambiar |
-| IP de LAN / hostname | ❌ solo dentro de tu casa |
+| Opción                    | Sirve desde afuera                                          |
+| -------------------------- | ----------------------------------------------------------- |
+| MagicDNS de Tailscale      | ✅ y sobrevive si sacás y volvés a agregar el dispositivo |
+| IP de tailnet`100.x.y.z` | ✅ pero puede cambiar                                       |
+| IP de LAN / hostname       | ❌ solo dentro de tu casa                                   |
 
 > ⚠️ **El QR es un token de acceso SSH temporal.** Cualquiera que lo escanee antes de que
 > expire reclama acceso a tu host. No compartas pantalla, no lo pegues en un chat.
 
 4. En la app: **Easy Pair** → escanear. La llave privada se genera **en el iPhone** y
    nunca sale; solo la pública sube al `authorized_keys` del host.
-
 5. Instalar los hooks y arrancar el demonio:
 
 ```bash
@@ -497,13 +496,13 @@ moshi-hook status
 
 ### Correcciones al video y a los docs ✅ **verificado**
 
-| Lo que dice la fuente | Lo que es realmente |
-|---|---|
-| `moshi-hook install-service` / `install service` | **`moshi-hook service install`** |
-| `moshi-hook serve` para dejarlo corriendo | `serve` es **primer plano**; usá `service install` |
-| Hay que correr `moshi-hook pair --token` | **No hace falta si usaste Easy Pair.** Es un camino *alternativo*, no un paso adicional |
-| El token está en Ajustes → Hooks | El binario dice **Ajustes → Integrations** |
-| `mosh-hook` | **`moshi-hook`**, con "i". `mosh` y `moshi` son programas distintos |
+| Lo que dice la fuente                                | Lo que es realmente                                                                             |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `moshi-hook install-service` / `install service` | **`moshi-hook service install`**                                                        |
+| `moshi-hook serve` para dejarlo corriendo          | `serve` es **primer plano**; usá `service install`                                   |
+| Hay que correr`moshi-hook pair --token`            | **No hace falta si usaste Easy Pair.** Es un camino *alternativo*, no un paso adicional |
+| El token está en Ajustes → Hooks                   | El binario dice**Ajustes → Integrations**                                                |
+| `mosh-hook`                                        | **`moshi-hook`**, con "i". `mosh` y `moshi` son programas distintos                 |
 
 Sobre el token: si el QR ya funcionó, `moshi-hook status` dice `paired` y guardó host ID y
 secret. `pair --token` es para cuando NO usás Easy Pair.
@@ -573,7 +572,7 @@ latencia. No es algo que haya que arreglar. ✅ **verificado**
 - [ ] **iPhone con WiFi APAGADO, datos móviles** → Moshi → host → `herdr`
 - [ ] `who` muestra `via mosh [PID]` ← prueba que mosh está activo, no SSH plano
 - [ ] Agente **nuevo** lanzado desde el teléfono → llega la notificación con la pantalla
-      bloqueada
+  bloqueada
 
 > Probar con WiFi encendido no verifica nada: estarías probando tu red local.
 
@@ -603,13 +602,13 @@ Con pi 0.85.1 y moshi-hook 0.3.26, el hook de pi no produce push. Claude Code s�
 
 **Ya descartado con evidencia — no lo vuelvas a probar:**
 
-| Hipótesis | Veredicto |
-|---|---|
-| Sesión de pi anterior a la instalación del hook | ❌ se reprodujo con sesión nueva |
-| `XDG_RUNTIME_DIR` ausente → fallback a `/tmp/moshi-hook.sock` | ❌ está seteada en todos los contextos |
-| Socket caído | ❌ acepta conexiones |
-| Extensión no registrada en `settings.json` | ❌ pi hace *discovery* del directorio |
-| Export mal formado | ❌ tiene `export default` igual que la de herdr |
+| Hipótesis                                                         | Veredicto                                        |
+| ------------------------------------------------------------------ | ------------------------------------------------ |
+| Sesión de pi anterior a la instalación del hook                  | ❌ se reprodujo con sesión nueva                |
+| `XDG_RUNTIME_DIR` ausente → fallback a `/tmp/moshi-hook.sock` | ❌ está seteada en todos los contextos          |
+| Socket caído                                                      | ❌ acepta conexiones                             |
+| Extensión no registrada en`settings.json`                       | ❌ pi hace*discovery* del directorio           |
+| Export mal formado                                                 | ❌ tiene`export default` igual que la de herdr |
 
 **Por dónde seguir:** `pi --verbose` y mirar si descubre `moshi-hooks` al arrancar (salís
 sin mandar prompt, no gasta tokens). Si lo descubre, sospechar del mapeo de eventos — la
