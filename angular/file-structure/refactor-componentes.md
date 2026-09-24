@@ -2,7 +2,7 @@
 
 Necesito refactorizar los componentes de este proyecto Angular 22 (standalone, sin NgModules). Hoy los componentes usan template y estilos en línea. Quiero separar los componentes grandes en archivos independientes y dejar los pequeños en un solo archivo. Es solo un cambio de estructura de archivos.
 
-Junto a este prompt te envío un documento con la **estructura de referencia** del proyecto. Úsalo para ubicar cada componente y entender el rol de cada carpeta. NO reorganices el proyecto para que coincida con ese documento: solo mueve componentes a su propia carpeta como se indica abajo.
+Junto a este prompt te envío un documento con la **estructura de referencia** del proyecto. Úsalo para ubicar cada componente y entender el rol de cada carpeta. NO reorganices el proyecto para que coincida con ese documento. Los únicos movimientos permitidos son dos: mover cada componente a su propia carpeta (ver abajo) y agrupar los componentes del shell en `layout/` según la "Nota de layout" del documento de estructura.
 
 Si encuentras algún `@NgModule` o archivo `*.module.ts`, DETENTE y avísame: esta tarea asume un proyecto 100 % standalone.
 
@@ -14,7 +14,7 @@ Solo clases con `@Component` dentro de `src/app/**`. No toques servicios, direct
 
 Deja el componente EN UN SOLO ARCHIVO solo si cumple TODO esto:
 
-1. Es presentacional: recibe datos por `input()`/`@Input()` y emite por `output()`/`@Output()`. No inyecta servicios (ni con `inject()` ni por constructor), no hace llamadas HTTP y no inyecta `Router` ni `ActivatedRoute`. Cuenta como servicio cualquier clase `@Injectable` del proyecto, incluidos los servicios de estado. Solo se permite inyectar `ElementRef`, `DestroyRef` y `ChangeDetectorRef`, y usar `RouterLink` en el template.
+1. Es presentacional: recibe datos por `input()`/`@Input()` y emite por `output()`/`@Output()`. No inyecta servicios (ni con `inject()` ni por constructor), no hace llamadas HTTP y no inyecta `Router` ni `ActivatedRoute`. Cuenta como servicio cualquier clase `@Service` o `@Injectable` del proyecto, incluidos los servicios de estado. Solo se permite inyectar `ElementRef`, `DestroyRef` y `ChangeDetectorRef`, y usar `RouterLink` en el template.
 2. Su template tiene 15 líneas o menos.
 3. Sus estilos tienen 10 líneas o menos, o no tiene estilos.
 
@@ -51,8 +51,8 @@ Todo componente (separado o pequeño) debe quedar en su propia carpeta, junto co
 
 1. Crea una rama `refactor/separar-componentes`.
 2. Ejecuta `ng build` y `ng test --watch=false` y anota los errores o tests que YA fallaban.
-3. Muéstrame una tabla: carpeta o feature | componente | ruta actual | ruta final | líneas template | líneas estilos | ¿presentacional? | clasificación | motivo. **Espera mi confirmación.**
+3. Muéstrame una tabla (incluye los componentes del shell que vayas a mover a `layout/`): carpeta o feature | componente | ruta actual | ruta final | líneas template | líneas estilos | ¿presentacional? | clasificación | motivo. **Espera mi confirmación.**
 4. Haz la separación y los movimientos de carpeta, una feature a la vez. Ejecuta `ng build` al terminar cada feature.
-5. En `angular.json`, dentro de `schematics` del proyecto (si la entrada ya existe, modifícala), configura `@schematics/angular:component` con `"inlineTemplate": false` e `"inlineStyle": false`.
+5. Revisa `angular.json`. Si en `schematics` existe `@schematics/angular:component` con `"inlineTemplate": true` o `"inlineStyle": true`, elimina esas dos opciones (el valor por defecto del CLI ya es `false`). Si no existen, no agregues nada.
 6. Ejecuta `ng build` y `ng test --watch=false`. Corrige solo los errores nuevos respecto al paso 2.
 7. Dame un resumen por feature de archivos creados, modificados y movidos, los casos que dejaste sin mover y las diferencias que encontraste con la estructura de referencia.

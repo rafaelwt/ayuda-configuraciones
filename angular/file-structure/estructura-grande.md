@@ -77,11 +77,15 @@ deploy/                               # opcional: scripts y notas de despliegue
 
 ## Nota de layout
 
-`layout/` contiene el shell: la parte fija que envuelve todas las páginas (barra superior, menú lateral, pie). Su contenido depende de la plantilla de UI del proyecto. Por ejemplo, una plantilla de PrimeNG trae su propio `layout/` con topbar, sidebar, menú y un servicio de estado del layout. Los nombres del árbol son de ejemplo: si la plantilla trae los suyos, se respetan. Lo que no cambia es la regla: el shell va en `layout/`, no en `shared/`.
+`layout/` contiene el shell: la parte fija que envuelve todas las páginas (barra superior, menú lateral, pie y el componente contenedor con `<router-outlet>`). Su contenido depende de la plantilla de UI que use el proyecto:
+
+- **Si el proyecto usa una plantilla que trae su propio layout** (por ejemplo, una plantilla de PrimeNG con topbar, sidebar, menú y un servicio de estado del layout), respeta la estructura y los nombres de la plantilla dentro de `layout/`.
+- **Si el proyecto no usa plantilla, o su plantilla no trae layout**, identifica las piezas del shell que ya existan, estén donde estén (`shared/`, la raíz de `app/` u otra carpeta), y muévelas a `layout/`, cada una en su propia carpeta y conservando sus nombres. En un proyecto nuevo, créalas directamente en `layout/`.
+- Los nombres del árbol (`shell/`, `navbar/`, `topbar/`…) son solo ejemplos.
 
 ## Qué va en cada carpeta
 
-- `core/`: servicios singleton (`providedIn: 'root'`), guards globales, interceptors, el `ErrorHandler` global, el estado global (sesión) y los modelos que usan varias features. Nunca componentes.
+- `core/`: servicios singleton (`@Service()`), guards globales, interceptors, el `ErrorHandler` global, el estado global (sesión) y los modelos que usan varias features. Nunca componentes.
 - `layout/`: el shell de la app. Se usa una sola vez, por eso no va en `shared/`.
 - `shared/`: componentes presentacionales, directivas, pipes, validators y funciones puras que usan 2 o más features. Un componente compartido cuyo uso no sea obvio lleva un `README.md` en su carpeta.
 - `features/<nombre>/`:
@@ -108,8 +112,8 @@ deploy/                               # opcional: scripts y notas de despliegue
 ## Estado
 
 - El estado se maneja con servicios basados en signals. No se usa NgRx ni otra librería de estado.
-- Estado global (sesión, usuario autenticado): `core/auth/auth-state.ts`, con `providedIn: 'root'`.
-- Estado de una feature: `features/<nombre>/<nombre>-state.ts`, con `@Injectable()` sin `providedIn`, provisto en `providers` de la ruta raíz de la feature en `<nombre>.routes.ts`, para que viva y muera con la feature.
+- Estado global (sesión, usuario autenticado): `core/auth/auth-state.ts`, con `@Service()` (provisto en root por defecto).
+- Estado de una feature: `features/<nombre>/<nombre>-state.ts`, con `@Service({ autoProvided: false })`, provisto en `providers` de la ruta raíz de la feature en `<nombre>.routes.ts`, para que viva y muera con la feature.
 - Cada servicio de estado expone signals de solo lectura (`asReadonly()`) y `computed()`. Solo el propio servicio modifica su estado.
 - Los servicios de estado llaman a los de `services/`. Los componentes no hacen HTTP directamente.
 

@@ -58,11 +58,15 @@ deploy/                             # opcional: scripts y notas de despliegue
 
 ## Nota de layout
 
-`layout/` contiene el shell: la parte fija que envuelve todas las páginas (barra superior, menú, pie). Su contenido depende de la plantilla de UI del proyecto. Por ejemplo, una plantilla de PrimeNG trae su propio `layout/` con topbar, sidebar, menú y un servicio de estado del layout. Los nombres del árbol son de ejemplo: si la plantilla trae los suyos, se respetan. Lo que no cambia es la regla: el shell va en `layout/`, no en `shared/`.
+`layout/` contiene el shell: la parte fija que envuelve todas las páginas (barra superior, menú, pie y el componente contenedor con `<router-outlet>`). Su contenido depende de la plantilla de UI que use el proyecto:
+
+- **Si el proyecto usa una plantilla que trae su propio layout** (por ejemplo, una plantilla de PrimeNG con topbar, sidebar, menú y un servicio de estado del layout), respeta la estructura y los nombres de la plantilla dentro de `layout/`.
+- **Si el proyecto no usa plantilla, o su plantilla no trae layout**, identifica las piezas del shell que ya existan, estén donde estén (`shared/`, la raíz de `app/` u otra carpeta), y muévelas a `layout/`, cada una en su propia carpeta y conservando sus nombres. En un proyecto nuevo, créalas directamente en `layout/`.
+- Los nombres del árbol (`shell/`, `navbar/`, `topbar/`…) son solo ejemplos.
 
 ## Qué va en cada carpeta
 
-- `core/`: servicios singleton (`providedIn: 'root'`), guards globales, interceptors, el `ErrorHandler` global y los modelos que usan varias features. Nunca componentes.
+- `core/`: servicios singleton (`@Service()`), guards globales, interceptors, el `ErrorHandler` global y los modelos que usan varias features. Nunca componentes.
 - `layout/`: el shell de la app. Se usa una sola vez, por eso no va en `shared/`.
 - `shared/`: componentes presentacionales, directivas, pipes, validators y funciones puras que usan 2 o más features. Un componente compartido cuyo uso no sea obvio lleva un `README.md` en su carpeta.
 - `features/<nombre>/`: una carpeta por feature, con su componente página, `<nombre>.routes.ts` y sus modelos propios (`<nombre>.model.ts`). Si la feature necesita subcomponentes, cada uno va en su propia subcarpeta dentro de la feature.

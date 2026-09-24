@@ -7,7 +7,9 @@
 - Rutas en archivos `*.routes.ts`. Cada feature se carga con lazy loading desde `app.routes.ts` (`loadChildren` o `loadComponent`).
 - Inputs y outputs con `input()`, `output()` y `model()`. Estado local con `signal()` y `computed()`.
 - Estado compartido con servicios basados en signals. No uses NgRx ni otras librerías de estado.
-- Inyección con `inject()`, no por constructor.
+- Servicios con `@Service()` (provisto en root por defecto). Para un servicio que se provee en una ruta o componente, `@Service({ autoProvided: false })`. Usa `@Injectable` solo si necesitas `useClass`, `useValue`, `useFactory` o un scope como `'platform'`.
+- Inyección con `inject()`, no por constructor (`@Service` no admite inyección por constructor).
+- Zoneless y `OnPush` son el comportamiento por defecto: no agregues `zone.js`, `provideZoneChangeDetection` ni la propiedad `changeDetection`. Todo estado que deba actualizar la vista va en signals.
 - Control flow nativo en templates: `@if`, `@for` (siempre con `track`), `@switch`. No uses `*ngIf` ni `*ngFor`.
 - Guards e interceptors funcionales (`CanActivateFn`, `HttpInterceptorFn`). Los interceptors se registran con `provideHttpClient(withInterceptors([...]))`.
 - Crea artefactos con `ng generate` y respeta los nombres que genera el CLI (convención Angular 20+: sin sufijo `.component`).
@@ -18,14 +20,14 @@ Los artefactos que genera el CLI conservan el nombre que les da (`ng g guard aut
 
 | Archivo | Contenido |
 | --- | --- |
-| `<nombre>.ts` en la carpeta de un componente | Componente standalone (`@Component`) |
-| `<nombre>.ts` en `directives/` | Directiva standalone (`@Directive`) |
-| `*-pipe.ts` | `@Pipe` standalone que implementa `PipeTransform` |
-| Servicios (`auth.ts`, `product-api.ts`) | Clase `@Injectable`, nombrada por su responsabilidad |
-| `*-state.ts` | Servicio `@Injectable` que guarda estado en signals |
-| `*-guard.ts` | Guard funcional (`CanActivateFn`, `CanMatchFn`…) con `inject()`. Nunca clases |
-| `*-resolver.ts` | `ResolveFn` con `inject()` |
-| `*-interceptor.ts` | `HttpInterceptorFn` |
+| `<nombre>.ts` en la carpeta de un componente | Componente standalone (`@Component`), clase sin sufijo (`Dashboard`) |
+| `<nombre>.ts` en `directives/` | Directiva standalone (`@Directive`), clase sin sufijo (`Highlight`) |
+| `*-pipe.ts` | `@Pipe` standalone que implementa `PipeTransform`, clase con sufijo (`DateFormatPipe`) |
+| Servicios (`auth.ts`, `product-api.ts`) | Clase `@Service()` sin sufijo (`Auth`, `ProductApi`), nombrada por su responsabilidad |
+| `*-state.ts` | Servicio `@Service()` que guarda estado en signals |
+| `*-guard.ts` | Guard funcional (`const authGuard: CanActivateFn`) con `inject()`. Nunca clases |
+| `*-resolver.ts` | `const xResolver: ResolveFn<T>` con `inject()` |
+| `*-interceptor.ts` | `const xInterceptor: HttpInterceptorFn` |
 | `*.routes.ts` | `Routes` con `export default` (salvo `app.routes.ts`, que conserva el `export const routes` del CLI) |
 | `*.model.ts` | Solo `interface` y `type`, sin lógica |
 | `*.validator.ts` | Función que devuelve un `ValidatorFn` |
@@ -40,7 +42,7 @@ Los artefactos que genera el CLI conservan el nombre que les da (`ng g guard aut
 - La carpeta de una feature se llama igual que su ruta (`features/products/` → `/products`).
 - No dejes código sin referencias: si un componente, ruta o servicio deja de usarse, elimínalo en el mismo cambio. No crees stubs "para después".
 - Constantes como objeto `as const` o tipo unión, no como clases con `static readonly`.
-- Path alias: `tsconfig.json` define `"@/*": ["./src/*"]`. Entre carpetas de primer nivel (`core/`, `layout/`, `shared/`, `features/`) importa con `@/app/...`. Dentro de la misma feature usa rutas relativas.
+- Path alias: agrega en `compilerOptions.paths` de `tsconfig.json` la entrada `"@/*": ["./src/*"]` (el CLI no la crea). Entre carpetas de primer nivel (`core/`, `layout/`, `shared/`, `features/`) importa con `@/app/...`. Dentro de la misma feature usa rutas relativas.
 
 ## Estructura del proyecto (grande)
 
@@ -121,11 +123,15 @@ deploy/                               # opcional: scripts y notas de despliegue
 
 ### Nota de layout
 
-`layout/` contiene el shell: la parte fija que envuelve todas las páginas (barra superior, menú lateral, pie). Su contenido depende de la plantilla de UI del proyecto. Por ejemplo, una plantilla de PrimeNG trae su propio `layout/` con topbar, sidebar, menú y un servicio de estado del layout. Los nombres del árbol son de ejemplo: si la plantilla trae los suyos, se respetan. Lo que no cambia es la regla: el shell va en `layout/`, no en `shared/`.
+`layout/` contiene el shell: la parte fija que envuelve todas las páginas (barra superior, menú lateral, pie y el componente contenedor con `<router-outlet>`). Su contenido depende de la plantilla de UI que use el proyecto:
+
+- **Si el proyecto usa una plantilla que trae su propio layout** (por ejemplo, una plantilla de PrimeNG con topbar, sidebar, menú y un servicio de estado del layout), respeta la estructura y los nombres de la plantilla dentro de `layout/`.
+- **Si el proyecto no usa plantilla, o su plantilla no trae layout**, identifica las piezas del shell que ya existan, estén donde estén (`shared/`, la raíz de `app/` u otra carpeta), y muévelas a `layout/`, cada una en su propia carpeta y conservando sus nombres. En un proyecto nuevo, créalas directamente en `layout/`.
+- Los nombres del árbol (`shell/`, `navbar/`, `topbar/`…) son solo ejemplos.
 
 ### Qué va en cada carpeta
 
-- `core/`: servicios singleton (`providedIn: 'root'`), guards globales, interceptors, el `ErrorHandler` global, el estado global (sesión) y los modelos que usan varias features. Nunca componentes.
+- `core/`: servicios singleton (`@Service()`), guards globales, interceptors, el `ErrorHandler` global, el estado global (sesión) y los modelos que usan varias features. Nunca componentes.
 - `layout/`: el shell de la app. Se usa una sola vez, por eso no va en `shared/`.
 - `shared/`: componentes presentacionales, directivas, pipes, validators y funciones puras que usan 2 o más features. Un componente compartido cuyo uso no sea obvio lleva un `README.md` en su carpeta.
 - `features/<nombre>/`:
@@ -152,8 +158,8 @@ deploy/                               # opcional: scripts y notas de despliegue
 ### Estado
 
 - El estado se maneja con servicios basados en signals. No se usa NgRx ni otra librería de estado.
-- Estado global (sesión, usuario autenticado): `core/auth/auth-state.ts`, con `providedIn: 'root'`.
-- Estado de una feature: `features/<nombre>/<nombre>-state.ts`, con `@Injectable()` sin `providedIn`, provisto en `providers` de la ruta raíz de la feature en `<nombre>.routes.ts`, para que viva y muera con la feature.
+- Estado global (sesión, usuario autenticado): `core/auth/auth-state.ts`, con `@Service()` (provisto en root por defecto).
+- Estado de una feature: `features/<nombre>/<nombre>-state.ts`, con `@Service({ autoProvided: false })`, provisto en `providers` de la ruta raíz de la feature en `<nombre>.routes.ts`, para que viva y muera con la feature.
 - Cada servicio de estado expone signals de solo lectura (`asReadonly()`) y `computed()`. Solo el propio servicio modifica su estado.
 - Los servicios de estado llaman a los de `services/`. Los componentes no hacen HTTP directamente.
 
@@ -208,7 +214,7 @@ features/customers/components/customer-form/
 
 Un componente va EN UN SOLO ARCHIVO solo si cumple TODO esto:
 
-1. Es presentacional: recibe datos por `input()` y emite por `output()`. No inyecta servicios (ninguna clase `@Injectable` del proyecto, incluidos los de estado), no hace HTTP y no inyecta `Router` ni `ActivatedRoute`. Solo puede inyectar `ElementRef`, `DestroyRef` o `ChangeDetectorRef`, y usar `RouterLink` en el template.
+1. Es presentacional: recibe datos por `input()` y emite por `output()`. No inyecta servicios (ninguna clase `@Service` o `@Injectable` del proyecto, incluidos los de estado), no hace HTTP y no inyecta `Router` ni `ActivatedRoute`. Solo puede inyectar `ElementRef`, `DestroyRef` o `ChangeDetectorRef`, y usar `RouterLink` en el template.
 2. Su template tiene 15 líneas o menos.
 3. Sus estilos tienen 10 líneas o menos, o no tiene estilos.
 
@@ -218,10 +224,6 @@ Si no cumple alguna condición, o hay dudas, va SEPARADO. Las páginas siempre v
 - Un solo archivo: `ng g c <ruta>/<nombre> --inline-template --inline-style`.
 - Todo componente vive en su propia carpeta, junto a su `.spec.ts`.
 - Si al modificar un componente de un solo archivo deja de cumplir el criterio, sepáralo en ese mismo cambio sin tocar su lógica.
-
-## Configuración
-
-`angular.json` debe mantener en `schematics` la entrada `@schematics/angular:component` con `"inlineTemplate": false` e `"inlineStyle": false`. No la cambies.
 
 ## Verificación
 
