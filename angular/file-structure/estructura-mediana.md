@@ -14,10 +14,10 @@ src/
 │   │   ├── i18n/                   # opcional: configuración de traducciones
 │   │   ├── auth.ts                 # servicio de autenticación
 │   │   └── error-handler.ts        # ErrorHandler global
-│   ├── layout/                     # shell de la app (ver nota de layout)
-│   │   ├── shell/                  # contenedor con <router-outlet>
-│   │   ├── navbar/
-│   │   └── footer/
+│   ├── layout/                     # layout principal (ver nota de layout)
+│   │   ├── header/
+│   │   ├── footer/
+│   │   └── layout.ts               # layout principal con <router-outlet> (+ .html, .css)
 │   ├── shared/
 │   │   ├── components/
 │   │   │   └── spinner/
@@ -45,7 +45,7 @@ src/
 │   ├── app.html
 │   ├── app.css
 │   ├── app.config.ts
-│   └── app.routes.ts               # monta el shell y carga las features como hijas
+│   └── app.routes.ts               # monta Layout y carga las features como hijas
 ├── environments/
 ├── main.ts
 ├── index.html
@@ -58,16 +58,21 @@ deploy/                             # opcional: scripts y notas de despliegue
 
 ## Nota de layout
 
-`layout/` contiene el shell: la parte fija que envuelve todas las páginas (barra superior, menú, pie y el componente contenedor con `<router-outlet>`). Su contenido depende de la plantilla de UI que use el proyecto:
+`layout/` contiene el layout principal de la app y sus piezas fijas:
 
-- **Si el proyecto usa una plantilla que trae su propio layout** (por ejemplo, una plantilla de PrimeNG con topbar, sidebar, menú y un servicio de estado del layout), respeta la estructura y los nombres de la plantilla dentro de `layout/`.
-- **Si el proyecto no usa plantilla, o su plantilla no trae layout**, identifica las piezas del shell que ya existan, estén donde estén (`shared/`, la raíz de `app/` u otra carpeta), y muévelas a `layout/`, cada una en su propia carpeta y conservando sus nombres. En un proyecto nuevo, créalas directamente en `layout/`.
-- Los nombres del árbol (`shell/`, `navbar/`, `topbar/`…) son solo ejemplos.
+- `layout.ts` (+ `.html`, `.css`): el layout principal. Su template tiene el header y footer y un `<router-outlet>` donde se cargan las páginas. Vive directamente en `layout/`.
+- `header/`, `footer/` y demás piezas fijas: un componente por carpeta.
+
+Según el caso:
+
+- **Proyecto nuevo:** `App` solo contiene `<router-outlet />`. `app.routes.ts` monta `Layout` y carga como hijas las páginas que llevan layout. Las que no lo llevan (por ejemplo, un login a pantalla completa) van fuera de `Layout`.
+- **Proyecto existente:** el componente raíz `App` (`app.ts`, `app.html`, `app.spec.ts`) nunca se mueve. Si su template contiene el header y el footer como HTML, se deja así: crear `Layout` o convertir ese HTML en componentes es una tarea aparte. Solo se mueven a `layout/` los componentes de layout que ya existan como componentes propios (un header, un footer, un menú), estén donde estén, cada uno en su carpeta y con su nombre.
+- **Proyecto con plantilla de UI que trae su propio layout** (por ejemplo, una plantilla de PrimeNG con topbar, sidebar, menú y un servicio de estado del layout): respeta la estructura y los nombres de la plantilla dentro de `layout/`.
 
 ## Qué va en cada carpeta
 
 - `core/`: servicios singleton (`@Service()`), guards globales, interceptors, el `ErrorHandler` global y los modelos que usan varias features. Nunca componentes.
-- `layout/`: el shell de la app. Se usa una sola vez, por eso no va en `shared/`.
+- `layout/`: el layout principal y sus piezas fijas (header y footer). Se usan una sola vez, por eso no van en `shared/`.
 - `shared/`: componentes presentacionales, directivas, pipes, validators y funciones puras que usan 2 o más features. Un componente compartido cuyo uso no sea obvio lleva un `README.md` en su carpeta.
 - `features/<nombre>/`: una carpeta por feature, con su componente página, `<nombre>.routes.ts` y sus modelos propios (`<nombre>.model.ts`). Si la feature necesita subcomponentes, cada uno va en su propia subcarpeta dentro de la feature.
 

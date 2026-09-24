@@ -2,7 +2,7 @@
 
 Necesito refactorizar los componentes de este proyecto Angular 22 (standalone, sin NgModules). Hoy los componentes usan template y estilos en línea. Quiero separar los componentes grandes en archivos independientes y dejar los pequeños en un solo archivo. Es solo un cambio de estructura de archivos.
 
-Junto a este prompt te envío un documento con la **estructura de referencia** del proyecto. Úsalo para ubicar cada componente y entender el rol de cada carpeta. NO reorganices el proyecto para que coincida con ese documento. Los únicos movimientos permitidos son dos: mover cada componente a su propia carpeta (ver abajo) y agrupar los componentes del shell en `layout/` según la "Nota de layout" del documento de estructura.
+Junto a este prompt te envío un documento con la **estructura de referencia** del proyecto. Úsalo para ubicar cada componente y entender el rol de cada carpeta. NO reorganices el proyecto para que coincida con ese documento. Los únicos movimientos permitidos son dos: mover cada componente a su propia carpeta (ver abajo) y agrupar en `layout/` los componentes de layout que ya existan (header, footer, menú) según la "Nota de layout" del documento de estructura. El componente raíz `App` nunca se mueve. Cualquier otro movimiento (por ejemplo, sacar un componente de `core/`) NO está permitido: repórtalo en el resumen final.
 
 Si encuentras algún `@NgModule` o archivo `*.module.ts`, DETENTE y avísame: esta tarea asume un proyecto 100 % standalone.
 
@@ -51,7 +51,7 @@ Todo componente (separado o pequeño) debe quedar en su propia carpeta, junto co
 
 1. Crea una rama `refactor/separar-componentes`.
 2. Ejecuta `ng build` y `ng test --watch=false` y anota los errores o tests que YA fallaban.
-3. Muéstrame una tabla (incluye los componentes del shell que vayas a mover a `layout/`): carpeta o feature | componente | ruta actual | ruta final | líneas template | líneas estilos | ¿presentacional? | clasificación | motivo. **Espera mi confirmación.**
+3. Muéstrame una tabla (incluye los componentes de layout que vayas a mover a `layout/`): carpeta o feature | componente | ruta actual | ruta final | líneas template | líneas estilos | ¿presentacional? | clasificación | motivo. **Espera mi confirmación.**
 4. Haz la separación y los movimientos de carpeta, una feature a la vez. Ejecuta `ng build` al terminar cada feature.
 5. Revisa `angular.json`. Si en `schematics` existe `@schematics/angular:component` con `"inlineTemplate": true` o `"inlineStyle": true`, elimina esas dos opciones (el valor por defecto del CLI ya es `false`). Si no existen, no agregues nada.
 6. Ejecuta `ng build` y `ng test --watch=false`. Corrige solo los errores nuevos respecto al paso 2.
