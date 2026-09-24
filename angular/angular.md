@@ -1,19 +1,33 @@
-﻿# angular
+# angular
 
-best - practices
-https://www.freecodecamp.org/news/best-practices-for-a-clean-and-performant-angular-application-288e7b39eb6f/
+## Buenas prácticas
 
-https://blog.ng-classroom.com/blog/angular/Angular-Buenas-Practicas/
+Ver [`angular-best-practices.md`](./angular-best-practices.md) y la guía oficial: https://angular.dev/best-practices
 
-error al ejecutar comandos angular  windows 10 
-ejecutar el siguiente comando en powershell
-> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+## Error al ejecutar comandos de Angular en Windows
 
-## Angular docs
->Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+Si PowerShell bloquea la ejecución de scripts (por ejemplo `ng` no se reconoce o da error de política de ejecución), ejecutar en PowerShell:
 
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
 
-si al crear un nuevo proyecto no fucionar el auto import instalar la siguiente extension 
-y si  revisar el tsconfig.json
-https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-next
+## Si el auto-import no funciona al crear un proyecto nuevo
 
+Revisar que `tsconfig.json` esté bien configurado y que el editor use el servicio de lenguaje de Angular (extensión [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template) en VS Code).
+
+## Índice de `angular/`
+
+- [`angular-best-practices.md`](./angular-best-practices.md) — reglas de estilo y buenas prácticas para generar código Angular
+- [`angular-update.md`](./angular-update.md) — cómo actualizar Angular, Angular Material y dependencias
+- [`angular-build.md`](./angular-build.md) — environments y build de producción
+- [`netlify-publish.md`](./netlify-publish.md) — solucionar 404 al desplegar en Netlify
+- [`multi-request.md`](./multi-request.md) — combinar varias peticiones con `forkJoin`
+- [`subcribeFormValue.md`](./subcribeFormValue.md) — select dependiente escuchando cambios de un formulario
+- [`router-redirect.md`](./router-redirect.md) — redirecciones de rutas para evitar pantallas en blanco
+- [`file-structure/`](./file-structure/) — estructura de carpetas y agentes para proyectos grandes y medianos
+  - [`file-structure/estructura-grande.md`](./file-structure/estructura-grande.md)
+  - [`file-structure/estructura-mediana.md`](./file-structure/estructura-mediana.md)
+  - [`file-structure/agents-grande.md`](./file-structure/agents-grande.md)
+  - [`file-structure/agents-mediana.md`](./file-structure/agents-mediana.md)
+  - [`file-structure/refactor-componentes.md`](./file-structure/refactor-componentes.md)
