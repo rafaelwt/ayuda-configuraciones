@@ -1,174 +1,55 @@
-## Just update @angular/core and @angular/cli by using ng update command.
+# Actualizar un proyecto Angular
+
+## Actualizar `@angular/core` y `@angular/cli`
+
+Actualiza una versión mayor a la vez, siguiendo la guía oficial: https://angular.dev/update-guide
 
 ```bash
 ng update @angular/core @angular/cli
-or you can use npx command
-npx @angular/cli update @angular/core @angular/cli
 ```
 
-### If you are using Angular material You have to update it as well using ng update command.
+## Actualizar Angular Material (y CDK si se usa)
 
-> ng update @angular/material
+```bash
+ng update @angular/material
+ng update @angular/cdk
+```
 
-### Update Angular CLI version Globally
+## Actualizar la CLI de Angular de forma global
 
 ```bash
 npm uninstall -g @angular/cli
-npm cache clean or npm cache verify (if npm > 5)
+npm cache verify
 npm install -g @angular/cli@latest
-
-If you are using MAC or linux systems you might need to add the prefix sudo before npm
-
-sudo npm uninstall -g @angular/cli
-sudo npm cache clean or sudo npm cache verify (if npm > 5)
-sudo npm install -g @angular/cli@latest
 ```
 
-### verifcar paquetes antiguos
+En macOS o Linux, antepón `sudo` si el usuario no tiene permisos de escritura globales en npm.
 
+Nota: el builder por defecto desde Angular v17 es `@angular/build` (application builder), no `@angular-devkit/build-angular`. `ng update` migra el `angular.json` automáticamente; no hace falta instalar paquetes `@next` manualmente para pasar de uno a otro.
+
+## Verificar paquetes desactualizados
+
+```bash
 npm outdated
-
-### Agregar en enviroment al angular.json
-
-```json
-{
-  "configurations": {
-    "production": {
-      "fileReplacements": [
-        {
-          "replace": "src/environments/environment.ts",
-          "with": "src/environments/environment.prod.ts"
-        }
-      ]
-    }
-  }
-}
 ```
 
-### Generate build
-
-ng build --configuration production --output-hashing=all
-
-### Actulizar paquetes
-
-Ejecutar npx npm-check-updates
-
-> npx npm-check-updates
-
-### Para actualizar los paquetes ejecutar el comando
-
-> npx npm-check-updates -u
-
-### O Puede instalar `npm-check-updates` para actualizar los paquetes de un proyecto.
-
-### Para seleccionar los paquetes a actualizar ejecutar el comando
-
-> npx npm-check-updates -i
-
-Instalar `npm-check-updates` para actualizar los paquetes de un proyecto.
-
-> npm install -g npm-check-updates
-
-### Ejecutar el comando `ncu` para ver los paquetes que se pueden actualizar.
-
-> ncu
-
-### Ejecutar el comando `ncu -u` para actualizar los paquetes.
-
-> ncu -u
-
-### Update minor version angular
-
-````bash
-  ng update @angular/cli
-  ng update @angular/core
-  ## Just update @angular/core and @angular/cli by using ng update command.
+## Actualizar paquetes con npm-check-updates
 
 ```bash
-ng update @angular/core @angular/cli
-or you can use npx command
-npx @angular/cli update @angular/core @angular/cli
-````
+# Ver qué paquetes se pueden actualizar
+npx npm-check-updates
 
-### If you are using Angular material You have to update it as well using ng update command.
+# Actualizar package.json con las últimas versiones
+npx npm-check-updates -u
 
-> ng update @angular/material
-
-### Update Angular CLI version Globally
-
-```bash
-npm uninstall -g @angular/cli
-npm cache clean or npm cache verify (if npm > 5)
-npm install -g @angular/cli@latest
-
-If you are using MAC or linux systems you might need to add the prefix sudo before npm
-
-sudo npm uninstall -g @angular/cli
-sudo npm cache clean or sudo npm cache verify (if npm > 5)
-sudo npm install -g @angular/cli@latest
+# Elegir interactivamente qué paquetes actualizar
+npx npm-check-updates -i
 ```
 
-### verifcar paquetes antiguos
-
-npm outdated
-
-### Agregar en enviroment al angular.json
-
-```json
-{
-  "configurations": {
-    "production": {
-      "fileReplacements": [
-        {
-          "replace": "src/environments/environment.ts",
-          "with": "src/environments/environment.prod.ts"
-        }
-      ]
-    }
-  }
-}
-```
-
-### Generate build
-
-ng build --configuration production --output-hashing=all
-
-### Actulizar paquetes
-
-Ejecutar npx npm-check-updates
-
-> npx npm-check-updates
-
-### Para actualizar los paquetes ejecutar el comando
-
-> npx npm-check-updates -u
-
-### O Puede instalar `npm-check-updates` para actualizar los paquetes de un proyecto.
-
-Instalar `npm-check-updates` para actualizar los paquetes de un proyecto.
-
-> npm install -g npm-check-updates
-
-### Ejecutar el comando `ncu` para ver los paquetes que se pueden actualizar.
-
-> ncu
-
-### Ejecutar el comando `ncu -u` para actualizar los paquetes.
-
-> ncu -u
-
-### Update minor version angular
+Si se usa con frecuencia, se puede instalar globalmente como `ncu`:
 
 ```bash
-  ng update @angular/cli
-  ng update @angular/core
-  # Solo si se usa angular material o cdk
-  ng update @angular-devkit/build-angular@next @angular/cdk@next @angular/cli@next
-```
-
-
-### Install packages
-
-```bash
-npm i ngx-cookie-service ngx-lottie ngx-spinner @fullcalendar/angular
+npm install -g npm-check-updates
+ncu
+ncu -u
 ```
