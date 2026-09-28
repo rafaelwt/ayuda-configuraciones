@@ -53,6 +53,31 @@
 - `app.useGlobalFilters(new ...)` en `main.ts`.
 - `.toPromise()` sobre un `Observable` — usa `firstValueFrom`.
 - Configuración vieja de `@nestjs/throttler` (`ThrottlerModule.forRoot({ ttl, limit })`) — la API actual usa un array de `throttlers`.
+- Un use case o service que lanza `NotFoundException`/`ForbiddenException` directamente aunque exista un tipo de error de dominio — el dominio no conoce HTTP (ver arriba).
+- Una interfaz de repositorio + su token de inyección "por las dudas" cuando hay una sola implementación que nunca se cambia — usa `overrideProvider` en los tests en su lugar (ver [Inyección de dependencias](#inyección-de-dependencias)).
+- `noImplicitAny: false` o `strict: false` en `tsconfig*.json` — nunca se desactivan.
+
+## Observabilidad
+
+- **Request/trace id**: cada respuesta lleva `X-Request-Id`. Si hay un id upstream (`CF-Ray` u otro `X-Request-Id` entrante), se reutiliza; si no, se genera uno nuevo. Se fija lo antes posible (middleware o hook de la plataforma, no un interceptor de Nest) para que esté presente incluso en un 401/404, y se incluye en la única línea de log del filtro global (ver [Errores](#errores)).
+- **APM/tracing**: opcional y apagado por defecto, gateado por variable de entorno. Vive en `core/observability/` (o en el módulo que ya cablea la infraestructura transversal, p. ej. `app.module.ts`). Si la herramienta lo requiere, se inicializa antes de que arranque Nest (archivo separado, importado primero en `main.ts`): tanto Sentry como OpenTelemetry interceptan los `require`/`import` de los módulos que instrumentan (`http`, `mysql2`, `ioredis`…), así que inicializar dentro de un provider llega tarde.
+- Dos opciones válidas, una sola por proyecto, nunca las dos:
+  - `@nestjs/observe` (APM oficial de Nest).
+  - OpenTelemetry + Sentry/GlitchTip.
+- Si se usa un error tracker, se filtran cookies, `Authorization`, API keys y datos personales antes de enviar el evento (obligatorio; hook tipo `beforeSend`).
+- Las auto-instrumentaciones ruidosas se desactivan explícitamente: `fs`, `dns`, `net` (y cualquier fuente de polling constante, como Redis si hay colas) — no aportan señal de diagnóstico y entierran los logs propios en spans basura.
+
+## Seguridad HTTP
+
+- Headers equivalentes a helmet (CSP, HSTS, `X-Content-Type-Options`, etc.) en toda respuesta.
+- `Cache-Control: no-store` en toda respuesta con datos sensibles (sesión, pago, dato personal).
+- CORS cerrado por defecto; se abre solo si existe un cliente cross-origin real, con origins explícitos.
+- Protección CSRF cuando la sesión viaja por cookie (no hace falta si la auth es un token en header, p. ej. Bearer).
+
+**Si el proyecto recibe archivos:**
+
+- Los límites de tamaño, cantidad de archivos y cantidad de partes se aplican en la capa de streaming (opciones del plugin multipart), no en un DTO después de bufferear la petición completa.
+- Motivo: muchas partes pequeñas agotan memoria antes de que la validación llegue a correr; el límite tiene que frenar el stream, no el objeto ya armado en memoria.
 
 ## Reglas generales
 
@@ -167,6 +192,18 @@ integrations  única capa que conoce las APIs externas; los módulos de negocio 
 - Cada módulo tiene su `models/*.row.ts` con las formas crudas de mysql2 (`extends RowDataPacket`), una interfaz chica por consulta. El repositorio nunca devuelve estas filas crudas: las mapea a un tipo de hechos antes de devolverlas al service.
 - Errores de la base de datos relevantes para el negocio (por ejemplo, `ER_DUP_ENTRY`/`errno === 1062`) se traducen en el propio repositorio a una señal interna; el service decide si esa señal se expone al cliente.
 
+## Módulos opcionales
+
+| Módulo | Cuándo agregarlo | Dónde vive |
+| --- | --- | --- |
+| Rate limit con storage Redis | Más de una instancia del proceso (el storage en memoria ya no alcanza) | `core/rate-limit/` |
+| Colas + eventos (BullMQ + event emitter) | Efectos secundarios asíncronos (email, PDFs, notificaciones); queue, processor y listener separados | `events/` (+ `processors/`), nunca dentro de `integrations/` |
+| Object storage (S3 y afines) con simulador local | El proyecto guarda o sirve archivos | `integrations/<storage>/` |
+| Swagger/OpenAPI | Otro equipo consume la API como contrato | `core/http/` o `core/docs/` |
+| i18n de mensajes | Producto de cara al usuario final en varios idiomas; las factories de error reciben una clave de mensaje, no el texto ya traducido | `common/i18n/` |
+| Auth (JWT/Passport, strategies y guards) | El proyecto tiene login/sesión propios | `modules/auth/` (+ `common/` para decoradores genéricos) |
+| Fastify en vez de Express | Proyecto nuevo que prioriza performance y plugins de primera clase (helmet/csrf/multipart); no es motivo para migrar un proyecto existente | — |
+
 ## Verificación
 
 Antes de dar una tarea por terminada, ejecuta esto y pega la salida:
@@ -188,6 +225,7 @@ rg -n "from '.*modules/" src/core src/common
 rg -n "from '.*(core|modules|integrations)/" src/common
 rg -n 'new AppError\(' src --glob '!*.errors.ts' --glob '!*.spec.ts' --glob '!src/common/errors/errors.ts'
 rg -n '@UseFilters|@UseInterceptors|useGlobalFilters' src
+rg -n '"(strict|noImplicitAny)": false' tsconfig*.json
 ```
 
 Las dos primeras son los límites de capa: `core/` nunca importa de `modules/`; `common/` nunca importa de `core/`, `modules/` ni `integrations/`.
