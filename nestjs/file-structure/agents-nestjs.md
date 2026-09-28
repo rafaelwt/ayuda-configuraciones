@@ -20,13 +20,36 @@
 | `*.service.ts` | Lógica de negocio del flujo: llama a repositorios, integraciones y policies |
 | `*.repository.ts` | Única capa con SQL o acceso a Redis del módulo. Convención de nombre única (sin `store`/`contract`/`port`) |
 | `*.policy.ts` | Funciones puras de decisión (clasificar, exponer o no un dato), sin I/O |
-| `*.errors.ts` | Errores de dominio del módulo (clases o factories de `AppError`) |
+| `*.errors.ts` | Factories de `AppError` del módulo o integración (ver [Errores](#errores)) |
 | `*.ports.ts` | Tokens de inyección y tipos que cruzan la frontera del módulo (los que otro módulo puede necesitar) |
 | `dto/*.dto.ts` | Schemas Zod de entrada (body/query) del controller |
 | `models/*.row.ts` | Forma cruda de una fila de MariaDB (`extends RowDataPacket`), una interfaz chica por consulta |
 | `models/*.model.ts` | Schema Zod de dominio del módulo; el tipo se deriva con `z.infer` |
 | `*.spec.ts` | Test unitario (Vitest), junto al archivo que prueba |
 | `*.e2e-spec.ts` | Test end-to-end, en `test/` |
+
+## Errores
+
+- **Clasificación primero**: error **operacional** (esperable: recurso inexistente, datos inválidos, proveedor caído) → `AppError` con código estable desde una factory. Error **de programación o de sistema** (bug, pool agotado, memoria) → no se atrapa: se propaga y el filtro global lo registra y responde 500/503.
+- Todo `AppError` se construye con una factory en el `*.errors.ts` del módulo o integración, o en `shared/errors/errors.ts` si es genérico. Nunca `new AppError(...)` fuera de esos archivos. Una factory por código+mensaje, sin mensajes repetidos.
+- `try/catch` solo para: (a) traducir una falla externa concreta y esperada en el borde (errno conocido de mysql2, respuesta o timeout del proveedor, excepción de una librería) a un `AppError` o señal interna; (b) absorber una falla con un plan alternativo (fail-open) — el único caso donde esa capa loguea. Nunca atrapar para relanzar, para "envolver por las dudas" ni `catch (e) { throw e; }`.
+- El error de un request se loguea una sola vez, en el filtro global. Nada de log-and-rethrow en services, repositorios, guards ni integraciones.
+- Fuera del contexto HTTP (cron, workers, consumidores) no hay filtro: el punto de entrada del job atrapa, registra con contexto y decide reintento/alerta.
+- Filtro e interceptores transversales se registran una vez como `APP_FILTER`/`APP_INTERCEPTOR` en un módulo. Nunca `app.useGlobalFilters(new ...)` en `main.ts`, nunca `@UseFilters`/`@UseInterceptors` por controller.
+- Guards, pipes y decoradores lanzan el `AppError` del dominio, nunca `HttpException`/`NotFoundException` armadas a mano; el filtro traduce a HTTP. El dominio no conoce HTTP.
+- Mensajes y causas: nunca repiten el input del cliente (`User with ID ${id}`) ni valores de configuración (URLs, secretos, connection strings); la causa lleva una razón (`{ reason: 'invalid-url' }`), no la excepción cruda que contiene el valor. Nada de `details?: any`.
+- Integraciones externas: timeout obligatorio en toda llamada; distinguir "el proveedor respondió con error" de "no respondió" (códigos distintos); reintentos con backoff solo en operaciones idempotentes (nunca en una que crea un recurso cobrable, p. ej. generar un QR de pago).
+- Validación una sola vez en el borde (DTO Zod / schema de la respuesta del proveedor); lo ya validado viaja tipado — una función interna no recibe `unknown` ni revalida con `typeof`, ni existen validadores a mano para una forma que ya tiene schema.
+- Un flujo con varios pasos se divide en métodos privados con nombre, uno por paso (leer, verificar, reservar, llamar al proveedor, confirmar); no un método con un `try/catch` por paso.
+- No se escriben tests para ramas defensivas imposibles: si una rama no puede ocurrir porque el tipo o el schema la impide, se borra la rama, no se testea.
+
+**No copiar de artículos genéricos:**
+
+- `HttpException` (o subclases) lanzada desde un service o controller.
+- `class-validator` — este proyecto valida con Zod (ver [Stack y convenciones de NestJS](#stack-y-convenciones-de-nestjs)).
+- `app.useGlobalFilters(new ...)` en `main.ts`.
+- `.toPromise()` sobre un `Observable` — usa `firstValueFrom`.
+- Configuración vieja de `@nestjs/throttler` (`ThrottlerModule.forRoot({ ttl, limit })`) — la API actual usa un array de `throttlers`.
 
 ## Reglas generales
 
@@ -143,6 +166,16 @@ Y estos greps, que deben devolver vacío:
 rg -n '@Optional\(\)' src
 rg -n 'as unknown as|@ts-ignore|: any\b' src test   # incluye specs y e2e: cada resultado debe estar dentro de un helper con nombre explícito (asInvalidInput o el adaptador de un cliente de terceros)
 rg -n 'from .*modules/' src/shared
+rg -n 'new AppError\(' src --glob '!*.errors.ts' --glob '!*.spec.ts' --glob '!src/shared/errors/errors.ts'
+rg -n '@UseFilters|@UseInterceptors|useGlobalFilters' src
+```
+
+Y estos, que hay que revisar caso por caso (no tienen que dar vacío):
+
+```bash
+rg -n 'new (HttpException|\w+Exception)\(' src --glob '!*.spec.ts'   # vacío salvo el filtro global
+rg -n 'catch \(' src --glob '!*.spec.ts'                             # cada uno traduce en un borde o es fail-open con log
+rg -n ': unknown' src/modules src/integrations --glob '!*.spec.ts'   # solo en bordes (respuesta cruda de un proveedor o de la BD)
 ```
 
 No des una tarea por terminada con errores de build, lint, tests fallidos, el typecheck en rojo o alguno de los greps con resultado.
