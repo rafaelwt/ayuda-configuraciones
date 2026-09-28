@@ -85,7 +85,7 @@
 - `core/` nunca importa de `modules/`. `common/` nunca importa de `core/`, `modules/` ni `integrations/`.
 - Un servicio o repositorio vive en un solo módulo; si dos módulos lo necesitan, se mueve a `common/` (código plano transversal sin módulo Nest, sin conocer el dominio) o a `core/` (infraestructura con su propio módulo Nest), o queda expuesto como puerto de un módulo (`*.ports.ts`) que el otro consume.
 - Los tipos crudos de una API externa nunca salen de `integrations/`: los módulos de negocio solo ven los tipos de `*.ports.ts`.
-- Comentarios: sin cabecera por archivo, clase o función; el nombre y los tipos ya dicen qué es. Un comentario solo cuando evita un error real (decisión no obvia, constante mágica del proveedor, restricción de seguridad), máximo 3 líneas seguidas, en presente, sin narrar historia. No repite lo que dice el tipo ni duplica lo que ya está en `docs/`.
+- Comentarios: nada de cabeceras descriptivas en archivos, clases o funciones (JSDoc que repite nombre, parámetros o tipos). Un comentario solo cuando evita un error real (decisión no obvia, constante mágica del proveedor, restricción de seguridad), en cualquier lugar del código, incluso encima de una función. Máximo 3 líneas seguidas, en presente, sin narrar historia de cambios. No duplica documentación que ya existe (README, especificaciones, docs del proyecto).
 - Tests honestos: nunca fuerces el código de producción para que un test pase (nada de tipos debilitados o duplicados, alias, reexports, shims, `any`, `as unknown as`, `@ts-ignore`). Actualiza los fixtures a los contratos reales. Los cambios de comportamiento siguen TDD: primero el test que falla.
 - Tests: dobles tipados con `Pick<T, 'metodo'>` o una instancia real con dependencias falsas, sin casts. Datos inválidos a propósito: un único helper por archivo con nombre explícito (`asInvalidInput(value)`); `@ts-expect-error` solo para probar que algo NO compila. En producción, un cliente de terceros mal tipado se adapta en un helper con nombre explícito, nunca con un cast suelto.
 
@@ -111,6 +111,8 @@ src/
 │   │   └── redis-keys.ts
 │   ├── rate-limit/                   # throttling global de la app: infraestructura, no negocio
 │   │   └── rate-limit.module.ts
+│   ├── queue/                        # solo si el proyecto usa colas: BullMQ sobre el Redis existente
+│   │   └── queue.module.ts           # BullModule.forRoot; ningún job vive acá (ver modules/<feature>/jobs/)
 │   └── http/
 │       ├── http-platform.module.ts   # registra el filtro/interceptor globales una sola vez (APP_FILTER/APP_INTERCEPTOR)
 │       └── app-exception.filter.ts   # AppError -> HTTP, sin conocer ningún módulo de negocio
@@ -149,21 +151,24 @@ src/
 │       │   └── <feature>.policy.ts
 │       ├── mappers/                  # solo si el módulo mapea proveedor/fila -> tipo interno
 │       │   └── <feature>.mapper.ts
+│       ├── jobs/                     # solo si el módulo agenda/procesa jobs BullMQ propios (ver Jobs)
+│       │   ├── <feature>.jobs.module.ts   # BullModule.registerQueue + processors de este módulo
+│       │   └── <feature>.processor.ts
 │       ├── guards/                   # solo si el módulo tiene guards propios
 │       └── decorators/               # solo si el módulo tiene decoradores propios
 ├── commands/
 │   └── <nombre>.ts                   # entry points de comandos operativos (`pnpm <script>`)
-└── events/                           # opcional: solo en apps event-driven (publishers/handlers/listeners)
+└── events/                           # opcional: solo eventos de dominio cruzados entre módulos (publishers/handlers/listeners)
 ```
 
 ### Qué va en cada carpeta
 
-- `core/`: módulos y providers Nest de infraestructura transversal de toda la app — config, base de datos, cache/Redis, rate-limit, el módulo que registra el filtro global y el interceptor. Cada pieza tiene su propio `*.module.ts`. Nunca importa de `modules/`.
+- `core/`: módulos y providers Nest de infraestructura transversal de toda la app — config, base de datos, cache/Redis, rate-limit, colas (`queue/`, solo la conexión BullMQ/Redis, ningún processor), el módulo que registra el filtro global y el interceptor. Cada pieza tiene su propio `*.module.ts`. Nunca importa de `modules/`.
 - `common/`: código plano reutilizable, sin módulo Nest — errores, utilidades, helpers de seguridad, pipes/guards/decoradores genéricos, helpers de protocolo HTTP. Nunca importa de `core/`, `modules/` ni `integrations/`.
 - `integrations/`: la única capa que conoce las APIs externas. `integrations/http/` tiene la base compartida (transporte HTTP, caché de tokens); una carpeta por proveedor con su client, sus tipos crudos, su mapper y, si aplica, un simulador local.
-- `modules/<feature>/`: una carpeta por feature de negocio, con la forma fija de la raíz (`*.module.ts`, controller, service, repositorio(s), `*.errors.ts`, `*.ports.ts`) y subcarpetas (`dto/`, `models/`, `rules/`, `mappers/`, `guards/`, `decorators/`) solo cuando el módulo las necesita.
+- `modules/<feature>/`: una carpeta por feature de negocio, con la forma fija de la raíz (`*.module.ts`, controller, service, repositorio(s), `*.errors.ts`, `*.ports.ts`) y subcarpetas (`dto/`, `models/`, `rules/`, `mappers/`, `jobs/`, `guards/`, `decorators/`) solo cuando el módulo las necesita. `jobs/` son los processors BullMQ que solo ese módulo agenda y consume, con su propio `*.jobs.module.ts` que registra la queue sobre la conexión de `core/queue/` (ver [Jobs](#jobs)).
 - `commands/`: comandos que se ejecutan por fuera del servidor HTTP (migraciones de datos, tareas de operador).
-- `events/` (opcional): solo cuando la app es event-driven; publishers/handlers/listeners, sin mezclarse con `modules/`.
+- `events/` (opcional): solo eventos de dominio que cruzan más de un módulo (publishers/handlers/listeners), sin mezclarse con `modules/`. Un job que un único módulo agenda y procesa no es un evento cruzado: vive en `modules/<feature>/jobs/`, no acá.
 
 ### Capas (reglas)
 
@@ -192,12 +197,32 @@ integrations  única capa que conoce las APIs externas; los módulos de negocio 
 - Cada módulo tiene su `models/*.row.ts` con las formas crudas de mysql2 (`extends RowDataPacket`), una interfaz chica por consulta. El repositorio nunca devuelve estas filas crudas: las mapea a un tipo de hechos antes de devolverlas al service.
 - Errores de la base de datos relevantes para el negocio (por ejemplo, `ER_DUP_ENTRY`/`errno === 1062`) se traducen en el propio repositorio a una señal interna; el service decide si esa señal se expone al cliente.
 
+### Base de datos (sin ORM)
+
+- El schema (DDL) y los datos de desarrollo son scripts SQL versionados en `db/` dentro del propio backend (`db/schema.sql`, `db/seed.dev.sql`), no en un repo o carpeta aparte: el backend es dueño de su base.
+- `db/clean.sql` es SQL plano que solo vacía las tablas transaccionales (nunca catálogos/config) — pensado para dejar la base en un estado limpio reproducible, no para borrar todo.
+- Un comando `db:reset` (dev-only) reconstruye la base desde `schema.sql` + `seed.dev.sql`: se niega a correr salvo `NODE_ENV=development` y el host de la base apuntando a un host local (localhost/127.0.0.1/::1), verificado contra la env cruda antes de tocar nada.
+- Sin archivos de migración mientras el proyecto no adopte una herramienta de migraciones — el DDL vive directo en `schema.sql`, se edita en el lugar y `db:reset` es la única forma de aplicar el cambio en desarrollo. El día que el proyecto necesite migrar una base ya poblada en producción (no solo recrear una de desarrollo), ese es el momento de sumar una herramienta de migraciones, no antes.
+
+## Jobs
+
+Aplica a cualquier job BullMQ con un deadline propio del negocio (expiración, reintento de una integración externa), no a jobs simples de efectos secundarios (enviar un email).
+
+- **Job puntual + barrido de reconciliación**: el job agendado en el momento exacto (`delay` de BullMQ) es la vía rápida; un job repetible que recorre periódicamente lo que quedó pendiente es la red de seguridad — BullMQ no garantiza ejecución exacta ni exactly-once, así que ningún flujo depende solo del job puntual.
+- **Deadline persistido**: la fecha/hora que decide si algo está vencido vive en la fila de la base, no solo en el `delay` del job — así el barrido de reconciliación puede encontrar lo vencido aunque el job puntual nunca haya corrido (proceso caído, cola perdida, etc.).
+- **Aislamiento por ítem**: el barrido procesa cada fila en su propia transacción/`try`; una falla en una fila nunca aborta el resto del lote ni el job en sí.
+- **Backoff con jitter vía tiempo persistido, nunca `sleep`**: un reintento fallido calcula y persiste su próximo intento (`nextAttemptAt = ahora + backoff + jitter`); el siguiente barrido solo toma las filas cuyo `nextAttemptAt` ya venció. Nada de esperar dentro del job.
+- **Transitorio vs. permanente**: una falla transitoria (timeout, red, 5xx del proveedor) se reintenta con el backoff de arriba. Una falla permanente (el proveedor rechaza la operación con un código de negocio) no se reintenta a ciegas: se resuelve consultando el estado real en el proveedor si existe ese método, o se marca directamente para revisión manual.
+- **Revisión manual tras N intentos**: un contador de intentos consecutivos por fila, junto al motivo del último error; al llegar al máximo configurado se marca un flag de revisión manual y se deja de reintentar automáticamente — un único log en nivel error (con el identificador de negocio, nunca secretos ni el objeto completo del proveedor), no uno por intento.
+- **Updates condicionales para idempotencia**: todo `UPDATE` que resuelve un job es condicional (`WHERE estado = 'X' AND ...`), nunca un `UPDATE` incondicional seguido de una lectura — así el job puntual y una corrida de reconciliación pueden solaparse sin duplicar el efecto ni pisarse.
+
 ## Módulos opcionales
 
 | Módulo | Cuándo agregarlo | Dónde vive |
 | --- | --- | --- |
 | Rate limit con storage Redis | Más de una instancia del proceso (el storage en memoria ya no alcanza) | `core/rate-limit/` |
-| Colas + eventos (BullMQ + event emitter) | Efectos secundarios asíncronos (email, PDFs, notificaciones); queue, processor y listener separados | `events/` (+ `processors/`), nunca dentro de `integrations/` |
+| Colas (BullMQ) | Efectos secundarios asíncronos (email, PDFs, notificaciones) o un flujo con deadline propio (expiración, reintentos) | infraestructura (`BullModule.forRoot`, conexión Redis) en `core/queue/`; los jobs que solo usa un módulo van en `modules/<feature>/jobs/`, con su propio `*.jobs.module.ts` para que `core/` nunca importe de `modules/` (ver [Jobs](#jobs)) |
+| Eventos de dominio cruzados entre módulos | Dos o más módulos reaccionan al mismo hecho de negocio sin depender uno del otro | `events/` (publishers/handlers/listeners) — solo para esto; un job que un único módulo agenda y procesa no es un evento cruzado y no va aquí |
 | Object storage (S3 y afines) con simulador local | El proyecto guarda o sirve archivos | `integrations/<storage>/` |
 | Swagger/OpenAPI | Otro equipo consume la API como contrato | `core/http/` o `core/docs/` |
 | i18n de mensajes | Producto de cara al usuario final en varios idiomas; las factories de error reciben una clave de mensaje, no el texto ya traducido | `common/i18n/` |

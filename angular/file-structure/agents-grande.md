@@ -70,7 +70,7 @@ Los artefactos que genera el CLI conservan el nombre que les da (`ng g guard aut
 
 ### Comentarios
 
-- Sin comentarios en clases ni funciones. Un comentario solo cuando la decisión no es obvia, máximo 3 líneas, en presente, sin narrar historia.
+- Nada de cabeceras descriptivas en archivos, clases o funciones (JSDoc que repite nombre, parámetros o tipos). Un comentario solo cuando evita un error real (decisión no obvia, constante mágica del proveedor, restricción de seguridad), en cualquier lugar del código, incluso encima de una función. Máximo 3 líneas seguidas, en presente, sin narrar historia de cambios. No duplica documentación que ya existe (README, especificaciones, docs del proyecto).
 
 ### Tests honestos
 
