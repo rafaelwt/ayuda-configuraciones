@@ -31,7 +31,7 @@ Los artefactos que genera el CLI conservan el nombre que les da (`ng g guard aut
 | `*.routes.ts` | `Routes` con `export default` (salvo `app.routes.ts`, que conserva el `export const routes` del CLI) |
 | `*.model.ts` | Solo `interface` y `type`, sin lógica |
 | `*.validator.ts` | Función que devuelve un `ValidatorFn` |
-| `*.form.ts` | Fábrica pura de `FormGroup` (ver Formularios) |
+| `*.form.ts` | Valores iniciales y schema de Signal Forms (ver Formularios) |
 | `*.modes.ts` | Tipos y helpers de crear/editar de un formulario multipaso |
 | `*.spec.ts` | Test (Vitest) |
 | Archivos en `utils/` | Funciones puras exportadas, sin estado ni `inject()` |
@@ -43,6 +43,49 @@ Los artefactos que genera el CLI conservan el nombre que les da (`ng g guard aut
 - No dejes código sin referencias: si un componente, ruta o servicio deja de usarse, elimínalo en el mismo cambio. No crees stubs "para después".
 - Constantes como objeto `as const` o tipo unión, no como clases con `static readonly`.
 - Path alias: agrega en `compilerOptions.paths` de `tsconfig.json` la entrada `"@/*": ["./src/*"]` (el CLI no la crea). Entre carpetas de primer nivel (`core/`, `layout/`, `shared/`, `features/`) importa con `@/app/...`. Dentro de la misma feature usa rutas relativas.
+
+## Reglas de implementación
+
+### Reactividad
+
+- Nunca un `effect()` que escribe otro signal: usa `computed()`, `linkedSignal()` o hazlo en el manejador del evento. `effect()` y `afterRenderEffect()` son solo para efectos fuera del estado de Angular (DOM, `localStorage`, logging).
+
+### HTTP y ciclo de vida
+
+- `provideHttpClient(withFetch(), withInterceptors([...]))` en `app.config.ts`.
+- Nunca `new HttpClient(...)` dentro de un método. Si hace falta un cliente sin interceptors, provéelo una sola vez con un `InjectionToken` cuya fábrica use `HttpBackend`.
+- Las suscripciones manuales usan `takeUntilDestroyed(destroyRef)`. Los timers se limpian al destruir.
+
+### Validación en los bordes
+
+- Valida y parsea solo en los bordes: respuestas HTTP (`unknown` → parser → modelo tipado), parámetros de ruta y entrada cruda del usuario.
+- Nunca vuelvas a validar como `unknown` un valor interno que ya está tipado.
+
+### Duplicación
+
+- Un mismo bloque de UI repetido (por ejemplo, la misma cadena de clases de Tailwind para un botón en 2 o más lugares, incluso dentro de una sola feature) se convierte en una pieza presentacional compartida.
+- Prefiere una **directiva de atributo** sobre el elemento nativo (`button[appButton]` con un `input()` `variant` y `host` para las clases) antes que un componente wrapper, cuando la pieza no necesita template propio.
+- No crees reexports ni alias de tipos para mantener rutas de import antiguas.
+- Un helper agnóstico de framework que usan `core/` y `features/` va en `shared/`.
+
+### Comentarios
+
+- Sin comentarios en clases ni funciones. Un comentario solo cuando la decisión no es obvia, máximo 3 líneas, en presente, sin narrar historia.
+
+### Tests honestos
+
+- Nunca fuerces el código de producción para que un test pase: nada de tipos debilitados o duplicados, alias, reexports, shims, `any` ni `as unknown as`/`@ts-ignore`.
+- Actualiza los fixtures a los contratos reales. Nada de trabajo a medias.
+- Dobles de prueba tipados, sin casts: `Mocked<T>` (Vitest) o `Pick<T, 'metodo'>` con `{ provide: X, useValue: doble }`. Úsalos con moderación: si se puede, usa la implementación real.
+- Una clase con miembros privados se prueba con una instancia real y dependencias falsas, no con un objeto casteado.
+- Prueba por la API pública y el DOM (o con component harnesses), no por el interior del componente. El `Router` no se mockea: usa `RouterTestingHarness`.
+- Datos inválidos a propósito (para probar una validación): un único helper por archivo con nombre explícito, por ejemplo `asInvalidInput(value)`; el cast vive solo ahí.
+- `@ts-expect-error` solo para probar que algo NO compila (test de contrato). `@ts-ignore`, `any` y `as unknown as` sueltos están prohibidos, también en los `*.spec.ts`.
+- Los cambios de comportamiento siguen TDD: primero el test que falla.
+
+### Dinero
+
+- Los montos se manejan como centavos enteros (`bigint`) en memoria y como strings decimales en el cable (HTTP/JSON). Nunca `number` de punto flotante.
 
 ## Estructura del proyecto (mediana)
 
@@ -137,20 +180,25 @@ Según el caso:
 
 ### Formularios (recomendado, no obligatorio)
 
-Cuando el mismo formulario se necesita en más de un lugar, su construcción se extrae a un archivo `<nombre>.form.ts` junto al componente. Casos típicos:
+Los formularios nuevos usan **Signal Forms** (`@angular/forms/signals`). El schema declara las reglas con `required`, `pattern`, `validate`/`valueOf` (validación cruzada entre campos), `validateTree`, `validateAsync` (validación contra el backend) y `applyEach` (arrays). Las reglas condicionales usan `required(path, { when })` o `applyWhen`, y el estado del control (`disable`, `readonly`, `hidden`) se declara en el propio schema. Un control personalizado implementa `FormValueControl`; `debounce` retrasa la validación de un campo costoso (por ejemplo, uno que llama al backend).
 
-- Un formulario multipaso donde el padre valida los pasos sin montarlos.
-- Un formulario que se usa para crear y para editar.
-- Validaciones que se quieren testear sin montar el componente.
+Usa Reactive Forms (`FormBuilder`, `FormGroup`) en vez de Signal Forms solo si se cumple alguna de estas condiciones:
 
-Contenido del archivo `<nombre>.form.ts`:
+- El formulario o el proyecto ya usa Reactive Forms.
+- El valor necesita un pipeline de RxJS (por ejemplo, `valueChanges.pipe(switchMap(...))`).
+- Un control de terceros solo expone `ControlValueAccessor`.
 
-- `build<Nombre>Form(fb: FormBuilder, ...valoresPorDefecto): FormGroup`: única fuente del schema y los validators.
-- Funciones puras opcionales para reglas condicionales (habilitar o deshabilitar controles según otros valores) o para calcular la validez de datos sin montar el componente (`compute<Nombre>Validity`).
-- El componente llama a `build<Nombre>Form` en lugar de definir el `fb.group` dentro de la clase.
-- Su test va en `<nombre>.form.spec.ts`.
+Para combinar ambos en el mismo formulario (por ejemplo, un control de terceros dentro de un Signal Form), usa `compatForm` o `SignalFormControl` de `@angular/forms/signals/compat`.
 
-Si el formulario es simple y solo lo usa un componente, se define dentro del componente.
+Si el formulario es simple y solo lo usa un componente, sus reglas van en línea: `form(this.model, (p) => { required(p.email); ... })`, dentro del propio componente.
+
+Cuando el mismo formulario se necesita en más de un lugar (un multipaso que valida sus pasos sin montarlos, un formulario que se usa para crear y editar, o validaciones que se quieren testear sin montar el componente), su schema se extrae a un archivo `<nombre>.form.ts` junto al componente:
+
+- `initial<Nombre>(): <Modelo>`: valores iniciales (los tipos viven en `<nombre>.model.ts`, no aquí).
+- `export const <nombre>Schema = schema<<Modelo>>((p) => { ... })`: única fuente de las validaciones, reusable para crear y editar, testeable sin montar el componente.
+- El componente llama a `form(this.model, <nombre>Schema)` en lugar de declarar las reglas en la clase.
+- Un formulario padre o multipaso compone los schemas de sus partes con `apply(path.sub, subSchema)` en vez de repetir las reglas.
+- Su test va en `<nombre>.form.spec.ts`. Como `form()` necesita un contexto de inyección, el test lo crea dentro de `TestBed.runInInjectionContext(...)` (o le pasa `{ injector }`).
 
 ## Componentes: un archivo o separado
 
@@ -169,4 +217,29 @@ Si no cumple alguna condición, o hay dudas, va SEPARADO. Las páginas siempre v
 
 ## Verificación
 
-Después de cualquier cambio ejecuta `ng build` y `ng test --watch=false`. No des una tarea por terminada con errores de build o tests fallidos.
+Antes de dar una tarea por terminada, ejecuta esto y pega la salida:
+
+```bash
+ng build
+ng test --watch=false
+npx tsc -p tsconfig.spec.json --noEmit   # Vitest no chequea tipos
+npx tsc -p e2e/tsconfig.json --noEmit    # solo si el proyecto tiene e2e
+```
+
+Y estos greps, que deben devolver vacío:
+
+```bash
+rg -n 'standalone: true' src
+rg -n 'new HttpClient\(' src                                 # solo puede aparecer, si existe, en la fábrica del InjectionToken sin interceptors
+rg -n 'as unknown as|@ts-ignore|: any\b' src   # incluye los specs: cada resultado debe estar dentro de un helper asInvalidInput; revisa a mano los falsos positivos en comentarios
+fd -e ts . src/app | rg '\.(service|pipe|guard|interceptor|component|directive)(\.spec)?\.ts$'   # nombres con sufijo de punto (violan la convención del CLI)
+rg -n '"@/\*"' tsconfig.json                                 # debe encontrar el path alias
+```
+
+Y esto, que debe mostrar lazy loading en cada feature:
+
+```bash
+rg -n 'loadComponent|loadChildren' src/app/app.routes.ts
+```
+
+No des una tarea por terminada con errores de build, tests fallidos, algún typecheck en rojo o alguno de los greps con resultado inesperado.

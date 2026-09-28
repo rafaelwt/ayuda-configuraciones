@@ -129,20 +129,25 @@ Según el caso:
 
 ## Formularios (recomendado, no obligatorio)
 
-Cuando el mismo formulario se necesita en más de un lugar, su construcción se extrae a un archivo `<nombre>.form.ts` junto al componente. Casos típicos:
+Los formularios nuevos usan **Signal Forms** (`@angular/forms/signals`). El schema declara las reglas con `required`, `pattern`, `validate`/`valueOf` (validación cruzada entre campos), `validateTree`, `validateAsync` (validación contra el backend) y `applyEach` (arrays). Las reglas condicionales usan `required(path, { when })` o `applyWhen`, y el estado del control (`disable`, `readonly`, `hidden`) se declara en el propio schema. Un control personalizado implementa `FormValueControl`; `debounce` retrasa la validación de un campo costoso (por ejemplo, uno que llama al backend).
 
-- Un formulario multipaso donde el padre valida los pasos sin montarlos.
-- Un formulario que se usa para crear y para editar.
-- Validaciones que se quieren testear sin montar el componente.
+Usa Reactive Forms (`FormBuilder`, `FormGroup`) en vez de Signal Forms solo si se cumple alguna de estas condiciones:
 
-Contenido del archivo `<nombre>.form.ts`:
+- El formulario o el proyecto ya usa Reactive Forms.
+- El valor necesita un pipeline de RxJS (por ejemplo, `valueChanges.pipe(switchMap(...))`).
+- Un control de terceros solo expone `ControlValueAccessor`.
 
-- `build<Nombre>Form(fb: FormBuilder, ...valoresPorDefecto): FormGroup`: única fuente del schema y los validators.
-- Funciones puras opcionales para reglas condicionales (habilitar o deshabilitar controles según otros valores) o para calcular la validez de datos sin montar el componente (`compute<Nombre>Validity`).
-- El componente llama a `build<Nombre>Form` en lugar de definir el `fb.group` dentro de la clase.
-- Su test va en `<nombre>.form.spec.ts`.
+Para combinar ambos en el mismo formulario (por ejemplo, un control de terceros dentro de un Signal Form), usa `compatForm` o `SignalFormControl` de `@angular/forms/signals/compat`.
 
-Si el formulario es simple y solo lo usa un componente, se define dentro del componente.
+Si el formulario es simple y solo lo usa un componente, sus reglas van en línea: `form(this.model, (p) => { required(p.email); ... })`, dentro del propio componente.
+
+Cuando el mismo formulario se necesita en más de un lugar (un multipaso que valida sus pasos sin montarlos, un formulario que se usa para crear y editar, o validaciones que se quieren testear sin montar el componente), su schema se extrae a un archivo `<nombre>.form.ts` junto al componente:
+
+- `initial<Nombre>(): <Modelo>`: valores iniciales (los tipos viven en `<nombre>.model.ts`, no aquí).
+- `export const <nombre>Schema = schema<<Modelo>>((p) => { ... })`: única fuente de las validaciones, reusable para crear y editar, testeable sin montar el componente.
+- El componente llama a `form(this.model, <nombre>Schema)` en lugar de declarar las reglas en la clase.
+- Un formulario padre o multipaso compone los schemas de sus partes con `apply(path.sub, subSchema)` en vez de repetir las reglas.
+- Su test va en `<nombre>.form.spec.ts`. Como `form()` necesita un contexto de inyección, el test lo crea dentro de `TestBed.runInInjectionContext(...)` (o le pasa `{ injector }`).
 
 ## Formularios multipaso (recomendado)
 
@@ -166,5 +171,5 @@ features/customers/components/customer-form/
 
 - Cada paso es un componente con su propio `*.form.ts`.
 - El servicio de estado del formulario se provee en `providers` de la ruta del formulario, así los datos se descartan al salir.
-- El padre calcula si cada paso es válido con `compute<Paso>Validity` sobre los datos del estado, sin montar el componente del paso.
+- El padre calcula si cada paso es válido con `compute<Paso>Validity`, que valida los datos del estado contra el schema de ese paso (`<paso>Schema`), sin montar su componente.
 - `*.modes.ts` concentra las diferencias entre crear y editar: valores iniciales, campos bloqueados y qué endpoint se llama.

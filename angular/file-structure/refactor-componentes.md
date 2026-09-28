@@ -51,14 +51,16 @@ Todo componente (separado o pequeño) debe quedar en su propia carpeta, junto co
 - NO cambies lógica, nombres de clases, selectores, inputs, outputs ni comportamiento.
 - NO reformatees el código movido. NO ejecutes Prettier ni `lint --fix`.
 - NO modifiques el contenido de los componentes clasificados como pequeños.
+- NO agregues comentarios.
+- NO agregues `standalone: true`.
 - Si el proyecto difiere de la estructura de referencia (archivos duplicados, carpetas fuera de lugar, dependencias entre features), NO lo corrijas: menciónalo en el resumen final.
 
 ## Pasos
 
 1. Crea una rama `refactor/separar-componentes`.
-2. Ejecuta `ng build` y `ng test --watch=false` y anota los errores o tests que YA fallaban.
+2. Ejecuta `ng build`, `ng test --watch=false` y `npx tsc -p tsconfig.spec.json --noEmit`, y anota los errores o tests que YA fallaban.
 3. Muéstrame una tabla (incluye los componentes que vayas a mover a `layout/` o sacar de `core/`, y los tipos o tokens que vayas a mover): carpeta o feature | componente | ruta actual | ruta final | líneas template | líneas estilos | ¿presentacional? | clasificación | motivo. **Espera mi confirmación.**
 4. Haz la separación y los movimientos de carpeta, una feature a la vez. Ejecuta `ng build` al terminar cada feature.
 5. Revisa `angular.json`. Si en `schematics` existe `@schematics/angular:component` con `"inlineTemplate": true` o `"inlineStyle": true`, elimina esas dos opciones (el valor por defecto del CLI ya es `false`). Si no existen, no agregues nada.
-6. Ejecuta `ng build` y `ng test --watch=false`. Corrige solo los errores nuevos respecto al paso 2.
+6. Ejecuta `ng build`, `ng test --watch=false` y `npx tsc -p tsconfig.spec.json --noEmit`. Corrige solo los errores nuevos respecto al paso 2.
 7. Dame un resumen por feature de archivos creados, modificados y movidos, los casos que dejaste sin mover y las diferencias que encontraste con la estructura de referencia.
