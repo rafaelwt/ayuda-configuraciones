@@ -1,243 +1,283 @@
 # Estructura del proyecto (grande)
 
-API ASP.NET Core (.NET 10) con Clean Architecture en 4 proyectos: `Domain`, `Application`, `Infrastructure` y `Web`. Incluye REST, gRPC opcional, jobs en segundo plano e integraciones con servicios externos (SOAP/REST).
+API ASP.NET Core (.NET 10) con Clean Architecture en 4 proyectos (`Domain`, `Application`, `Infrastructure`, `Web`), acceso a datos con Dapper + stored procedures, integración con un servicio externo (SOAP/REST), jobs con Hangfire, gRPC y reportes PDF.
 
-Los nombres `Orders`, `Customers`, `Catalogs` y `ExternalProvider` son ejemplos: reemplázalos por los del negocio.
+`<Modulo>` es el nombre de un módulo de negocio (por ejemplo `Ventas`) y `<Entidad>` el de una tabla o recurso (por ejemplo `Clientes`).
 
 ```
-<Solution>.slnx
-Directory.Build.props                 # TargetFramework, Nullable, ImplicitUsings, TreatWarningsAsErrors
-Directory.Packages.props              # versiones de NuGet centralizadas (Central Package Management)
-global.json                           # fija la versión del SDK
-.editorconfig                         # estilo y reglas de analizadores
-.env.example                          # variables para producción (nunca el .env real)
+<Solucion>.slnx
+Directory.Packages.props              # versiones de NuGet centralizadas
+.editorconfig
+.env.example                          # variables de producción (nunca el .env real)
+.gitignore
 Dockerfile
-docker-compose.yml
+docker-compose.prod.yml
 README.md
+CLAUDE.md                             # opcional: guía para agentes
 src/
-├── Domain/                           # núcleo: no depende de nadie
-│   ├── Common/
-│   │   ├── Entity.cs                 # clase base (Id, igualdad)
-│   │   ├── Result.cs                 # Result / Result<T> + Error
-│   │   └── DomainException.cs
-│   ├── Orders/                       # una carpeta por agregado
-│   │   ├── Order.cs                  # entidad raíz con su comportamiento
-│   │   ├── OrderLine.cs
-│   │   ├── OrderStatus.cs            # enum del agregado
-│   │   ├── OrderErrors.cs            # errores de negocio del agregado
-│   │   └── OrderConstants.cs
-│   ├── Customers/
-│   │   ├── Customer.cs
-│   │   └── TaxId.cs                  # value object
+├── Domain/                           # sin dependencias
+│   ├── Constants/
+│   │   ├── CoreConstants.cs          # constantes generales (estados, formatos)
+│   │   ├── <Modulo>Constants.cs      # Status: SUCCESS, ERROR, EMPTY, TIMEOUT, SERVICE_UNAVAILABLE
+│   │   └── Catalogos/                # un archivo por catálogo de códigos fijos
+│   │       └── TipoDocumento.cs
+│   ├── Enums/
+│   │   └── <Modulo>Enum.cs
+│   ├── Models/
+│   │   ├── Data/                     # modelos transversales
+│   │   │   ├── CoreResponse.cs       # CoreResponse / CoreResponse<T>
+│   │   │   ├── RespuestaDB.cs        # resultado estándar de los stored procedures
+│   │   │   ├── RespuestaError.cs
+│   │   │   ├── RespuestaExterna.cs   # resultado estándar del servicio externo
+│   │   │   └── RetryPolicy.cs
+│   │   ├── <Modulo>/                 # modelos propios del módulo
+│   │   │   └── <Entidad>.cs
+│   │   └── GlobalModels.cs
+│   ├── Utils/                        # funciones puras, sin dependencias externas
+│   │   ├── DataUtils.cs
+│   │   ├── ObjectUtils.cs
+│   │   └── ValidationUtils.cs
 │   └── Domain.csproj
-├── Application/                      # casos de uso: depende solo de Domain
-│   ├── Common/
-│   │   ├── Abstractions/             # puertos transversales que implementa Infrastructure
-│   │   │   ├── IDbContext.cs
-│   │   │   ├── ICurrentUser.cs
-│   │   │   ├── IDateTimeProvider.cs
-│   │   │   ├── IEmailSender.cs
-│   │   │   ├── INotificationSender.cs
-│   │   │   └── IFileStorage.cs
-│   │   ├── Models/
-│   │   │   ├── ApiResponse.cs        # envoltorio de respuesta estándar
-│   │   │   └── PagedResult.cs
-│   │   ├── Behaviors/                # opcional: validación/logging alrededor de los casos de uso
-│   │   └── Utils/                    # funciones puras
-│   ├── Features/
-│   │   ├── Orders/
-│   │   │   ├── CreateOrder/          # un caso de uso por carpeta
-│   │   │   │   ├── CreateOrderRequest.cs
-│   │   │   │   ├── CreateOrderResponse.cs
-│   │   │   │   ├── CreateOrderValidator.cs
-│   │   │   │   └── CreateOrderUseCase.cs   # + ICreateOrderUseCase si se necesita
-│   │   │   ├── CancelOrder/
-│   │   │   ├── GetOrder/
-│   │   │   ├── Abstractions/         # puertos propios de la feature
-│   │   │   │   ├── IOrderRepository.cs
-│   │   │   │   └── IOrderDocumentBuilder.cs
-│   │   │   ├── Jobs/                 # jobs de la feature (lógica, no la planificación)
-│   │   │   │   └── ProcessPendingOrdersJob.cs
-│   │   │   └── OrderMappings.cs
-│   │   ├── Customers/
-│   │   │   ├── RegisterCustomer/
-│   │   │   ├── VerifyTaxId/
-│   │   │   └── Abstractions/
-│   │   │       └── ICustomerRepository.cs
-│   │   ├── Catalogs/                 # tablas de catálogo (CRUD simple)
-│   │   │   ├── CatalogItemDto.cs
-│   │   │   ├── ICatalogRepository.cs # genérico: un repo para N catálogos
-│   │   │   ├── CatalogService.cs
-│   │   │   └── SyncCatalogs/         # caso de uso complejo dentro de la feature
-│   │   └── Identity/                 # usuarios, roles, menús
-│   │       ├── Login/
-│   │       ├── Users/
-│   │       └── Abstractions/
-│   │           └── ITokenGenerator.cs
-│   ├── DependencyInjection.cs        # AddApplication(): use cases, validators, jobs
+├── Application/                      # lógica de negocio: depende solo de Domain
+│   ├── DTOs/
+│   │   ├── <Modulo>/
+│   │   │   ├── ServiciosDB/          # DTOs de entrada/salida de los CRUD
+│   │   │   └── ServiciosExternos/    # DTOs de las operaciones con el servicio externo
+│   │   └── UtilModelsDTO.cs
+│   ├── Interfaces/
+│   │   ├── IData/                    # contratos de los contextos de datos
+│   │   │   ├── IApplicationDbContext.cs
+│   │   │   ├── IAppsettingsContext.cs
+│   │   │   └── IExternalServicesContext.cs
+│   │   ├── IRepositories/
+│   │   │   ├── <Modulo>/
+│   │   │   │   ├── ServiciosDB/
+│   │   │   │   │   └── I<Entidad>Repository.cs
+│   │   │   │   └── ServiciosExternos/
+│   │   │   │       └── I<Operacion>Repository.cs
+│   │   │   ├── IMailRepository.cs
+│   │   │   ├── IReportsRepository.cs
+│   │   │   └── INotificacionRepository.cs
+│   │   ├── IServices/
+│   │   │   ├── <Modulo>/
+│   │   │   ├── ServiciosDB/
+│   │   │   │   └── I<Entidad>Service.cs
+│   │   │   └── Jobs/
+│   │   │       └── I<Nombre>Job.cs
+│   │   └── ISecurity/
+│   │       └── IJwtTokenGenerator.cs
+│   ├── Modules/                      # casos de uso de varios pasos
+│   │   └── <Modulo>/
+│   │       ├── Interfaces/
+│   │       │   └── I<Accion><Entidad>UseCase.cs
+│   │       ├── UseCases/
+│   │       │   └── <Accion><Entidad>UseCase.cs   # EmitirDocumento, AnularDocumento…
+│   │       └── Validators/           # validaciones de negocio del módulo
+│   ├── Services/
+│   │   ├── <Modulo>/                 # servicios que envuelven repos del servicio externo
+│   │   ├── ServiciosDB/              # un servicio por recurso CRUD
+│   │   │   ├── Administracion/       # usuarios, roles, menús
+│   │   │   └── <Entidad>Service.cs
+│   │   ├── Jobs/                     # lógica de los jobs (Hangfire los invoca)
+│   │   │   ├── DailyActionsJob.cs
+│   │   │   └── <Nombre>Job.cs
+│   │   ├── FileService.cs
+│   │   └── UtilService.cs
+│   ├── Validators/                   # FluentValidation de los DTOs de entrada
+│   │   ├── IValidatorFactory.cs
+│   │   └── <Modulo>/
+│   │       ├── Base<Nombre>Validations.cs   # reglas comunes reutilizables
+│   │       └── <Request>Validator.cs
+│   ├── Utils/
 │   └── Application.csproj
-├── Infrastructure/                   # adaptadores: implementa los puertos de Application
-│   ├── Persistence/
-│   │   ├── DbContext.cs              # conexión + helpers (Dapper/EF)
-│   │   ├── Repositories/
-│   │   │   ├── OrderRepository.cs    # nombrado por agregado, no por tabla
-│   │   │   ├── CustomerRepository.cs
-│   │   │   └── CatalogRepository.cs
-│   │   └── Migrations/               # o scripts SQL / stored procedures versionados
-│   ├── Integrations/
-│   │   └── ExternalProvider/         # una carpeta por sistema externo
-│   │       ├── ExternalProviderClient.cs     # HTTP/SOAP: envía y recibe
-│   │       ├── ExternalProviderOptions.cs    # URLs, timeouts, reintentos
-│   │       ├── ExternalProviderResponseParser.cs
-│   │       ├── Contracts/            # DTOs del proveedor (nunca salen de esta carpeta)
-│   │       └── Templates/            # plantillas XML/JSON embebidas (EmbeddedResource)
-│   ├── Documents/                    # generación de PDF/Excel/XML
-│   │   ├── Pdf/
-│   │   │   ├── PdfReportFactory.cs   # selecciona el reporte según el tipo
-│   │   │   ├── PdfReportBase.cs
-│   │   │   └── Reports/
-│   │   │       └── OrderReport.cs
-│   │   └── Excel/
+├── Infrastructure/                   # implementaciones: depende de Application
+│   ├── Constants/
+│   │   ├── InfrastructureConstants.cs
+│   │   └── ReportConstants.cs
+│   ├── Persistence/                  # los tres contextos de datos
+│   │   ├── ApplicationDbContext.cs   # MySQL/Dapper: ejecuta stored procedures
+│   │   ├── AppsettingsContext.cs     # IOptions / IOptionsSnapshot
+│   │   └── ExternalServicesContext.cs   # carga plantilla, envía SOAP/HTTP, parsea respuesta
+│   ├── Repositories/
+│   │   ├── <Modulo>/
+│   │   │   ├── ServiciosDB/
+│   │   │   │   ├── Administracion/
+│   │   │   │   └── <Entidad>Repository.cs
+│   │   │   ├── ServiciosExternos/
+│   │   │   │   └── <Operacion>Repository.cs
+│   │   │   └── Strategies/           # persistencia distinta según el tipo de documento
+│   │   │       ├── <Tipo>Strategy.cs
+│   │   │       └── PersistenceStrategyFactory.cs
+│   │   ├── MailRepository.cs
+│   │   ├── ReportsRepository.cs
+│   │   └── NotificacionRepository.cs
+│   ├── Factory/                      # selección del reporte PDF por tipo
+│   │   ├── ReportsAbstract.cs
+│   │   └── ReportsCreator.cs
+│   ├── Reports/
+│   │   └── <Modulo>/
+│   │       ├── Custom/               # reportes personalizados por cliente
+│   │       └── Rpt<Tipo>.cs
 │   ├── Security/
-│   │   ├── JwtOptions.cs
-│   │   ├── JwtTokenGenerator.cs      # implementa ITokenGenerator
-│   │   └── CertificateLoader.cs
-│   ├── Messaging/
-│   │   ├── SmtpEmailSender.cs
-│   │   └── TelegramNotificationSender.cs
-│   ├── BackgroundJobs/
-│   │   └── HangfireSetup.cs          # storage y registro de jobs recurrentes
-│   ├── Common/
-│   │   ├── DateTimeProvider.cs
-│   │   └── Compression/
-│   ├── DependencyInjection.cs        # AddInfrastructure(config): repos, clients, options
+│   │   ├── JwtIssuerOptions.cs
+│   │   └── JwtTokenGenerator.cs      # implementa IJwtTokenGenerator
+│   ├── Services/                     # servicios técnicos (XML, códigos, compresión)
+│   │   ├── XmlBuilder.cs
+│   │   ├── CodeGenerator.cs
+│   │   ├── ExternalResponseProcessor.cs
+│   │   └── TarGzipCompressor.cs
+│   ├── Utils/
+│   │   ├── CertificateUtils.cs
+│   │   ├── ClaimsUtils.cs
+│   │   ├── CryptoUtils.cs
+│   │   ├── JsonSerializerHelper.cs
+│   │   ├── QrCodeHelper.cs
+│   │   └── XmlTemplateHelper.cs
 │   └── Infrastructure.csproj
-└── Web/                              # host: HTTP, gRPC, composición
-    ├── Endpoints/                    # o Controllers/, uno por recurso
-    │   ├── Orders/
-    │   │   └── OrdersController.cs
-    │   ├── Customers/
-    │   ├── Catalogs/
-    │   │   └── CatalogsController.cs # GET /catalogs/{catalogName}
-    │   ├── Identity/
-    │   └── HealthController.cs
-    ├── Grpc/
-    │   ├── Protos/
-    │   │   └── orders.proto
-    │   └── OrdersGrpcService.cs
-    ├── Middlewares/
-    │   └── ExceptionHandlingMiddleware.cs   # o IExceptionHandler + ProblemDetails
+└── Web/                              # host: HTTP, gRPC, DI
+    ├── Assets/
+    │   ├── Images/                   # logos e imágenes de los reportes
+    │   └── Templates/
+    │       └── <Modulo>/             # plantillas XML/SOAP del servicio externo
+    ├── Controllers/
+    │   ├── Administracion/
+    │   ├── ServiciosDB/              # CRUD de tablas
+    │   │   └── <Entidad>Controller.cs
+    │   ├── ServiciosExternos/        # endpoints de integración
+    │   │   └── <Operacion>Controller.cs
+    │   ├── DevTools/                 # solo Development
+    │   ├── HealthController.cs
+    │   └── UtilController.cs
     ├── Filters/
-    │   └── DashboardAuthorizationFilter.cs
-    ├── Auth/
-    │   └── CurrentUser.cs            # implementa ICurrentUser leyendo los claims
-    ├── Extensions/
-    │   ├── SwaggerExtensions.cs
-    │   ├── AuthExtensions.cs
-    │   └── ObservabilityExtensions.cs  # Serilog + OpenTelemetry
+    │   └── HangfireJwtAuthorizationFilter.cs
+    ├── GrpcServices/
+    │   └── <Modulo>GrpcService.cs
+    ├── Protos/
+    │   └── <modulo>.proto
+    ├── Ioc/
+    │   ├── IocData.cs                # HttpClient y contextos de datos
+    │   ├── IocRepository.cs          # repositorios y servicios de Infrastructure
+    │   └── IocServices.cs            # servicios, use cases, validators, jobs
+    ├── Middlewares/
+    │   └── ErrorHandlingMiddleware.cs
+    ├── Pages/                        # login del dashboard de Hangfire
+    ├── Profiles/                     # AutoMapper / Mapster
+    │   └── <Modulo>Profile.cs
     ├── Properties/
     │   └── launchSettings.json
-    ├── appsettings.json              # valores no sensibles
+    ├── appsettings.json
     ├── appsettings.Development.example.json
     ├── appsettings.Serilog.json
-    ├── Program.cs                    # solo composición: AddApplication, AddInfrastructure, pipeline
+    ├── GlobalUsings.cs
+    ├── Program.cs                    # DI, pipeline, registro de jobs recurrentes
     ├── Web.http
     └── Web.csproj
 tests/
-├── Domain.Tests/                     # reglas de entidades y value objects
-├── Application.Tests/                # casos de uso y validators con dobles de los puertos
-│   └── Features/
-│       └── Orders/
-│           └── CreateOrderUseCaseTests.cs
-├── Infrastructure.Tests/             # integración: repos (Testcontainers), parsers de proveedores
-├── Web.Tests/                        # endpoints con WebApplicationFactory
-└── Architecture.Tests/               # reglas de dependencia (NetArchTest / ArchUnitNET)
-docs/                                 # opcional: decisiones (ADR), integraciones, SQL
-deploy/                               # opcional: scripts y notas de despliegue
+├── Application.Tests/
+│   ├── Services/
+│   ├── UseCases/
+│   └── Validators/
+└── Infrastructure.Tests/             # opcional: repos y parsers del servicio externo
+docs/
+├── sql/                              # stored procedures y scripts versionados
+├── integracion/                      # documentación del servicio externo
+└── pruebas/
 ```
 
 ## Qué va en cada proyecto
 
-- `Domain/`: entidades, value objects, enums, constantes y errores de negocio, agrupados por agregado. Sin NuGet de infraestructura, sin `IOptions`, sin claims, sin certificados, sin HTTP.
-- `Application/`: casos de uso, DTOs de entrada/salida, validators y los **puertos** (interfaces) que necesita. Sabe *qué* hacer, no *cómo* se persiste ni con quién se habla.
-- `Infrastructure/`: implementaciones de los puertos: base de datos, clientes de servicios externos, PDF, correo, JWT, Hangfire. Las clases `*Options` de configuración viven aquí, junto a quien las usa.
-- `Web/`: controllers/endpoints, gRPC, middlewares, filtros y `Program.cs`. Traduce HTTP ↔ casos de uso. Sin lógica de negocio.
+- `Domain/`: constantes, enums, modelos y utilidades puras. No referencia ningún proyecto ni paquete de infraestructura.
+- `Application/`: DTOs, interfaces, servicios, casos de uso, validators y la lógica de los jobs. Define las interfaces de todo lo que implementa Infrastructure.
+- `Infrastructure/`: contextos de datos, repositorios, reportes PDF, JWT y servicios técnicos (XML, compresión, generación de códigos).
+- `Web/`: controllers, gRPC, middlewares, filtros, DI y archivos estáticos. Sin lógica de negocio.
 
-## Features y casos de uso
+## Contextos de datos (`Infrastructure/Persistence/`)
 
-- `Application/Features/<Feature>/` agrupa todo lo de una funcionalidad: casos de uso, DTOs, validators, puertos y jobs. Se organiza por funcionalidad, no por tipo (`Services/`, `DTOs/`, `Interfaces/` globales).
-- Un caso de uso por carpeta: `<Verbo><Sustantivo>/` con su `Request`, `Response`, `Validator` y `UseCase`. Abrir la carpeta cuenta toda la historia de esa operación.
-- Operaciones CRUD simples sin reglas (catálogos, tablas de parámetros) no necesitan un caso de uso por operación: un `Service` por feature o un repositorio genérico basta.
-- La interfaz `I<Nombre>UseCase` es opcional. Créala solo si hay más de una implementación o si otro caso de uso la consume y necesitas sustituirla en tests.
+Hay tres estrategias de acceso a datos y cada una tiene su contexto y su interfaz en `Application/Interfaces/IData/`:
 
-## Puertos (interfaces)
+- `ApplicationDbContext`: base de datos vía Dapper. Todo pasa por stored procedures con métodos genéricos (`ExecuteProcedureWithParameter<T>`, `GetAllObjectWithParameters<T>`, `GetOneObjectWithParameters<T>`). Los parámetros se envían como objetos anónimos.
+- `AppsettingsContext`: configuración. `IOptions<T>` para valores fijos e `IOptionsSnapshot<T>` para valores recargables.
+- `ExternalServicesContext`: integración con el servicio externo. Carga la plantilla de `Web/Assets/Templates/`, reemplaza los placeholders, envía la petición, parsea la respuesta y detecta `ServiceUnavailable` para que el caso de uso decida (por ejemplo, entrar en contingencia).
 
-- Un puerto que usa una sola feature: en `Features/<Feature>/Abstractions/`.
-- Un puerto que usan varias features (correo, notificaciones, reloj, usuario actual, almacenamiento): en `Common/Abstractions/`.
-- Los nombres no llevan carpetas con prefijo `I` (`IRepositories/`, `IServices/`). La `I` va en el archivo, no en la carpeta.
+Los repositorios nunca abren conexiones ni crean `HttpClient` por su cuenta: siempre usan el contexto.
 
-## Integraciones externas
+## Servicio, repositorio o caso de uso
 
-- Cada sistema externo tiene su carpeta en `Infrastructure/Integrations/<Proveedor>/` con su cliente, opciones, parser y contratos.
-- Los DTOs del proveedor (`Contracts/`) nunca salen de esa carpeta: el cliente los traduce a modelos de Application.
-- Las plantillas (XML/JSON) van como `EmbeddedResource` del proyecto `Infrastructure`, no copiadas en `Web/Assets/`.
-- Los errores de transporte (timeout, servicio no disponible) se convierten en un resultado tipado (`Result` con un `Error` conocido) para que el caso de uso decida, por ejemplo, entrar en modo contingencia.
-- Los reintentos y timeouts se configuran en el `HttpClient` (`AddStandardResilienceHandler` / Polly), no en bucles manuales.
+- **Repositorio** (`Infrastructure/Repositories/`): solo acceso a datos. Uno por tabla/recurso en `ServiciosDB/` y uno por grupo de operaciones del servicio externo en `ServiciosExternos/`.
+- **Servicio** (`Application/Services/`): envuelve uno o más repositorios, valida y devuelve `CoreResponse`. Suficiente para un CRUD.
+- **Caso de uso** (`Application/Modules/<Modulo>/UseCases/`): operación de varios pasos que coordina servicios, repositorios y el servicio externo (emitir, anular, sincronizar, subir pendientes). Un caso de uso por archivo, nombrado `<Accion><Entidad>UseCase`.
+
+Regla práctica: si la operación es "leer/guardar una tabla", es un servicio. Si tiene pasos, reglas o llamadas externas, es un caso de uso.
+
+## Validaciones
+
+- `Application/Validators/<Modulo>/`: validators de FluentValidation para los DTOs de entrada. Las reglas comunes van en clases `Base<Nombre>Validations` y se reutilizan con `Include(...)`.
+- `IValidatorFactory` resuelve el validator según el tipo de documento.
+- `Application/Modules/<Modulo>/Validators/`: validaciones de negocio que necesitan datos (consultar la base, el estado de un registro).
+- FluentValidation configurado en español (`ValidatorOptions.Global.LanguageManager.Culture`).
 
 ## Estrategias y fábricas
 
-Cuando el comportamiento cambia según un tipo (tipo de documento, canal, proveedor):
+Cuando el comportamiento depende de un tipo (tipo de documento, sector, canal):
 
-- La interfaz (`I<Algo>Strategy`) va en Application, en la feature que la usa.
-- Las implementaciones van junto al adaptador que las necesita (Persistence, Documents, Integrations), en una carpeta `Strategies/`.
-- Regístralas con keyed services (`AddKeyedScoped<IStrategy, Impl>(key)`) en vez de un `switch` en una fábrica manual.
-
-## Jobs en segundo plano
-
-- La **lógica** del job es un caso de uso o una clase en `Features/<Feature>/Jobs/`. No conoce Hangfire.
-- La **planificación** (cron, storage, dashboard) vive en `Infrastructure/BackgroundJobs/` y se registra desde `AddInfrastructure()`.
-- Usa un solo mecanismo: Hangfire **o** `BackgroundService`, no los dos para el mismo tipo de tarea.
-
-## Inyección de dependencias
-
-- Cada capa expone su extensión: `AddApplication()` en `Application/DependencyInjection.cs` y `AddInfrastructure(configuration)` en `Infrastructure/DependencyInjection.cs`.
-- `Program.cs` solo compone: `builder.Services.AddApplication().AddInfrastructure(builder.Configuration).AddWeb();`.
-- Elige el ciclo de vida a propósito: `Singleton` para clientes sin estado y opciones, `Scoped` para lo que usa la conexión o el usuario actual, `Transient` para lo liviano. No todo `Scoped` por costumbre.
-- Valida las opciones al arrancar: `AddOptions<T>().BindConfiguration("Section").ValidateDataAnnotations().ValidateOnStart()`.
+- La interfaz (`IPersistenceStrategy`, `IPersistenceStrategyFactory`) va en `Application/Interfaces/`.
+- Las implementaciones van en `Infrastructure/Repositories/<Modulo>/Strategies/`, una por tipo.
+- Los reportes PDF siguen el mismo patrón: `Factory/ReportsCreator.cs` elige la clase de `Reports/` según el tipo, y todas heredan de `ReportsAbstract`.
 
 ## Respuestas y errores
 
-- Los casos de uso devuelven `Result<T>`; no lanzan excepciones para errores de negocio esperados.
-- `Web` traduce `Result` a HTTP: éxito → 200/201, validación → 400, no encontrado → 404, conflicto → 409, servicio externo caído → 503.
-- Las excepciones no controladas las captura un único `IExceptionHandler` (o middleware) y responde con `ProblemDetails`. Un error inesperado es 500, no 400.
+- Toda operación devuelve `CoreResponse` o `CoreResponse<T>`, con `status` (constantes de `<Modulo>Constants.Status`) y `errorList` opcional.
+- Los controllers devuelven el `CoreResponse` tal cual, sin armar respuestas propias.
+- `ErrorHandlingMiddleware` captura las excepciones no controladas y responde en formato `CoreResponse`.
 
-## Configuración y secretos
+## Controllers
 
-- `appsettings.json` solo lleva valores no sensibles. Los secretos van en User Secrets (desarrollo) y variables de entorno o un vault (producción).
-- `appsettings.Development.json`, `.env`, certificados (`.p12`, `.pfx`) y `logs/` están en `.gitignore`. Se versiona solo el `.example`.
-- Los certificados se cargan desde una ruta o secreto configurado, nunca desde una carpeta del repositorio.
+- Ruta: `[Route("api/v{version:apiVersion}/[controller]")]` con `[ApiVersion(...)]`.
+- Autenticación JWT por defecto: `[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]`.
+- Los datos del usuario (id, empresa, etc.) se obtienen del token con `ClaimsUtils.GetTokenUserData(User)`, nunca del body.
+- Los controllers inyectan servicios o casos de uso, nunca repositorios ni contextos.
+- `DevTools/`: endpoints de prueba o certificación, solo disponibles en Development.
+
+## Inyección de dependencias (`Web/Ioc/`)
+
+- `IocData`: `HttpClient` (con `IHttpClientFactory`) y contextos de datos.
+- `IocRepository`: repositorios y servicios técnicos de Infrastructure.
+- `IocServices`: servicios, casos de uso, validators y jobs.
+- Cada archivo expone un `AddDependency(this IServiceCollection services)` que se llama desde `Program.cs`.
+
+## Jobs (Hangfire)
+
+- La lógica de cada job es una clase en `Application/Services/Jobs/` con su interfaz en `Interfaces/IServices/Jobs/`.
+- La planificación (cron, jobs encadenados) se registra en `Program.cs` con `RecurringJob.AddOrUpdate<IJob>(...)`.
+- El dashboard (`/hangfire`) se protege con `HangfireJwtAuthorizationFilter` y la página de login de `Pages/`.
 
 ## Reglas de dependencia
 
 - `Domain` no referencia ningún proyecto.
 - `Application` referencia solo `Domain`.
-- `Infrastructure` referencia `Application` (y por ella `Domain`).
-- `Web` referencia `Application` e `Infrastructure` (esta última solo para la composición en `Program.cs`).
-- Una feature no usa los casos de uso, repositorios ni DTOs de otra. Si algo se comparte, se mueve a `Common/` o a `Domain/`.
-- Los controllers no inyectan repositorios ni `DbContext`: solo casos de uso o servicios de Application.
-- Estas reglas se verifican con tests en `Architecture.Tests/`, no solo por convención.
+- `Infrastructure` referencia `Application`.
+- `Web` referencia `Application` e `Infrastructure`.
+- Un repositorio nunca llama a un servicio ni a un caso de uso.
+- Un caso de uso puede usar servicios y repositorios, pero nunca otro controller.
+- Un módulo no usa los casos de uso de otro módulo. Si algo se comparte, se mueve a `Services/`.
+
+## Configuración y secretos
+
+- `appsettings.json` solo lleva valores no sensibles. Se versiona `appsettings.Development.example.json`, no el real.
+- `.env`, `appsettings.Development.json`, `appsettings.Production.json`, certificados (`.p12`, `.pfx`) y `logs/` van en `.gitignore`.
+- Los certificados se leen desde una ruta configurada (variable de entorno o volumen), no desde `Assets/`.
+- Las clases de configuración se registran con `ValidateOnStart()` para fallar al arrancar si falta un valor.
 
 ## Convenciones de nombres
 
-- Clases por responsabilidad y en singular: `OrderRepository`, `CreateOrderUseCase`, `ExternalProviderClient`.
-- Sin prefijos de tabla (`Tbl…`) ni de capa en el nombre de la clase. El nombre del agregado basta.
-- Un tipo por archivo, archivo con el mismo nombre que el tipo.
-- Rutas REST en plural y kebab-case: `/api/v1/orders`, `/api/v1/catalogs/{catalog-name}`.
-- Endpoints de desarrollo o certificación en un controller propio, registrado solo en `Development` (`if (app.Environment.IsDevelopment())`).
+- Repositorios, servicios y controllers por recurso: `<Entidad>Repository`, `<Entidad>Service`, `<Entidad>Controller`. Sin prefijos de tabla (`Tbl…`).
+- Casos de uso con verbo: `<Accion><Entidad>UseCase`.
+- Reportes con prefijo `Rpt`: `Rpt<Tipo>.cs`.
+- Jobs con sufijo `Job`: `<Nombre>Job.cs`.
+- Un tipo por archivo, con el mismo nombre que el tipo.
 
 ## Tests
 
-- `tests/` refleja la estructura de `src/`: `Features/Orders/CreateOrderUseCaseTests.cs` prueba `Features/Orders/CreateOrder/`.
-- Application se prueba con dobles de los puertos (NSubstitute/Moq o fakes a mano).
-- Infrastructure se prueba contra dependencias reales en contenedor (Testcontainers) y con respuestas grabadas del proveedor externo.
-- Web se prueba con `WebApplicationFactory<Program>`.
+- `tests/Application.Tests/` refleja las carpetas de `Application/` (`Services/`, `UseCases/`, `Validators/`).
+- Los servicios y casos de uso se prueban con dobles de las interfaces (`IRepositories`, `IData`).
+- Los validators se prueban directamente con `TestValidate(...)`.
