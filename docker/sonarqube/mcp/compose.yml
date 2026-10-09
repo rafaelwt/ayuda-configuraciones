@@ -1,0 +1,25 @@
+services:
+  sonarqube-mcp:
+    image: sonarsource/sonarqube-mcp:1.28.0.4397
+    container_name: sonarqube-mcp
+    restart: unless-stopped
+    environment:
+      SONARQUBE_URL: http://sonarqube:9000
+      SONARQUBE_TRANSPORT: http
+      SONARQUBE_HTTP_HOST: 0.0.0.0
+      SONARQUBE_HTTP_PORT: 8080
+      STORAGE_PATH: /data
+    volumes:
+      - mcp_data:/data
+    ports:
+      - "127.0.0.1:9101:8080"
+    networks:
+      - sonarnet
+
+volumes:
+  mcp_data:
+
+networks:
+  sonarnet:
+    external: true
+    name: sonarqube_sonarnet
