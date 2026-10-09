@@ -121,6 +121,8 @@ for l in (cat ~/docker/sonarqube/.tokens); set -gx (string split -m1 = $l); end
 
 Termina con `ANALYSIS SUCCESSFUL` y la URL del dashboard. Agregar `.scannerwork/` al `.gitignore`.
 
+> **Escanear siempre con el working tree limpio (después del commit).** Sonar fecha cada línea con `git blame`; los archivos modificados sin commitear no tienen blame y producen la alerta `Missing blame information for N files`, además de inflar el código nuevo.
+
 ### Checklist
 
 - [ ] Proyecto creado en el servidor y token de análisis guardado en `.tokens`
@@ -168,6 +170,7 @@ Scopes de `claude mcp add`: `local` (default, solo esa carpeta), `project` (`.mc
 | `Could not resolve 1 file paths ... environment.ts` | archivo excluido en `sonar.exclusions` pero presente en el lcov | esperado; o excluirlo también en la config de cobertura |
 | `fd` no encuentra `lcov.info` | `coverage/` está en `.gitignore` y `fd` lo respeta | `fd -I lcov.info` |
 | MCP responde `000` justo después de `up -d` | contenedor aún arrancando | esperar unos segundos; `401` sin token y `200` con token es lo correcto |
+| `Missing blame information for N files` | se escaneó con archivos modificados sin commitear | commitear y volver a escanear |
 | Quality gate `OK` sin condiciones en el primer scan | el gate "Sonar way" evalúa código nuevo y aún no hay línea base | normal; evalúa desde el segundo análisis |
 
 ## Referencias
