@@ -184,13 +184,56 @@ No puede: ejecutar un scan. Para re-analizar después de corregir, correr el sca
 
 Scopes de `claude mcp add`: `local` (default, solo esa carpeta), `project` (`.mcp.json` versionado, para el equipo), `user` (todos los proyectos del usuario, recomendado aquí).
 
+## Actualizar
+
+Las versiones están fijas (`SONARQUBE_VERSION` en `~/docker/sonarqube/.env` y el tag de la imagen en `~/docker/sonarqube-mcp/compose.yml`) porque cada versión nueva del servidor **migra la base de datos**. Cuando la web avisa *"Keep your instance current…"*, actualizar primero el servidor y después el MCP. Cada carpeta deja una copia de estos pasos en su `docs/`.
+
+### Servidor
+
+1. **Elegir la versión** en [Docker Hub](https://hub.docker.com/_/sonarqube/tags?name=community) (formato `26.10.0.133078-community`). Dentro del mismo año se salta directo (26.x → 26.y); para cambiar de año revisar el [camino de actualización](https://docs.sonarsource.com/sonarqube-community-build/server-upgrade-and-maintenance/upgrade/determine-path/).
+2. **Copia de seguridad** de la base, y comprobar que se puede leer:
+   ```bash
+   cd ~/docker/sonarqube
+   docker compose exec -T db pg_dump -U sonar -Fc sonar > /tmp/sonar-respaldo.dump
+   docker compose exec -T db pg_restore --list < /tmp/sonar-respaldo.dump | grep -c 'TABLE DATA'
+   ```
+3. **Cambiar la versión y levantar:**
+   ```bash
+   sed -i 's/^SONARQUBE_VERSION=.*/SONARQUBE_VERSION=<nueva>-community/' .env
+   docker compose pull sonarqube && docker compose up -d
+   ```
+4. **Migrar la base.** Cuando `api/system/status` diga `DB_MIGRATION_NEEDED`, abrir `http://127.0.0.1:9100/setup` o lanzarla por API:
+   ```bash
+   curl -s -X POST http://127.0.0.1:9100/api/system/migrate_db
+   ```
+5. **Verificar:** `"status":"UP"` con la versión nueva, y los proyectos con sus métricas. Volver a analizar los proyectos para usar los analizadores nuevos.
+6. **Limpiar:** borrar `/tmp/sonar-respaldo.dump` y la imagen anterior (`docker image rm sonarqube:<anterior>-community`).
+
+Si algo falla: volver a la versión anterior en `.env`, `docker compose stop sonarqube`, restaurar con `docker compose exec -T db pg_restore -U sonar -d sonar --clean --if-exists < /tmp/sonar-respaldo.dump` y `docker compose up -d`.
+
+> Nunca `docker compose down -v` ni `docker volume prune`: borran la base y los datos.
+
+### MCP
+
+No guarda datos (el volumen es caché) y el token vive en el cliente, así que no necesita copia ni tocar `claude mcp`:
+
+```bash
+cd ~/docker/sonarqube-mcp
+sed -i 's#image: sonarsource/sonarqube-mcp:.*#image: sonarsource/sonarqube-mcp:<nueva>#' compose.yml
+docker compose pull && docker compose up -d
+curl -s -o /dev/null -w '%{http_code}\n' -X POST http://127.0.0.1:9101/mcp   # 401 sin token = correcto
+docker image rm sonarsource/sonarqube-mcp:<anterior>
+```
+
+Versiones en [Docker Hub](https://hub.docker.com/r/sonarsource/sonarqube-mcp/tags); evitar `latest`.
+
 ## Decisiones de esta instalación
 
 | Decisión | Por qué |
 |---|---|
 | Postgres propio sin `ports:` | aislado en la red `sonarnet`; nadie más lo alcanza |
 | Puerto `127.0.0.1:9100` | 9000 estaba ocupado; solo local |
-| Tag de imagen fijo, no `latest` | las actualizaciones migran la base de datos; se eligen a mano |
+| Tag de imagen fijo, no `latest` | las actualizaciones migran la base de datos; se eligen a mano (ver [Actualizar](#actualizar)) |
 | MCP en compose aparte, red externa `sonarqube_sonarnet` | habla con el servidor por `http://sonarqube:9000`; mismo patrón que otros MCP |
 | MCP sin token en el compose | en modo HTTP el token va en el header del cliente (`SONARQUBE_TOKEN` está deprecado para HTTP) |
 | No se usa la guía "try out" de la doc | usa base H2 embebida sin volúmenes; se pierde todo |
@@ -214,6 +257,7 @@ Scopes de `claude mcp add`: `local` (default, solo esa carpeta), `project` (`.mc
 ## Referencias
 
 - Instalación Docker: https://docs.sonarsource.com/sonarqube-community-build/server-installation/from-docker-image/set-up-and-start-container
+- Actualizar con Docker: https://docs.sonarsource.com/sonarqube-community-build/server-upgrade-and-maintenance/upgrade/upgrade/
 - SonarScanner for npm: https://docs.sonarsource.com/sonarqube-community-build/analyzing-source-code/scanners/npm/using
 - Cobertura JS/TS: https://docs.sonarsource.com/sonarqube-community-build/analyzing-source-code/test-coverage/javascript-typescript-test-coverage
 - MCP Server: https://docs.sonarsource.com/sonarqube-mcp-server/setup/self-hosted
