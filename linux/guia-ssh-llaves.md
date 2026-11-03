@@ -114,7 +114,7 @@ ssh-add ~/.ssh/servidor-vps
 
 A partir de ahí, te conectas sin que te pida la passphrase hasta que cierres sesión o reinicies.
 
-> Nota: ese `eval` vive solo en ESA terminal — cada terminal nueva arranca sin el agente. En un escritorio Linux normalmente no hace falta: GNOME Keyring o KWallet actúan como agente del sistema y te piden la passphrase una sola vez por sesión gráfica. Ten en cuenta que los procesos que corren FUERA de tu sesión (scripts, cron, agentes automatizados) no ven tu agente: para automatización se usa una llave dedicada sin passphrase y con alcance limitado.
+> Nota: ese `eval` vive solo en ESA terminal — cada terminal nueva arranca sin el agente. En un escritorio Linux normalmente no hace falta: GNOME Keyring trae su propio agente SSH y recuerda la passphrase. En KDE, KWallet no es un agente: solo guarda la passphrase, y el agente es `ssh-agent`, que la toma de KWallet mediante `ksshaskpass`. Así escribes la passphrase una sola vez y no te la vuelve a pedir aunque reinicies; la configuración está en [cachyos-kde/ssh-passphrase-kwallet.md](cachyos-kde/ssh-passphrase-kwallet.md). Ten en cuenta que los procesos que corren FUERA de tu sesión (scripts, cron, agentes automatizados) no ven tu agente: para automatización se usa una llave dedicada sin passphrase y con alcance limitado.
 
 ---
 
