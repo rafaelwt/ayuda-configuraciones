@@ -84,6 +84,11 @@ Esto vale para toda la sesión de Plasma y para cualquier shell (bash, zsh o fis
 > Los pasos 4 y 5 son **opcionales**. Sin ellos, el paso 6 (`AddKeysToAgent yes`) carga
 > cada llave la primera vez que la usas, tomando la passphrase de KWallet. Hazlos solo si
 > quieres que todas las llaves estén en el agente desde que inicias sesión.
+>
+> **Recomendado si usas agentes de IA (Claude Code, etc.).** Estos ejecutan `ssh` sin
+> terminal y a veces con `-o BatchMode=yes`, que desactiva `ksshaskpass`. Si el agente
+> está vacío (por ejemplo, justo después de reiniciar), la conexión falla y te piden
+> correr `ssh-add`. Con los pasos 4–5 las llaves ya están cargadas y esto no pasa.
 
 ```bash
 mkdir -p ~/.local/bin
@@ -198,4 +203,5 @@ cada llave aparece después de usarla por primera vez.
 | Pide la passphrase en la terminal, no en una ventana | Falta `SSH_ASKPASS` o `SSH_ASKPASS_REQUIRE`: revisa el paso 3 y cierra sesión. |
 | Pide la contraseña de KWallet al iniciar | La contraseña del wallet no coincide con la de tu usuario, o usas inicio automático (paso 7). |
 | Una llave no se carga | Su `.pub` no está en `~/.ssh`. Regénerala con `ssh-keygen -y -f ~/.ssh/LLAVE > ~/.ssh/LLAVE.pub`. |
+| Tú entras sin problema, pero Claude Code u otra herramienta falla y pide `ssh-add ~/.ssh/LLAVE` | El agente está vacío (se reinició al iniciar sesión) y la herramienta usa `BatchMode=yes`, que no abre `ksshaskpass`. Haz los pasos 4–5, o carga la llave una vez con `ssh-add-all`. El shell (bash, zsh o fish) no influye: las variables vienen de `environment.d`. |
 | Ver o borrar passphrases guardadas | KWalletManager → `kdewallet` → carpeta **ksshaskpass**. |
