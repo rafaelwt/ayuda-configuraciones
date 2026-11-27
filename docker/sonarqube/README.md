@@ -36,6 +36,22 @@ El servidor nunca accede a las carpetas de los proyectos. El scanner va al códi
      --header "Authorization: Bearer <SONAR_USER_TOKEN>"
    claude mcp list   # debe figurar sonarqube conectado
    ```
+   Para pi se usa `~/.pi/agent/mcp.json`; el token se lee de `.tokens` al conectar y no queda escrito en el archivo:
+   ```json
+   {
+     "mcpServers": {
+       "sonarqube": {
+         "url": "http://127.0.0.1:9101/mcp",
+         "headers": {
+           "Authorization": "!bash -lc 'set -a; source ~/docker/sonarqube/.tokens; set +a; printf \"Bearer %s\" \"$SONAR_USER_TOKEN\"'"
+         },
+         "exposure": "direct",
+         "description": "Local SonarQube: projects, issues, metrics, quality gates and hotspots (read-only and triage)."
+       }
+     }
+   }
+   ```
+   Verificar con `pi mcp list` y reiniciar pi (o `/reload`) para que las herramientas aparezcan.
 5. Configurar cada proyecto (siguiente sección).
 
 ## Configurar un proyecto nuevo
