@@ -40,8 +40,8 @@ Casos típicos: dashboards y métricas casi en tiempo real, estado de procesamie
 
 ## ¿Qué nivel elegir?
 
-- **Proyecto nuevo o Angular 19+ (o superior):** empieza en el **nivel 4**. Si el panel es crítico (finanzas, monitorización de producción), sube al **nivel 5**.
-- **Código existente o migración gradual:** usa el **nivel 2**. Añade el **nivel 3** solo si la app usa Zone.js y notas el costo de la detección de cambios.
+- **Proyecto nuevo o Angular 22+ (zoneless y `OnPush` por defecto):** empieza en el **nivel 4** (usando `.hasValue()` al leer `.value()`). Si el panel es crítico (finanzas, monitorización de producción), usa la **versión corregida del nivel 5**.
+- **Código existente o migración gradual:** usa el **nivel 2**. Añade el **nivel 3** solo si la app legacy todavía usa Zone.js y notas el costo de la detección de cambios.
 - **Nivel 1:** no lo uses; está para entender qué evitar.
 
 ## Preparar el repositorio

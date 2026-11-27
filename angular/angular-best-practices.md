@@ -10,7 +10,8 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 
 - Always use standalone components over NgModules
 - Do NOT set `standalone: true` inside Angular decorators. It's the default since Angular v19.
-- Do NOT set `changeDetection: ChangeDetectionStrategy.OnPush` explicitly in `@Component`. `OnPush` is the default since Angular v22 (`ChangeDetectionStrategy.Default` is deprecated in favor of `Eager`).
+- Zoneless and `OnPush` are the default since Angular v22: do NOT add `zone.js`, `provideZoneChangeDetection`, or set `changeDetection: ChangeDetectionStrategy.OnPush` explicitly in `@Component` (`ChangeDetectionStrategy.Default` is deprecated in favor of `Eager`).
+- Follow Angular 20+/22+ CLI naming conventions (no `.component` or `.service` file/class suffixes).
 - Use signals for state management
 - Implement lazy loading for feature routes
 - Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
@@ -34,7 +35,7 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Use `input()` and `output()` functions instead of decorators
 - Use `model()` for two-way bound properties with `[(prop)]` syntax instead of pairing `input()` with `output()`
 - Use `computed()` for derived state
-- Use `linkedSignal()` for state derived from multiple reactive sources that must stay synchronized
+- Use `linkedSignal()` for writable state derived from reactive sources that resets when its source changes
 - Prefer inline templates for small components
 - Prefer Signal Forms (`@angular/forms/signals`, `form()`, `[formField]`) for new forms. They are stable since Angular v22 and provide signal-based state, type-safe field access, and schema-based validation
 - When not using Signal Forms (i.e. maintaining existing code), prefer Reactive forms instead of Template-driven ones; use `[ngValue]` on Reactive Forms `<select>` options to preserve non-string types
@@ -54,13 +55,15 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 
 - Keep templates simple and avoid complex logic
 - Use native control flow (`@if`, `@for`, `@switch`) instead of `*ngIf`, `*ngFor`, `*ngSwitch`
-- For new code, prefer `toSignal()`, `resource()`, or `httpResource()` over the async pipe; reach for the async pipe only when a value must stay an Observable
+- For new code, prefer `toSignal()`, `resource()`, `httpResource()`, or `rxResource()` over the async pipe; reach for the async pipe only when a value must stay an Observable
+- Always guard `resource.value()` reads with `resource.hasValue()` (or check `resource.error()` first): reading `.value()` while a resource is in an error state throws at runtime
 - Do not assume globals like (`new Date()`) are available.
-- Do not write arrow functions in templates (they are not supported).
+- Arrow functions in templates are supported since Angular v21.2 / v22 (e.g. `(click)="count.update(n => n + 1)"`); keep them to trivial one-liners and move complex logic to the component class.
 
 ## Services
 
 - Design services around a single responsibility
-- Use the `providedIn: 'root'` option for singleton services
-- Prefer the `@Service()` decorator over `@Injectable({ providedIn: 'root' })` for new singleton services (Angular v22+)
-- Use the `inject()` function instead of constructor injection
+- Use the `@Service()` decorator for singleton services (auto-provided in `'root'` by default in Angular v22+)
+- Use `@Service({ autoProvided: false })` for services scoped to a route or component
+- Reserve `@Injectable()` only when you need `useClass`, `useValue`, `useFactory`, or a non-root scope like `'platform'`
+- Use the `inject()` function instead of constructor injection (`@Service()` does not support constructor injection — compiler error `NG2028`)

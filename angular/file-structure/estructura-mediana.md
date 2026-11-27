@@ -91,15 +91,15 @@ Según el caso:
 
 ## Formularios (recomendado, no obligatorio)
 
-Los formularios nuevos usan **Signal Forms** (`@angular/forms/signals`). El schema declara las reglas con `required`, `pattern`, `validate`/`valueOf` (validación cruzada entre campos), `validateTree`, `validateAsync` (validación contra el backend) y `applyEach` (arrays). Las reglas condicionales usan `required(path, { when })` o `applyWhen`, y el estado del control (`disable`, `readonly`, `hidden`) se declara en el propio schema. Un control personalizado implementa `FormValueControl`; `debounce` retrasa la validación de un campo costoso (por ejemplo, uno que llama al backend).
+Los formularios nuevos usan **Signal Forms** (`@angular/forms/signals`). El schema declara las reglas con `required`, `pattern`, `validate`/`valueOf` (validación cruzada entre campos), `validateTree`, `validateHttp`/`validateAsync` (validación contra el backend) y `applyEach` (arrays). Las reglas condicionales usan `required(path, { when })` o `applyWhen`, y el estado del control (`disabled`, `readonly`, `hidden`) se declara en el propio schema. Un control personalizado implementa `FormValueControl`; `debounce` retrasa la validación de un campo costoso (por ejemplo, uno que llama al backend).
 
 Usa Reactive Forms (`FormBuilder`, `FormGroup`) en vez de Signal Forms solo si se cumple alguna de estas condiciones:
 
 - El formulario o el proyecto ya usa Reactive Forms.
-- El valor necesita un pipeline de RxJS (por ejemplo, `valueChanges.pipe(switchMap(...))`).
-- Un control de terceros solo expone `ControlValueAccessor`.
+- El valor necesita un pipeline de RxJS complejo (por ejemplo, `valueChanges.pipe(switchMap(...))`).
+- Una librería de terceros exige explícitamente instancias de `FormGroup` o `FormControl`.
 
-Para combinar ambos en el mismo formulario (por ejemplo, un control de terceros dentro de un Signal Form), usa `compatForm` o `SignalFormControl` de `@angular/forms/signals/compat`.
+Los controles que implementan `ControlValueAccessor` funcionan directamente con `[formField]` en Angular 22+. Para combinar un `FormGroup`/`FormControl` reactivo existente dentro de un Signal Form, usa `compatForm` o `SignalFormControl` de `@angular/forms/signals/compat`.
 
 Si el formulario es simple y solo lo usa un componente, sus reglas van en línea: `form(this.model, (p) => { required(p.email); ... })`, dentro del propio componente.
 

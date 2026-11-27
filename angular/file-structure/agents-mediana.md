@@ -30,7 +30,7 @@ Los artefactos que genera el CLI conservan el nombre que les da (`ng g guard aut
 | `*-interceptor.ts` | `const xInterceptor: HttpInterceptorFn` |
 | `*.routes.ts` | `Routes` con `export default` (salvo `app.routes.ts`, que conserva el `export const routes` del CLI) |
 | `*.model.ts` | Solo `interface` y `type`, sin lógica |
-| `*.validator.ts` | Función que devuelve un `ValidatorFn` |
+| `*.validator.ts` | Validadores/schemas reutilizables (Signal Forms) o función que devuelve `ValidatorFn` (Reactive Forms) |
 | `*.form.ts` | Valores iniciales y schema de Signal Forms (ver Formularios) |
 | `*.modes.ts` | Tipos y helpers de crear/editar de un formulario multipaso |
 | `*.spec.ts` | Test (Vitest) |
@@ -83,7 +83,7 @@ Los artefactos que genera el CLI conservan el nombre que les da (`ng g guard aut
 - `@ts-expect-error` solo para probar que algo NO compila (test de contrato). `@ts-ignore`, `any` y `as unknown as` sueltos están prohibidos, también en los `*.spec.ts`.
 - Los cambios de comportamiento siguen TDD: primero el test que falla.
 
-### Dinero
+### Dinero (opcional — solo si el dominio maneja montos)
 
 - Los montos se manejan como centavos enteros (`bigint`) en memoria y como strings decimales en el cable (HTTP/JSON). Nunca `number` de punto flotante.
 
@@ -180,15 +180,15 @@ Según el caso:
 
 ### Formularios (recomendado, no obligatorio)
 
-Los formularios nuevos usan **Signal Forms** (`@angular/forms/signals`). El schema declara las reglas con `required`, `pattern`, `validate`/`valueOf` (validación cruzada entre campos), `validateTree`, `validateAsync` (validación contra el backend) y `applyEach` (arrays). Las reglas condicionales usan `required(path, { when })` o `applyWhen`, y el estado del control (`disable`, `readonly`, `hidden`) se declara en el propio schema. Un control personalizado implementa `FormValueControl`; `debounce` retrasa la validación de un campo costoso (por ejemplo, uno que llama al backend).
+Los formularios nuevos usan **Signal Forms** (`@angular/forms/signals`). El schema declara las reglas con `required`, `pattern`, `validate`/`valueOf` (validación cruzada entre campos), `validateTree`, `validateHttp`/`validateAsync` (validación contra el backend) y `applyEach` (arrays). Las reglas condicionales usan `required(path, { when })` o `applyWhen`, y el estado del control (`disabled`, `readonly`, `hidden`) se declara en el propio schema. Un control personalizado implementa `FormValueControl`; `debounce` retrasa la validación de un campo costoso (por ejemplo, uno que llama al backend).
 
 Usa Reactive Forms (`FormBuilder`, `FormGroup`) en vez de Signal Forms solo si se cumple alguna de estas condiciones:
 
 - El formulario o el proyecto ya usa Reactive Forms.
-- El valor necesita un pipeline de RxJS (por ejemplo, `valueChanges.pipe(switchMap(...))`).
-- Un control de terceros solo expone `ControlValueAccessor`.
+- El valor necesita un pipeline de RxJS complejo (por ejemplo, `valueChanges.pipe(switchMap(...))`).
+- Una librería de terceros exige explícitamente instancias de `FormGroup` o `FormControl`.
 
-Para combinar ambos en el mismo formulario (por ejemplo, un control de terceros dentro de un Signal Form), usa `compatForm` o `SignalFormControl` de `@angular/forms/signals/compat`.
+Los controles que implementan `ControlValueAccessor` funcionan directamente con `[formField]` en Angular 22+. Para combinar un `FormGroup`/`FormControl` reactivo existente dentro de un Signal Form, usa `compatForm` o `SignalFormControl` de `@angular/forms/signals/compat`.
 
 Si el formulario es simple y solo lo usa un componente, sus reglas van en línea: `form(this.model, (p) => { required(p.email); ... })`, dentro del propio componente.
 
@@ -232,13 +232,13 @@ Y estos greps, que deben devolver vacío:
 rg -n 'standalone: true' src
 rg -n 'new HttpClient\(' src                                 # solo puede aparecer, si existe, en la fábrica del InjectionToken sin interceptors
 rg -n 'as unknown as|@ts-ignore|: any\b' src   # incluye los specs: cada resultado debe estar dentro de un helper asInvalidInput; revisa a mano los falsos positivos en comentarios
-fd -e ts . src/app | rg '\.(service|pipe|guard|interceptor|component|directive)(\.spec)?\.ts$'   # nombres con sufijo de punto (violan la convención del CLI)
-rg -n '"@/\*"' tsconfig.json                                 # debe encontrar el path alias
+fd -e ts . src/app | rg '\.(service|pipe|guard|resolver|interceptor|component|directive)(\.spec)?\.ts$'   # nombres con sufijo de punto (violan la convención del CLI)
 ```
 
-Y esto, que debe mostrar lazy loading en cada feature:
+Y estos, que deben encontrar coincidencias (path alias y lazy loading en cada feature):
 
 ```bash
+rg -n '"@/\*"' tsconfig.json
 rg -n 'loadComponent|loadChildren' src/app/app.routes.ts
 ```
 

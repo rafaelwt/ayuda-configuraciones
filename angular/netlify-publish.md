@@ -45,15 +45,21 @@ Esta regla le dice a Netlify: "para cualquier ruta que no encuentres, sirve `ind
 
 2. Verifica que el archivo `_redirects` exista dentro de `dist/tu-proyecto/browser/`.
 
-3. Despliega nuevamente en Netlify.
+3. En la configuración del sitio en Netlify, asegúrate de que el **Publish directory** apunte a `dist/tu-proyecto/browser` (salida por defecto del application builder `@angular/build`).
 
-4. Ahora al refrescar cualquier ruta, la página debería cargar correctamente.
+4. Despliega nuevamente en Netlify.
+
+5. Ahora al refrescar cualquier ruta, la página debería cargar correctamente.
 
 ## Alternativa: usar `netlify.toml`
 
 En lugar del archivo `_redirects`, puedes crear un archivo `netlify.toml` en la raíz del proyecto con:
 
 ```toml
+[build]
+  command = "ng build"
+  publish = "dist/tu-proyecto/browser"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

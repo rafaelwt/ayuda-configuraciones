@@ -99,7 +99,7 @@ export class DashboardComponent {
 - `polling$` no es un observable sino la `Subscription` que devuelve `.subscribe(...)`, a pesar del sufijo `$`. Se mantiene tal cual está en la rama.
 - `isLoading.set(false)` aparece dos veces (en `finalize` y en `subscribe`): la del `subscribe` es la que apaga el indicador tras cada respuesta; `finalize` solo se ejecuta cuando el flujo termina o se cancela (por ejemplo, al destruir el componente).
 - Igual que en el nivel 1, `angular.json` referencia `proxy.conf.json`, que todavía no existe en esta rama. Además, `package.json` tiene la clave `"server"` duplicada (inofensiva).
-- No hay manejo de errores: si una petición falla, el error se propaga, el flujo termina y **el polling se detiene**, con `isLoading` ya en `true`.
+- No hay manejo de errores: si una petición falla, el error se propaga, el flujo termina y **el polling se detiene** (`finalize` sí apaga `isLoading` devolviéndolo a `false`, pero el componente deja de refrescar datos hasta recargar).
 
 ## Cómo funciona
 

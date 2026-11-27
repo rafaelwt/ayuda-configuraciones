@@ -31,4 +31,4 @@ Esto crea `src/environments/environment.ts` (usado tal cual en producción) y `s
 ng build
 ```
 
-El application builder (`@angular/build`, por defecto desde Angular v17) ya aplica hashing a los nombres de los archivos de salida en producción sin necesidad de pasar `--output-hashing` manualmente; usa ese flag solo si necesitas cambiar explícitamente el comportamiento por defecto.
+El application builder (`@angular/build`, paquete por defecto desde Angular v18 tras introducirse en v17) ya aplica hashing a los nombres de los archivos de salida en producción sin necesidad de pasar `--output-hashing` manualmente; usa ese flag solo si necesitas cambiar explícitamente el comportamiento por defecto.

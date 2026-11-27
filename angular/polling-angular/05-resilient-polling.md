@@ -161,6 +161,74 @@ Al contrastar comentarios y comportamiento real, hay tres inconsistencias (el c�
 - **`isLoading` y `hasError`:** los estados del recurso se exponen a la plantilla.
 - **`computed` + constantes:** `STATUS_BADGE_CLASS` y `STATUS_DOT_CLASS` reemplazan los `switch` de niveles anteriores; `computed` evita recalcular en cada detección de cambios.
 
+## Versión corregida recomendada (Angular 22+)
+
+Si vas a llevar este patrón a producción en Angular 22+, corrige las tres inconsistencias anteriores:
+
+1. Usa `exhaustMap` sobre `timer(0, 5000)` en lugar de reiniciar `rxResource` por cada tick, para que los reintentos con backoff no se cancelen a los 5 segundos.
+2. Usa `Math.pow(2, retryCount - 1) * 1000` (con jitter opcional) para obtener `1s, 2s, 4s, 8s, 16s`.
+3. Expón una señal explícita de error (`hasError`) y devuelve `EMPTY` en `catchError` para mantener vivo el timer externo, conservar la última métrica válida y mostrar el banner de error al usuario.
+
+```ts
+import { DatePipe, DecimalPipe, UpperCasePipe } from '@angular/common';
+import { Component, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { catchError, EMPTY, exhaustMap, retry, tap, timer } from 'rxjs';
+import { ServerMetrics } from '../../models/server-metrics';
+import { MetricsApi } from '../../services/metrics-api';
+
+@Component({
+  selector: 'app-dashboard',
+  imports: [DatePipe, DecimalPipe, UpperCasePipe],
+  templateUrl: './dashboard.html',
+})
+export class Dashboard {
+  private readonly metricsApi = inject(MetricsApi);
+
+  protected readonly metrics = signal<ServerMetrics | null>(null);
+  protected readonly isLoading = signal(false);
+  protected readonly hasError = signal(false);
+
+  protected readonly statusClass = computed(
+    () => STATUS_BADGE_CLASS[this.metrics()?.status ?? 'unknown'],
+  );
+  protected readonly statusDotClass = computed(
+    () => STATUS_DOT_CLASS[this.metrics()?.status ?? 'unknown'],
+  );
+
+  constructor() {
+    timer(0, 5000)
+      .pipe(
+        // exhaustMap espera a que termine el ciclo actual (incluidos sus reintentos)
+        // antes de iniciar el siguiente, evitando cancelar el backoff en curso.
+        exhaustMap(() => {
+          this.isLoading.set(true);
+          return this.metricsApi.fetchMetrics().pipe(
+            retry({
+              count: 5,
+              delay: (_error: unknown, retryCount: number) =>
+                timer(Math.pow(2, retryCount - 1) * 1000), // 1s, 2s, 4s, 8s, 16s
+            }),
+            tap((data) => {
+              this.metrics.set(data);
+              this.hasError.set(false);
+              this.isLoading.set(false);
+            }),
+            catchError((err: unknown) => {
+              console.error('Error tras 5 reintentos:', err);
+              this.hasError.set(true);
+              this.isLoading.set(false);
+              return EMPTY; // conserva la última métrica y mantiene vivo el timer externo
+            }),
+          );
+        }),
+        takeUntilDestroyed(),
+      )
+      .subscribe();
+  }
+}
+```
+
 ## Limitaciones (y cuándo puede ser excesivo)
 
 - Es el nivel con más código y más conceptos. Para dashboards internos o de bajo riesgo, el [nivel 4](./04-resource-polling.md) suele bastar.
@@ -185,4 +253,4 @@ En DevTools (Network, filtro `metrics`):
 
 ---
 
-[← Anterior](./04-resource-polling.md) | [Índice](./README.md) | [Siguiente →](./README.md)
+[← Anterior](./04-resource-polling.md) | [Índice](./README.md)

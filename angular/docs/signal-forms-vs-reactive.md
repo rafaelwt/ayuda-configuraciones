@@ -138,7 +138,7 @@ export class CrearUsuario {
 }
 ```
 
-Cada error es un objeto `{ kind: string, message?: string }`. No hace falta `markAllAsTouched()` ni un pipe de traducción de errores.
+Cada error es un objeto `{ kind: string, message?: string }`. Cuando envías el formulario con `submit(this.f, ...)` (ver §6), todos los campos se marcan como `touched` automáticamente sin necesidad de llamar a `markAllAsTouched()` ni mantener un pipe de traducción de errores.
 
 ---
 
@@ -344,12 +344,13 @@ import {
   selector: 'app-password-input',
   template: `
     <input
+      #passwordInput
       [type]="visible() ? 'text' : 'password'"
       [value]="value()"
       [disabled]="disabled()"
       [class.invalid]="invalid()"
       [attr.aria-invalid]="invalid()"
-      (input)="value.set($any($event.target).value)"
+      (input)="value.set(passwordInput.value)"
       (blur)="touch.emit()" />
     <button type="button" (click)="visible.set(!visible())">👁</button>
 
@@ -429,16 +430,18 @@ guardar() {
 ```ts
 import { disabled } from '@angular/forms/signals';
 
-disabled(p.repetirPassword, ({ valueOf }) => valueOf(p.password).length < 8);
+disabled(p.repetirPassword, {
+  when: ({ valueOf }) => valueOf(p.password).length < 8,
+});
 ```
 
-También `readonly(path, fn)` y `hidden(path, fn)` con la misma firma.
+También `readonly(path, { when })` y `hidden(path, { when })` con la misma firma.
 
 ### Validación asíncrona (nombre disponible)
 
 **Antes:** `AsyncValidatorFn` devolviendo `Observable`, con `debounceTime` + `switchMap` dentro, y `control.pending` para el spinner.
 
-**Ahora:** `validateHttp` (o `validateAsync` para operaciones no HTTP) en el schema. Forma aproximada, revisa la firma exacta en la guía *Async operations* de angular.dev:
+**Ahora:** `validateHttp` (o `validateAsync` para operaciones no HTTP) en el schema. Solo se ejecuta cuando pasan las validaciones síncronas del campo, y cancela peticiones anteriores si el valor vuelve a cambiar:
 
 ```ts
 import { validateHttp, debounce } from '@angular/forms/signals';
@@ -446,13 +449,14 @@ import { validateHttp, debounce } from '@angular/forms/signals';
 debounce(p.nombre, 300); // no disparar una request por tecla
 
 validateHttp(p.nombre, {
-  request: ({ value }) => `/api/usuarios/disponible?nombre=${value()}`,
-  errors: (resp: { disponible: boolean }) =>
+  request: ({ value }) => `/api/usuarios/disponible?nombre=${encodeURIComponent(value())}`,
+  onSuccess: (resp: { disponible: boolean }) =>
     resp.disponible ? null : { kind: 'tomado', message: 'Ese nombre ya está en uso' },
+  onError: () => ({ kind: 'errorRed', message: 'No se pudo verificar la disponibilidad' }),
 });
 ```
 
-Estado pendiente: `f.nombre().pending()`.
+`onSuccess` evalúa la respuesta HTTP válida del servidor, mientras que `onError` maneja fallos de red o códigos HTTP de error (500, offline, etc.). Estado pendiente: `f.nombre().pending()`.
 
 ### setValue / patchValue / reset
 
@@ -534,7 +538,7 @@ f = form(this.model, (p) => {
 | Error cruzado | validador de grupo | `validate(p.x, ({ value, valueOf }) => …)` |
 | Reaccionar a cambios | `valueChanges` + RxJS | `computed` / `effect`, `debounce()` |
 | Control custom | `ControlValueAccessor` + provider | `FormValueControl` con `value = model()` |
-| Deshabilitar | `.disable()` imperativo | `disabled(p.x, fn)` declarativo |
+| Deshabilitar | `.disable()` imperativo | `disabled(p.x, { when })` declarativo |
 | Submit | `(ngSubmit)` + checks manuales | `submit(f, async …)` |
 | Async | `AsyncValidatorFn` | `validateHttp` / `validateAsync` |
 | Arrays | `FormArray` | array en el signal + `applyEach` |

@@ -12,7 +12,7 @@ Los niveles 2 y 3 funcionan, pero exigen conocer bien RxJS (operadores, suscripc
 - **Limpieza automática:** al destruirse el componente, el recurso se cancela.
 - **Estados integrados:** `isLoading()`, `error()` y `value()` vienen con el recurso.
 - **Compatible con apps zoneless:** las señales no dependen de Zone.js (la rama no declara `provideZoneChangeDetection`).
-- **Sin parpadeo:** `linkedSignal` conserva el valor anterior mientras llega el nuevo. Sin él, `value()` pasaría a `undefined` durante cada recarga y la interfaz mostraría el estado vacío.
+- **Sin parpadeo:** `linkedSignal` conserva el valor anterior mientras llega el nuevo (en Angular 20+/22+, protegiendo la lectura de `value()` con `hasValue()` para no lanzar excepción cuando el recurso entra en error). Sin él, `value()` pasaría a `undefined` durante cada recarga y la interfaz mostraría el estado vacío.
 
 Para la mayoría de las aplicaciones modernas, este nivel es suficiente.
 
@@ -132,14 +132,23 @@ export class DashboardComponent {
 ### Notas sobre el código de esta rama
 
 - `httpResource` usa la ruta relativa `'/api/metrics'` (no pasa por `MetricsService`). Por eso este nivel **sí necesita** el proxy: reenvía `/api` al servidor Express en el puerto 3001. Este es el primer nivel en el que `proxy.conf.json` existe en la rama.
-- El comentario del componente dice "recomendado en Angular 20+" y en la lista de ventajas menciona `error()`, pero esta rama no muestra el error en la interfaz (eso llega en el nivel 5).
+- El comentario del componente dice "recomendado en Angular 20+" y en la lista de ventajas menciona `error()`, pero esta rama no muestra el error en la interfaz (eso llega en el nivel 5). Además importa `inject` sin usarlo.
+- **Importante en Angular 20+ / 22+ (`.value()` lanza error):** leer `this.rawResource.value()` cuando el recurso está en estado `error` (por ejemplo, al detener el servidor) **lanza una excepción en tiempo de ejecución** en lugar de devolver `undefined`. Para que `linkedSignal` conserve la última métrica sin lanzar error, protégelo con `.hasValue()`:
+
+  ```ts
+  metrics = linkedSignal<ServerMetrics | undefined, ServerMetrics | null>({
+    source: () => (this.rawResource.hasValue() ? this.rawResource.value() : undefined),
+    computation: (newVal, previous) => newVal ?? previous?.value ?? null,
+  });
+  ```
+
 - El `toSignal(interval(5000), { initialValue: 0 })` emite el valor inicial al instante y el primero de `interval` a los 5 segundos; por eso el primer GET ocurre en la carga y luego cada 5 segundos.
 
 ## Cómo funciona
 
 1. **Disparador:** `pollTrigger = toSignal(interval(5000), { initialValue: 0 })` es un signal que se incrementa cada 5 segundos. `toSignal` se desuscribe solo al destruirse el componente.
 2. **Recurso:** `httpResource<ServerMetrics>(() => { this.pollTrigger(); return '/api/metrics'; })`. La función reactiva **lee** `pollTrigger()` (eso lo convierte en dependencia) y devuelve la URL. Cada cambio del disparador re-ejecuta la petición.
-3. **Sin parpadeo:** `linkedSignal` con `computation: (newVal, previous) => newVal ?? previous?.value ?? null` devuelve el valor nuevo si existe y, en caso contrario, el anterior.
+3. **Sin parpadeo:** `linkedSignal` con `computation: (newVal, previous) => newVal ?? previous?.value ?? null` devuelve el valor nuevo si existe y, en caso contrario, el anterior (en Angular 20+/22+, protegiendo `source` con `hasValue()` como se detalla en las notas).
 4. **Estado de carga:** `isLoading = this.rawResource.isLoading` se reutiliza directamente en la plantilla.
 
 ## Limitaciones
@@ -160,7 +169,7 @@ npm start        # terminal 2: Angular en http://localhost:4200 (usa proxy.conf.
 En DevTools (Network, filtro `metrics`):
 
 - Una petición `GET /api/metrics` inicial y luego cada 5 segundos, ahora hacia `localhost:4200` (el proxy la reenvía al 3001).
-- Detén el servidor: la última métrica sigue visible (sin parpadeo) y no aparece ningún aviso de error.
+- Detén el servidor: con el código original de la rama, `rawResource.value()` lanzará un error al pasar el recurso a estado `error`; aplicando la guardia `hasValue()` de las notas, la última métrica sigue visible (sin parpadeo).
 
 ---
 
